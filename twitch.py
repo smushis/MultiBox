@@ -219,3 +219,4 @@ class Twitch(threading.Thread):
             pag = prev_resp["pagination"]["cursor"]
             resp = self.getSubList(pag)
         resp = self.getSubList(0)
+        
