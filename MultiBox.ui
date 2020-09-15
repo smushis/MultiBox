@@ -2,64 +2,101 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>1550</width>
-    <height>1002</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/Images/img/steins.png);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap resource="ressources.qrc">:/Images/img/twitter.png</pixmap>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="label1">
-      <property name="font">
-       <font>
-        <pointsize>26</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Results</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QPushButton" name="Button1">
-      <property name="font">
-       <font>
-        <pointsize>24</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>TWEETOS</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <widget class="QLabel" name="label1">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>190</y>
+      <width>531</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>531</width>
+      <height>261</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>26</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Results XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Photo">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>190</y>
+      <width>201</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/Twitter/Smushis.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="username">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>410</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>301</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/twitter.png</pixmap>
+    </property>
+   </widget>
+   <zorder>Photo</zorder>
+   <zorder>username</zorder>
+   <zorder>label</zorder>
+   <zorder>label1</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1550</width>
+     <width>1220</width>
      <height>26</height>
     </rect>
    </property>

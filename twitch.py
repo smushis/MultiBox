@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
 class Twitch(QtCore.QThread):
-    twitch_signal = pyqtSignal(str)
+    twitch_signal = pyqtSignal(dict)
 
     url_streams = 'https://api.twitch.tv/helix/streams'
     url_hub = 'https://api.twitch.tv/helix/webhooks/hub'
@@ -184,7 +184,7 @@ class Twitch(QtCore.QThread):
     def incoming_data(self, data, username):
         if data['data'] == []:
             print(username + " is offline !")
-            self.twitch_signal.emit(username + " is offline !")
+            #self.twitch_signal.emit(username + " is offline !")
             dico = self.search_username(username)
             if dico == False:
                 self.follows_live.append({'Name':username, 'Live?':False})           
@@ -195,13 +195,17 @@ class Twitch(QtCore.QThread):
             dico = self.search_username(username)
             if dico == False:
                 self.follows_live.append({'Name':username, 'Live?':True})           
-                print(username + " is live !")
-                self.twitch_signal.emit(username + " is live !")
+                text = username + " is live !"
+                profile_img = data["data"][0]["thumbnail_url"]
+                print(text)
+                #self.twitch_signal.emit(self.createDico(text, username, profile_img))
             else:
                 if dico['Live?'] == False:
                     dico['Live?'] = True
-                    print(username + " is live !")
-                    self.twitch_signal.emit(username + " is live !")
+                    text = username + " is live !"
+                    print(text)
+                    profile_img = data["data"][0]["thumbnail_url"].replace("{width}x{height}", "200x200")
+                    #self.twitch_signal.emit(self.createDico(text, username, profile_img))
                     
     def search_username(self, username):
         for dico in self.follows_live:
@@ -234,5 +238,12 @@ class Twitch(QtCore.QThread):
             else:
                 self.follows_live.append({'Name':r.json()["data"][0]["user_name"], 'Live?':True})  
         print("Fin init")
+        
+    def createDico(self, text, username, url):
+        dico = {}
+        dico["username"] = username
+        dico["url"] = url
+        dico["text"] = text
+        return dico        
             
         

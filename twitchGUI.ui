@@ -14,38 +14,17 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="img_Twitch">
+   <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>270</y>
-      <width>251</width>
-      <height>301</height>
+      <x>560</x>
+      <y>330</y>
+      <width>256</width>
+      <height>192</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>img/twitch.png</pixmap>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTwitch">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>370</y>
-      <width>351</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>24</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
+    <property name="openExternalLinks">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

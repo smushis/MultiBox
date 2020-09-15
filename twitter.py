@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
 class Twitter(QtCore.QThread):
-    twitter_signal = pyqtSignal(str)
+    twitter_signal = pyqtSignal(dict)
     
     id = ''
     CONSUMER_KEY = 'PHAt5klX2nYAPz1fGERYNBOYj'
@@ -114,23 +114,36 @@ class Twitter(QtCore.QThread):
                       
     def analyzeMention(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
-        text = tweet["tweet_create_events"][0]["text"]
+        data = tweet["tweet_create_events"][0]["text"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-        print(user + " a répondu à votre tweet! : " + text)
-        self.twitter_signal.emit(user + " a répondu à votre tweet! : " + text)
+        text =  user + " a répondu à votre tweet! : \n" + data
+        print(text)
+        self.twitter_signal.emit(self.createDico(text, user, profile_img))
         
     def tweetFavoriteEvent(self, tweet):
         user = tweet["favorite_events"][0]["user"]["screen_name"]
         if user != "Smushis":
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-            print(user + " a aimé votre tweet!")           
-            self.twitter_signal.emit(user + " a aimé votre tweet!")
+            text = user + " a aimé votre tweet!"
+            print(text)
+            self.twitter_signal.emit(self.createDico(text, user, profile_img))
         else:
-            print('Vous avez aimé un tweet')
-            self.twitter_signal.emit('Vous avez aimé un tweet')
+            profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
+            text = 'Vous avez aimé un tweet'
+            print(text)
+            self.twitter_signal.emit(self.createDico(text, user, profile_img))
         
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-        print(user + " a retweeté votre tweet!")
-        self.twitter_signal.emit(user + " a retweeté votre tweet!")              
+        text = user + " a retweeté votre tweet!"
+        print(text)
+        self.twitter_signal.emit(self.createDico(text, user, profile_img))
+
+    def createDico(self, text, username, url):
+        dico = {}
+        dico["username"] = username
+        dico["url"] = url
+        dico["text"] = text
+        return dico
+               
