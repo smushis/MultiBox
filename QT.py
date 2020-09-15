@@ -9,30 +9,33 @@ from TwitterGUI import Ui_MainWindow
 import threading
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
 
-class MultiBox(threading.Thread):
+QT_signal = pyqtSignal(str)
+
+class MultiBox(QtCore.QThread):
     def __init__(self, name):
-        threading.Thread.__init__(self)
+        QtCore.QThread.__init__(self, parent=None)
         self.name = name
-        self.app = QtWidgets.QApplication(sys.argv)
-        self.MainWindow = QtWidgets.QMainWindow()            
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.MainWindow)
     
     def run(self):
-        print("Starting " + self.name + "\n\r")  
-        self.MainWindow.show()
-        sys.exit(self.app.exec_())        
+        print("Starting " + self.name + "\n\r") 
         
     def printTweet(self, user, text):
-        self.ui.label1.setText(user + "responded to you tweet! :" + text)
-        self.ui.label1.adjustSize()
+        # self.ui.label1.setText(user + "responded to you tweet! :" + text)
+        # self.ui.label1.adjustSize()
+        self.QT_signal.emit(user + "responded to you tweet! :" + text)
         
     def printFavTweet(self, user):
+        # if user == "Smushis":
+        #     self.ui.label1.setText("You liked a tweet!")
+        #     self.ui.label1.adjustSize()            
+        # else:    
+        #     self.ui.label1.setText(user + "liked your tweet!")
+        #     self.ui.label1.adjustSize()
         if user == "Smushis":
-            self.ui.label1.setText("You liked a tweet!")
-            self.ui.label1.adjustSize()            
-        else:    
-            self.ui.label1.setText(user + "liked your tweet! :")
-            self.ui.label1.adjustSize()
-            
+            self.QT_signal.emit("You liked a tweet!")
+
+        else: 
+            self.QT_signal.emit(user + "liked your tweet!")  
+        # self.QT_signal.disconnect(a)

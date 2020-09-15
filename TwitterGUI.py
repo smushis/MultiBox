@@ -6,12 +6,14 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
+from twitter import Twitter
+from twitch import Twitch
+from html_serv import htmlServ
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, app):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1550, 1002)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -47,6 +49,16 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        self.app = app
+        
+    def switchIMG(self, state):
+        if state == "Twitch":
+            print("Twitch img")
+            self.label.setPixmap(QtGui.QPixmap("img/twitch.png"))
+        else:
+            print("Twitter img")
+            self.label.setPixmap(QtGui.QPixmap("img/twitter.png"))            
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -54,7 +66,36 @@ class Ui_MainWindow(object):
         self.label1.setText(_translate("MainWindow", "Results"))
         self.Button1.setText(_translate("MainWindow", "TWEETOS"))
         
+    def launchTwitterThread(self):
+        self.twitter_thread = Twitter(3, "Twitter Thread")
+        self.twitter_thread.twitter_signal.connect(self.printTweet)
+        self.twitter_thread.start()
+        return self.twitter_thread
+    
+    def launchTwitchThread(self):
+        self.twitch_thread = Twitch(3, "Twitch Thread")
+        self.twitch_thread.twitch_signal.connect(self.printStreams)
+        self.twitch_thread.start()
+        return self.twitch_thread  
+    
+    def launchHTMLThread(self):
+        self.HTML_thread = htmlServ(3, "HTML Thread", self.app)
+        self.HTML_thread.start()
+        return self.HTML_thread     
 
+    def printTweet(self, data):
+        self.switchIMG("Twitter")
+        self.label1.setText(data)
+        self.label1.adjustSize()
+        
+    def printStreams(self,data):
+        self.switchIMG("Twitch")
+        self.label1.setText(data)
+        self.label1.adjustSize()
+                
+        
+    
+        
 
 # if __name__ == "__main__":
     # import sys

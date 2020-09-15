@@ -8,8 +8,11 @@ Created on Sun Sep  6 11:22:49 2020
 import requests
 import threading
 import json
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
 
-class Twitch(threading.Thread):
+class Twitch(QtCore.QThread):
+    twitch_signal = pyqtSignal(str)
 
     url_streams = 'https://api.twitch.tv/helix/streams'
     url_hub = 'https://api.twitch.tv/helix/webhooks/hub'
@@ -27,7 +30,7 @@ class Twitch(threading.Thread):
     follows_live = []
     
     def __init__(self, threadID, name):
-        threading.Thread.__init__(self)
+        QtCore.QThread.__init__(self, parent=None)   
         self.threadID = threadID
         self.name = name
         self.SecretKey = 'zf587mdfjjflqyfceevk9vom1h71ze'
@@ -181,6 +184,7 @@ class Twitch(threading.Thread):
     def incoming_data(self, data, username):
         if data['data'] == []:
             print(username + " is offline !")
+            self.twitch_signal.emit(username + " is offline !")
             dico = self.search_username(username)
             if dico == False:
                 self.follows_live.append({'Name':username, 'Live?':False})           
@@ -192,10 +196,12 @@ class Twitch(threading.Thread):
             if dico == False:
                 self.follows_live.append({'Name':username, 'Live?':True})           
                 print(username + " is live !")
+                self.twitch_signal.emit(username + " is live !")
             else:
                 if dico['Live?'] == False:
                     dico['Live?'] = True
                     print(username + " is live !")
+                    self.twitch_signal.emit(username + " is live !")
                     
     def search_username(self, username):
         for dico in self.follows_live:

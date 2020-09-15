@@ -7,13 +7,15 @@ Created on Thu Sep 10 14:59:11 2020
 
 
 import threading
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
 
-class htmlServ(threading.Thread):
+class htmlServ(QtCore.QThread):
     host  = "0.0.0.0"
     port = 22220
     
     def __init__(self, threadID, name, app):
-        threading.Thread.__init__(self)
+        QtCore.QThread.__init__(self, parent=None)   
         self.threadID = threadID
         self.name = name
         self.app = app

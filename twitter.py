@@ -8,8 +8,11 @@ import threading
 from TwitterAPI import TwitterAPI
 from pyngrok import ngrok
 import json
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
 
-class Twitter(threading.Thread):
+class Twitter(QtCore.QThread):
+    twitter_signal = pyqtSignal(str)
     
     id = ''
     CONSUMER_KEY = 'PHAt5klX2nYAPz1fGERYNBOYj'
@@ -26,11 +29,10 @@ class Twitter(threading.Thread):
     # Important NOTE: After Startup, you need to unsubscribe and resubscribe because the url callback
     # will change
     
-    def __init__(self, threadID, name, GUI):
-        threading.Thread.__init__(self, name=name)        
+    def __init__(self, threadID, name):
+        QtCore.QThread.__init__(self, parent=None)     
         self.threadID = threadID
         self.name = name
-        self.GUI = GUI
         if ngrok.get_tunnels() == []:
             ngrok.connect(port="22220")
         tunnels = ngrok.get_tunnels()
@@ -41,9 +43,9 @@ class Twitter(threading.Thread):
         
     def run(self):
         print("Starting " + self.name + "\n\r")
-        # self.deleteWebhooks()
-        # self.registerWebhooks() 
-        # self.addSubscription()
+        self.deleteWebhooks()
+        self.registerWebhooks() 
+        self.addSubscription()
         # self.getWebhooks()  
         # self.getSubscription()
                 
@@ -115,19 +117,20 @@ class Twitter(threading.Thread):
         text = tweet["tweet_create_events"][0]["text"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         print(user + " a répondu à votre tweet! : " + text)
-        self.GUI.printTweet(user, text)
+        self.twitter_signal.emit(user + " a répondu à votre tweet! : " + text)
         
     def tweetFavoriteEvent(self, tweet):
         user = tweet["favorite_events"][0]["user"]["screen_name"]
         if user != "Smushis":
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-            print(user + " a aimé votre tweet!")
-            self.GUI.printFavTweet(user)
+            print(user + " a aimé votre tweet!")           
+            self.twitter_signal.emit(user + " a aimé votre tweet!")
         else:
             print('Vous avez aimé un tweet')
-            self.GUI.printFavTweet("Smushis")
+            self.twitter_signal.emit('Vous avez aimé un tweet')
         
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-        print(user + " a retweeté votre tweet!")              
+        print(user + " a retweeté votre tweet!")
+        self.twitter_signal.emit(user + " a retweeté votre tweet!")              

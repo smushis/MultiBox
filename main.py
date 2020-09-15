@@ -13,12 +13,9 @@ import sys
 
 from flask import request
 from flask import Response
-from twitch import Twitch
-from html_serv import htmlServ
-from twitter import Twitter
 from TwitterGUI import Ui_MainWindow
-from QT import MultiBox
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
 
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
@@ -58,12 +55,16 @@ def webhook_challenge():
         return Response(status=200)
         
 if __name__ == "__main__":
-    GUI_thread = MultiBox("QT Thread")        
-    twitch_thread = Twitch(1,"Twitch Thread")
-    html_thread = htmlServ(2, "HTML Thread", app)
-    twitter_thread = Twitter(3, "Twitter Thread", GUI_thread)
+        
+    appThread = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow, app)
+    twitch_thread = ui.launchTwitchThread()
+    twitter_thread = ui.launchTwitterThread()
+    HTML_thread = ui.launchHTMLThread()
+    MainWindow.show()
+    sys.exit(appThread.exec_())        
 
-    html_thread.start()
-    twitch_thread.start()
-    twitter_thread.start()
-    GUI_thread.start()
+    
+
