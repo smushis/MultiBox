@@ -26,11 +26,13 @@ class Twitter(threading.Thread):
     # Important NOTE: After Startup, you need to unsubscribe and resubscribe because the url callback
     # will change
     
-    def __init__(self, threadID, name):
+    def __init__(self, threadID, name, GUI):
         threading.Thread.__init__(self, name=name)        
         self.threadID = threadID
         self.name = name
-        #ngrok.connect(port="22220")
+        self.GUI = GUI
+        if ngrok.get_tunnels() == []:
+            ngrok.connect(port="22220")
         tunnels = ngrok.get_tunnels()
         if tunnels[0].public_url.find("https") == -1:
             self.url_callback = tunnels[1].public_url + "/twitter/webhooks"
@@ -40,8 +42,8 @@ class Twitter(threading.Thread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         # self.deleteWebhooks()
-        self.registerWebhooks() 
-        self.addSubscription()
+        # self.registerWebhooks() 
+        # self.addSubscription()
         # self.getWebhooks()  
         # self.getSubscription()
                 
@@ -98,12 +100,11 @@ class Twitter(threading.Thread):
             print("nothing to be done")
             
     def tweetCreationEvent(self, tweet):
-        print("Creation Event")
         if "user_has_blocked" in tweet:
             print("@Mentions")
             self.analyzeMention(tweet)
         else:
-            print("Tweets, Retweets, Replies, QuoteTweets")
+            #print("Tweets, Retweets, Replies, QuoteTweets")
             if tweet["tweet_create_events"][0]["user"]["screen_name"] == "Smushis":
                 print("Tweet from yourself")
             elif tweet["tweet_create_events"][0]["text"].find("RT") == 0:
@@ -112,15 +113,21 @@ class Twitter(threading.Thread):
     def analyzeMention(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         text = tweet["tweet_create_events"][0]["text"]
-        profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "400x400")
-        print(user + " a répondu à votre tweet! : " + text) 
+        profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
+        print(user + " a répondu à votre tweet! : " + text)
+        self.GUI.printTweet(user, text)
         
     def tweetFavoriteEvent(self, tweet):
-        user = tweet["tweet_create_events"]["user"]["screen_name"]
-        profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "400x400")
-        print(user + " a aimé à votre tweet!")
+        user = tweet["favorite_events"][0]["user"]["screen_name"]
+        if user != "Smushis":
+            profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
+            print(user + " a aimé votre tweet!")
+            self.GUI.printFavTweet(user)
+        else:
+            print('Vous avez aimé un tweet')
+            self.GUI.printFavTweet("Smushis")
         
     def analyzeRetweet(self, tweet):
-        user = tweet["favorite_events"][0]["user"]["screen_name"]
-        profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "400x400")
+        user = tweet["tweet_create_events"][0]["user"]["screen_name"]
+        profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         print(user + " a retweeté votre tweet!")              

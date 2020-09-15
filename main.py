@@ -9,14 +9,25 @@ import base64
 import hashlib
 import hmac
 import json
+import sys
+
 from flask import request
 from flask import Response
 from twitch import Twitch
 from html_serv import htmlServ
 from twitter import Twitter
+from TwitterGUI import Ui_MainWindow
+from QT import MultiBox
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
+
+# Logger
+# import logging
+# logger = logging.getLogger("werkzeug")
+# logger.setLevel(logging.ERROR)
+
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
@@ -42,13 +53,17 @@ def webhook_challenge():
         }
         return json.dumps(response)
     else:
-        print(request.get_json())
+        #print(request.get_json())
         twitter_thread.tweetAnalyzer(request.get_json())
+        return Response(status=200)
         
-        
-twitch_thread = Twitch(1,"Twitch Thread")
-html_thread = htmlServ(2, "HTML Thread", app)
-twitter_thread = Twitter(3, "Twitter Thread")
-html_thread.start()
-twitch_thread.start()
-twitter_thread.start()
+if __name__ == "__main__":
+    GUI_thread = MultiBox("QT Thread")        
+    twitch_thread = Twitch(1,"Twitch Thread")
+    html_thread = htmlServ(2, "HTML Thread", app)
+    twitter_thread = Twitter(3, "Twitter Thread", GUI_thread)
+
+    html_thread.start()
+    twitch_thread.start()
+    twitter_thread.start()
+    GUI_thread.start()

@@ -35,6 +35,7 @@ class Twitch(threading.Thread):
 
     def run(self):
         print("Starting " + self.name + "\n\r")
+        #self.initStateLive()
         #id = self.getUserID("Smushis")
         #print("ID = " + id)
         #self.fullUnsub()
@@ -54,7 +55,13 @@ class Twitch(threading.Thread):
         app_token_request = requests.post('https://id.twitch.tv/oauth2/token', params=token_params)
         self.twitch_app_token_json = app_token_request.json()
         return self.twitch_app_token_json
-        
+
+    def getOAuthHeader(self):
+        return {
+            'client-id': self.Client_ID,
+            'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
+        }   
+
     def getSub(self, ID):
         self.authorize()
         username = self.getUsername(ID)
@@ -68,12 +75,12 @@ class Twitch(threading.Thread):
                 'hub.callback': 'http://85.170.28.49:22220/twitch/user/' + username,
                 'hub.mode': 'subscribe',
                 'hub.topic': self.url_streams +'?user_id=' + ID,
-                'hub.lease_seconds': 8000
+                'hub.lease_seconds': 800000
             } 
             twitch_hub_json = json.dumps(twitch_hub)
             requests.post(self.url_hub, headers=twitch_header, data = twitch_hub_json)
         
-    def getUnsub(self, ID, url):
+    def getUnsub(self, ID, callback, topic):
         #ID = self.getUserID("shroud")
         self.authorize()
         twitch_header = {
@@ -84,17 +91,17 @@ class Twitch(threading.Thread):
         if ID != 0:
             print("Par ID")
             twitch_hub = {
-                'hub.callback': 'http://85.170.28.49:22220/twitch',
+                'hub.callback': callback,
                 'hub.mode': 'unsubscribe',
-                'hub.topic': self.url_streams +'?user_id=' + ID,
+                'hub.topic': topic,
                 'hub.lease_seconds': 800000
             }
         else:
             print("Par URL")            
             twitch_hub = {
-                'hub.callback': 'http://85.170.28.49:22220/twitch',
+                'hub.callback': callback,
                 'hub.mode': 'unsubscribe',
-                'hub.topic': url,
+                'hub.topic': topic,
                 'hub.lease_seconds': 800000
             }            
         twitch_hub_json = json.dumps(twitch_hub)
@@ -123,47 +130,36 @@ class Twitch(threading.Thread):
             'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
         }
         if pagination !=0:
-            resp = requests.get(self.url_sub + "&after=" + pagination, headers=twitch_header)
+            resp = requests.get(self.url_sub + "?after=" + pagination, headers=twitch_header)
         else:
             resp = requests.get(self.url_sub, headers=twitch_header)
         print(resp.json())
         return resp.json()
-        
-        
-    def getUserFollows(self, ID):
+             
+    def getUserFollows(self):
         self.authorize()
         twitch_header = {
             'client-id': self.Client_ID,
             'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
         }       
-        resp = requests.get(self.url_follows + "36365680", headers=twitch_header)
+        resp = requests.get(self.url_follows + "36365680" + "&first=100", headers=twitch_header)
         #print(resp.json())
         i = resp.json()["total"]
         print("indice =", i)
-        for j in range((i//20)+1):
+        for j in range((i//100)+1):
             prev_resp = resp.json()    
             for h in range(len(prev_resp["data"])):              
                 self.follows_list.append(prev_resp['data'][h]["to_id"])
             pag = prev_resp["pagination"]["cursor"]
-            resp = requests.get(self.url_follows + "36365680&after=" + pag, headers=twitch_header)
+            resp = requests.get(self.url_follows + "36365680&after=" + pag + "&first=100", headers=twitch_header)
         print("Fin Recup Follow\r")
 
-    
     def getSubAllFollows(self):
         self.getUserFollows()
         print("Début Subscribe\r")
-        for i in range(429):
-            print(self.follows_list[i])
+        for i in range(len(self.follows_list)):
+            #print(self.follows_list[i])
             self.getSub(self.follows_list[i])
-        self.getSubList()
-        
-    def getUnsubAllFollows(self):
-        self.getUserFollows()
-        print("Début Unsubscribe\r")
-        taille = len(self.follows_list)
-        for i in range(taille):
-            print(self.follows_list[i])
-            self.getUnsub(self.follows_list[i])
         self.getSubList()
 
     def getUsername(self, ID):
@@ -213,10 +209,24 @@ class Twitch(threading.Thread):
         print("total= " + str(total))
         print("Debut unsub")
         for j in range(total//20 +1):
+            print("j=" + str(j))
             prev_resp = resp
             for h in range(len(prev_resp["data"])):
-                self.getUnsub(0, resp["data"][h]["topic"])
+                self.getUnsub(0, prev_resp["data"][h]["callback"], prev_resp["data"][h]["topic"])
             pag = prev_resp["pagination"]["cursor"]
             resp = self.getSubList(pag)
         resp = self.getSubList(0)
+        
+    def initStateLive(self):
+        self.authorize()
+        self.getUserFollows()
+        print("Init Streams")
+        for i in self.follows_list:
+            r = requests.get(self.url_streams + "?user_id=" + i, headers = self.getOAuthHeader())
+            if r.json()["data"] == []:
+                self.follows_live.append({'Name': self.getUsername(i), 'Live?':False})                 
+            else:
+                self.follows_live.append({'Name':r.json()["data"][0]["user_name"], 'Live?':True})  
+        print("Fin init")
+            
         
