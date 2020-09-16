@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="Images">
+    <file>img/twitter_bg.png</file>
     <file>img/steins.png</file>
     <file>img/twitter.png</file>
   </qresource>
