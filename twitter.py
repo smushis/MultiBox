@@ -118,7 +118,15 @@ class Twitter(QtCore.QThread):
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text =  user + " a répondu à votre tweet! : \n" + data
         print(text)
-        self.twitter_signal.emit(self.createDico(text, user, profile_img))
+        if "media" in tweet["tweet_create_events"][0]["entities"]:
+            tweet_image_link = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
+            tweet_image_id = tweet["tweet_create_events"][0]["entities"]["media"][0]["id_str"]
+            tweet_image_info = {}
+            tweet_image_info["link"] = tweet_image_link
+            tweet_image_info["id"] = tweet_image_id
+            self.twitter_signal.emit(self.createDico(text, user, profile_img, tweet_image_info))
+        else:
+            self.twitter_signal.emit(self.createDico(text, user, profile_img))
         
     def tweetFavoriteEvent(self, tweet):
         user = tweet["favorite_events"][0]["user"]["screen_name"]
@@ -140,10 +148,10 @@ class Twitter(QtCore.QThread):
         print(text)
         self.twitter_signal.emit(self.createDico(text, user, profile_img))
 
-    def createDico(self, text, username, url):
+    def createDico(self, text, username, url, image=None):
         dico = {}
         dico["username"] = username
         dico["url"] = url
         dico["text"] = text
-        return dico
-               
+        dico["media"] = image
+        return dico              
