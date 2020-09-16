@@ -18,8 +18,10 @@ class Twitch(QtCore.QThread):
     url_hub = 'https://api.twitch.tv/helix/webhooks/hub'
     url_id = 'https://api.twitch.tv/helix/users?login='
     url_name = 'https://api.twitch.tv/helix/users?id='
+    url_photo = 'https://api.twitch.tv/helix/users?login='
     url_sub = 'https://api.twitch.tv/helix/webhooks/subscriptions'
     url_follows = "https://api.twitch.tv/helix/users/follows?from_id="
+    url_games = 'https://api.twitch.tv/helix/games?id='
     
     Client_ID = ''
     SecretKey = ''
@@ -39,7 +41,6 @@ class Twitch(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         #self.initStateLive()
-        #id = self.getUserID("Smushis")
         #print("ID = " + id)
         #self.fullUnsub()
         #self.getNotif()
@@ -198,14 +199,17 @@ class Twitch(QtCore.QThread):
                 text = username + " is live !"
                 profile_img = data["data"][0]["thumbnail_url"]
                 print(text)
-                #self.twitch_signal.emit(self.createDico(text, username, profile_img))
+                profile_img = self.getProfileImage(username)
+                self.twitch_signal.emit(self.createDico(text, username, profile_img))
             else:
                 if dico['Live?'] == False:
                     dico['Live?'] = True
-                    text = username + " is live !"
+                    game = self.getGameTitle(data["data"][0]["game_id"])
+                    text = username + " is live playing" + game +" !"
+                    title = data["data"][0]["title"]
                     print(text)
-                    profile_img = data["data"][0]["thumbnail_url"].replace("{width}x{height}", "200x200")
-                    #self.twitch_signal.emit(self.createDico(text, username, profile_img))
+                    profile_img = self.getProfileImage(username)
+                    self.twitch_signal.emit(self.createDico(text, username, profile_img, title))
                     
     def search_username(self, username):
         for dico in self.follows_live:
@@ -239,11 +243,23 @@ class Twitch(QtCore.QThread):
                 self.follows_live.append({'Name':r.json()["data"][0]["user_name"], 'Live?':True})  
         print("Fin init")
         
-    def createDico(self, text, username, url):
+    def getProfileImage(self, username):
+        self.authorize()
+        r = requests.get(self.url_photo + username, headers = self.getOAuthHeader())
+        #print(r.json()["data"][0]["profile_image_url"])
+        return r.json()["data"][0]["profile_image_url"]
+    
+    def getGameTitle(self, ID):
+        self.authorize()
+        r = requests.get(self.url_games + ID, headers = self.getOAuthHeader())
+        return r.json()["Data"][0]["name"]
+        
+    def createDico(self, text, username, url, title):
         dico = {}
         dico["username"] = username
         dico["url"] = url
         dico["text"] = text
+        dico["title"] = title
         return dico        
             
         
