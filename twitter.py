@@ -11,14 +11,22 @@ import json
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
+def readCred():
+    with open('twitter_credentials.json', 'r') as myfile:
+        data=myfile.read()
+        
+    # parse file
+    obj = json.loads(data)
+    return obj
+
 class Twitter(QtCore.QThread):
     twitter_signal = pyqtSignal(dict)
-    
     id = ''
+    
     CONSUMER_KEY = 'PHAt5klX2nYAPz1fGERYNBOYj'
     CONSUMER_SECRET = 'jMtbs9kGnr12zfKdDWiwP7rs5Leb04oxiAELwcF5qV99aVhnK4'
-    ACCESS_TOKEN = '1050882356-O0vVTvBQWPlHU5FyCQUhwYZs47RA7xf4SL1Ippp'
-    ACCESS_TOKEN_SECRET = 'QYxRmRkG42z1nOg3four99AbwWJRsq8HsRas16NPH5rh8' 
+    ACCESS_TOKEN = '1050882356-Vu5PtMmDK0TuOvBgLxUbuTzbaZziBsrChASHv2r'
+    ACCESS_TOKEN_SECRET = 'JZfLPGgMHpnCSsGyiQPQuGu6D6tvby2LhqdOoJSM0u1Pv' 
     
     ENVNAME = 'AcountActivity'
      
@@ -117,6 +125,7 @@ class Twitter(QtCore.QThread):
         data = tweet["tweet_create_events"][0]["text"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text =  user + " a répondu à votre tweet! : \n" + data
+        tweet_url = self.getOEmbedURL("@", tweet)
         print(text)
         if "media" in tweet["tweet_create_events"][0]["entities"]:
             tweet_image_link = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
@@ -124,34 +133,60 @@ class Twitter(QtCore.QThread):
             tweet_image_info = {}
             tweet_image_info["link"] = tweet_image_link
             tweet_image_info["id"] = tweet_image_id
-            self.twitter_signal.emit(self.createDico(text, user, profile_img, tweet_image_info))
+            self.twitter_signal.emit(self.createDico("Mention", tweet_url, text, user, profile_img, tweet_image_info))
         else:
-            self.twitter_signal.emit(self.createDico(text, user, profile_img))
+            self.twitter_signal.emit(self.createDico("Mention", tweet_url, text, user, profile_img))
         
     def tweetFavoriteEvent(self, tweet):
         user = tweet["favorite_events"][0]["user"]["screen_name"]
+        tweet_url = self.getOEmbedURL("fav", tweet)
         if user != "Smushis":
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = user + " a aimé votre tweet!"
             print(text)
-            self.twitter_signal.emit(self.createDico(text, user, profile_img))
+            self.twitter_signal.emit(self.createDico("fav", tweet_url, text, user, profile_img))
         else:
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = 'Vous avez aimé un tweet'
             print(text)
-            self.twitter_signal.emit(self.createDico(text, user, profile_img))
+            self.twitter_signal.emit(self.createDico("fav", tweet_url, text, user, profile_img))
         
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text = user + " a retweeté votre tweet!"
+        tweet_url = self.getOEmbedURL("rt", tweet)
         print(text)
-        self.twitter_signal.emit(self.createDico(text, user, profile_img))
+        self.twitter_signal.emit(self.createDico("rt", tweet_url, text, user, profile_img))
 
-    def createDico(self, text, username, url, image=None):
+    def createDico(self, tweet_url, event, text, username, url, image=None):
         dico = {}
+        dico["events"] = event
+        dico["tweet_url"] = tweet_url
         dico["username"] = username
         dico["url"] = url
         dico["text"] = text
         dico["media"] = image
-        return dico              
+        return dico
+
+    def getTweetID(self, event, tweet):
+        if event == "fav":
+            return tweet["favorite_events"][0]["id"]
+        else:
+            return tweet["tweet_create_events"][0]["id_str"]
+        
+    def getTweetURL(self, event, tweet):
+        ID = self.getTweetID(event, tweet)
+        if event == "fav":
+            name = tweet["favorite_events"][0]["user"]["screen_name"]
+        else:
+            name = tweet["tweet_create_events"][0]["user"]["screen_name"]        
+        url = "https://twitter.com/" + name +"/status/" + ID
+        return url
+    
+    def getOEmbedURL(self, event, tweet):
+        #print(tweet)
+        url = self.getTweetURL(event, tweet)
+        print(url)
+        r = self.twitterAPI.request('statuses/oembed', {'url': url})
+        return r.json()["html"]

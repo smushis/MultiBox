@@ -17,6 +17,7 @@ from TwitterGUI import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
+
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
 
@@ -46,6 +47,7 @@ def webhook_challenge():
         )
         digested = base64.b64encode(validation.digest())
         response = {
+
             'response_token': 'sha256=' + format(str(digested)[2:-1])
         }
         return json.dumps(response)

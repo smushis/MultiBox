@@ -23,10 +23,10 @@
    <widget class="QLabel" name="label1">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>140</y>
-      <width>621</width>
-      <height>321</height>
+      <x>500</x>
+      <y>200</y>
+      <width>501</width>
+      <height>221</height>
      </rect>
     </property>
     <property name="baseSize">
@@ -93,27 +93,11 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QLabel" name="cadreTweet">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>-160</y>
-      <width>751</width>
-      <height>921</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>img/bkgnd.png</pixmap>
-    </property>
-   </widget>
    <widget class="QLabel" name="Twitch_Title">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>230</y>
+      <x>490</x>
+      <y>290</y>
       <width>361</width>
       <height>71</height>
      </rect>
@@ -159,7 +143,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>img/twitter_bg.png</pixmap>
+     <pixmap>img/TwitchBG.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="media">
@@ -181,16 +165,55 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLabel" name="cadre">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>40</y>
+      <width>741</width>
+      <height>481</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/twitch_bg.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QWebEngineView" name="webTwitter">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>180</y>
+      <width>511</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="url">
+     <url>
+      <string>about:blank</string>
+     </url>
+    </property>
+   </widget>
    <zorder>BG</zorder>
-   <zorder>cadreTweet</zorder>
    <zorder>Photo</zorder>
    <zorder>username</zorder>
+   <zorder>label_2</zorder>
+   <zorder>cadre</zorder>
    <zorder>label1</zorder>
    <zorder>Twitch_Title</zorder>
-   <zorder>label_2</zorder>
    <zorder>media</zorder>
+   <zorder>webTwitter</zorder>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="ressources.qrc"/>
  </resources>

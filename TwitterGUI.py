@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setAutoFillBackground(False)
         self.centralwidget.setObjectName("centralwidget")
         self.label1 = QtWidgets.QLabel(self.centralwidget)
-        self.label1.setGeometry(QtCore.QRect(410, 140, 621, 321))
+        self.label1.setGeometry(QtCore.QRect(500, 200, 501, 221))
         self.label1.setBaseSize(QtCore.QSize(531, 261))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -50,13 +50,8 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.username.setFont(font)
         self.username.setObjectName("username")
-        self.cadreTweet = QtWidgets.QLabel(self.centralwidget)
-        self.cadreTweet.setGeometry(QtCore.QRect(370, -160, 751, 921))
-        self.cadreTweet.setText("")
-        self.cadreTweet.setPixmap(QtGui.QPixmap("img/bkgnd.png"))
-        self.cadreTweet.setObjectName("cadreTweet")
         self.Twitch_Title = QtWidgets.QLabel(self.centralwidget)
-        self.Twitch_Title.setGeometry(QtCore.QRect(400, 230, 361, 71))
+        self.Twitch_Title.setGeometry(QtCore.QRect(490, 290, 361, 71))
         font = QtGui.QFont()
         font.setPointSize(18)
         self.Twitch_Title.setFont(font)
@@ -70,21 +65,26 @@ class Ui_MainWindow(object):
         self.BG = QtWidgets.QLabel(self.centralwidget)
         self.BG.setGeometry(QtCore.QRect(0, 0, 1451, 721))
         self.BG.setText("")
-        self.BG.setPixmap(QtGui.QPixmap("img/twitter_bg.png"))
+        self.BG.setPixmap(QtGui.QPixmap("img/TwitchBG.png"))
         self.BG.setObjectName("BG")
         self.media = QtWidgets.QLabel(self.centralwidget)
         self.media.setGeometry(QtCore.QRect(570, 350, 331, 291))
+        self.media.setStyleSheet("border: 10px double blue;")
         self.media.setText("")
         self.media.setAlignment(QtCore.Qt.AlignCenter)
         self.media.setObjectName("media")
-        self.media.setStyleSheet("border: 10px double blue;")
+        self.cadre = QtWidgets.QLabel(self.centralwidget)
+        self.cadre.setGeometry(QtCore.QRect(380, 40, 741, 481))
+        self.cadre.setText("")
+        self.cadre.setPixmap(QtGui.QPixmap("img/twitch_bg.png"))
+        self.cadre.setObjectName("label")
         self.BG.raise_()
-        self.cadreTweet.raise_()
         self.Photo.raise_()
         self.username.raise_()
+        self.label_2.raise_()
+        self.cadre.raise_()
         self.label1.raise_()
         self.Twitch_Title.raise_()
-        self.label_2.raise_()
         self.media.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -92,6 +92,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
        
         self.app = app
+        self.media.setHidden(True)
         
     def switchIMG(self, state):
         if state == "Twitch":
@@ -126,6 +127,7 @@ class Ui_MainWindow(object):
         return self.HTML_thread     
 
     def printTweet(self, data):
+        self.media.setHidden(True)
         self.switchIMG("Twitter")
         text = data["text"].split('https')[0]
         self.label1.setText(text)
@@ -143,8 +145,18 @@ class Ui_MainWindow(object):
             self.media.setPixmap(QtGui.QPixmap("img/Twitter/media" + data["media"]["id"] + ".png"))
             self.media.adjustSize()
             self.media.setVisible(True)
-        
+        if data["events"] == "Mention":
+            self.cadre.setPixmap(QtGui.QPixmap("img/Mentions_bg.png"))
+            self.cadre.adjustSize()
+        elif data["events"] == "rt":
+            self.cadre.setPixmap(QtGui.QPixmap("img/RT_bg.png"))
+            self.cadre.adjustSize()           
+        elif data["events"] == "fav":
+            self.cadre.setPixmap(QtGui.QPixmap("img/like_bg.png"))
+            self.cadre.adjustSize()  
+            
     def printStreams(self,data):
+        self.media.setHidden(True)
         self.switchIMG("Twitch")
         self.label1.setText(data["text"])
         self.label1.adjustSize()
@@ -155,6 +167,8 @@ class Ui_MainWindow(object):
         self.Twitch_Title.setVisible(True)
         self.Twitch_Title.setText(data["title"])
         self.Twitch_Title.adjustSize()
+        self.cadre.setPixmap(QtGui.QPixmap("img/twitch_bg.png"))
+        self.cadre.adjustSize()
         #self.Photo.setHidden(True)
         
     def getImage(self, url, username, web):
@@ -202,6 +216,10 @@ class Ui_MainWindow(object):
         img = img.resize((basewidth, hsize), Image.ANTIALIAS)
         img.save(img_path)
         
+    def OEmbed(self, html):
+        file = open("tweet.html", "wb")
+        file.write(html)
+        file.close()
     
 
 # if __name__ == "__main__":
