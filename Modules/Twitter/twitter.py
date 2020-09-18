@@ -10,28 +10,21 @@ import json
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
-def readCred():
-    with open('twitter_credentials.json', 'r') as myfile:
-        data=myfile.read()
-        
-    # parse file
-    obj = json.loads(data)
-    return obj
+credentials_file = 'Modules/Twitter/twitter_credentials.oauth'
 
 class Twitter(QtCore.QThread):
     twitter_signal = pyqtSignal(dict)
     id = ''
     
-    CONSUMER_KEY = 'PHAt5klX2nYAPz1fGERYNBOYj'
-    CONSUMER_SECRET = 'jMtbs9kGnr12zfKdDWiwP7rs5Leb04oxiAELwcF5qV99aVhnK4'
-    ACCESS_TOKEN = '1050882356-Vu5PtMmDK0TuOvBgLxUbuTzbaZziBsrChASHv2r'
-    ACCESS_TOKEN_SECRET = 'JZfLPGgMHpnCSsGyiQPQuGu6D6tvby2LhqdOoJSM0u1Pv' 
+    CONSUMER_KEY = ''
+    CONSUMER_SECRET = ''
+    ACCESS_TOKEN = ''
+    ACCESS_TOKEN_SECRET = '' 
     
     ENVNAME = 'AcountActivity'
      
     url_callback = ''
       
-    twitterAPI = TwitterAPI(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     
     # Important NOTE: After Startup, you need to unsubscribe and resubscribe because the url callback
     # will change
@@ -46,15 +39,25 @@ class Twitter(QtCore.QThread):
         if tunnels[0].public_url.find("https") == -1:
             self.url_callback = tunnels[1].public_url + "/twitter/webhooks"
         else:
-            self.url_callback = tunnels[0].public_url + "/twitter/webhooks"            
+            self.url_callback = tunnels[0].public_url + "/twitter/webhooks"
+        self.readCredentials()            
         
     def run(self):
         print("Starting " + self.name + "\n\r")
+        self.twitterAPI = TwitterAPI(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
         self.deleteWebhooks()
         self.registerWebhooks() 
         self.addSubscription()
         # self.getWebhooks()  
         # self.getSubscription()
+
+    def readCredentials(self):
+        with open(credentials_file, "r") as file:
+            auth = json.load(file)
+        self.CONSUMER_KEY = auth["CONSUMER_KEY"]
+        self.CONSUMER_SECRET = auth["CONSUMER_SECRET"]
+        self.ACCESS_TOKEN = auth["ACCESS_TOKEN"]
+        self.ACCESS_TOKEN_SECRET = auth["ACCESS_TOKEN_SECRET"]
                 
     def registerWebhooks(self):
         print("Registering Webhooks")        

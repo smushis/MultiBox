@@ -7,7 +7,6 @@ Created on Thu Sep 17 23:18:36 2020
 
 import spotipy
 import json
-import spotipy.util as util
 import time
 
 from Modules.Spotify import spotify_auth as auth2
@@ -34,7 +33,7 @@ class Spotify(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.sp = spotipy.Spotify(self.token)
-        self.showDevices()
+        #self.showDevices()
         self.playTop97()
         time.sleep(1)
         #self.getCurrentTrack()          

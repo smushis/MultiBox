@@ -127,3 +127,18 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+img/Twitter
+img/Twitch
+img/media
+img/Spotify
+
+MainWindowV2.py
+twitter_credentials.json
+tweet.html
+ayaya.py
+Modules/Spotify/.cache-Smushis
+Modules/Spotify/spotify_token.oauth
+.cache-Smushis
+Modules/Twitch/twitch_credentials.oauth
+Modules/Twitter/twitter_credentials.oauth
