@@ -11,6 +11,8 @@ import json
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
+credentials_file = 'Modules/Twitch/twitch_credentials.oauth'
+
 class Twitch(QtCore.QThread):
     twitch_signal = pyqtSignal(dict)
 
@@ -35,11 +37,16 @@ class Twitch(QtCore.QThread):
         QtCore.QThread.__init__(self, parent=None)   
         self.threadID = threadID
         self.name = name
-        self.SecretKey = 'zf587mdfjjflqyfceevk9vom1h71ze'
-        self.Client_ID = '8q8so0fn0nr5ujbt27phhbum8wks52'
+        self.readCredentials()
 
     def run(self):
         print("Starting " + self.name + "\n\r")
+        
+    def readCredentials(self):
+        with open(credentials_file, "r") as file:
+            auth = json.load(file)
+        self.SecretKey = auth["SecretKey"]
+        self.Client_ID = auth["Client_ID"]
         
     #Oauth token
     def authorize(self):
