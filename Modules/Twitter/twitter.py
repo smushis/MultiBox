@@ -4,7 +4,6 @@ Created on Sat Sep 12 11:55:34 2020
 
 @author: Barmando
 """
-import threading
 from TwitterAPI import TwitterAPI
 from pyngrok import ngrok
 import json
@@ -125,7 +124,6 @@ class Twitter(QtCore.QThread):
         data = tweet["tweet_create_events"][0]["text"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text =  user + " a répondu à votre tweet! : \n" + data
-        tweet_url = self.getOEmbedURL("@", tweet)
         print(text)
         if "media" in tweet["tweet_create_events"][0]["entities"]:
             tweet_image_link = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
@@ -133,36 +131,33 @@ class Twitter(QtCore.QThread):
             tweet_image_info = {}
             tweet_image_info["link"] = tweet_image_link
             tweet_image_info["id"] = tweet_image_id
-            self.twitter_signal.emit(self.createDico("Mention", tweet_url, text, user, profile_img, tweet_image_info))
+            self.twitter_signal.emit(self.createDico("Mention", text, user, profile_img, tweet_image_info))
         else:
-            self.twitter_signal.emit(self.createDico("Mention", tweet_url, text, user, profile_img))
+            self.twitter_signal.emit(self.createDico("Mention", text, user, profile_img))
         
     def tweetFavoriteEvent(self, tweet):
         user = tweet["favorite_events"][0]["user"]["screen_name"]
-        tweet_url = self.getOEmbedURL("fav", tweet)
         if user != "Smushis":
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = user + " a aimé votre tweet!"
             print(text)
-            self.twitter_signal.emit(self.createDico("fav", tweet_url, text, user, profile_img))
+            self.twitter_signal.emit(self.createDico("fav", text, user, profile_img))
         else:
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = 'Vous avez aimé un tweet'
             print(text)
-            self.twitter_signal.emit(self.createDico("fav", tweet_url, text, user, profile_img))
+            self.twitter_signal.emit(self.createDico("fav", text, user, profile_img))
         
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text = user + " a retweeté votre tweet!"
-        tweet_url = self.getOEmbedURL("rt", tweet)
         print(text)
-        self.twitter_signal.emit(self.createDico("rt", tweet_url, text, user, profile_img))
+        self.twitter_signal.emit(self.createDico("rt", text, user, profile_img))
 
-    def createDico(self, tweet_url, event, text, username, url, image=None):
+    def createDico(self, event, text, username, url, image=None):
         dico = {}
         dico["events"] = event
-        dico["tweet_url"] = tweet_url
         dico["username"] = username
         dico["url"] = url
         dico["text"] = text

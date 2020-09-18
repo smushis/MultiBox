@@ -25,7 +25,7 @@
      <rect>
       <x>500</x>
       <y>200</y>
-      <width>501</width>
+      <width>491</width>
       <height>221</height>
      </rect>
     </property>
@@ -98,8 +98,8 @@
      <rect>
       <x>490</x>
       <y>290</y>
-      <width>361</width>
-      <height>71</height>
+      <width>491</width>
+      <height>121</height>
      </rect>
     </property>
     <property name="font">
@@ -149,7 +149,7 @@
    <widget class="QLabel" name="media">
     <property name="geometry">
      <rect>
-      <x>570</x>
+      <x>630</x>
       <y>350</y>
       <width>331</width>
       <height>291</height>
@@ -181,19 +181,90 @@
      <pixmap>img/twitch_bg.png</pixmap>
     </property>
    </widget>
-   <widget class="QWebEngineView" name="webTwitter">
+   <widget class="QLabel" name="img_album">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>180</y>
-      <width>511</width>
-      <height>261</height>
+      <x>50</x>
+      <y>490</y>
+      <width>151</width>
+      <height>151</height>
      </rect>
     </property>
-    <property name="url">
-     <url>
-      <string>about:blank</string>
-     </url>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/kurisux150.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cadreMusic">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>470</y>
+      <width>421</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/music_bg.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="titleMusic">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>525</y>
+      <width>271</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="artistMusic">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>590</y>
+      <width>271</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cadreAlbum">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>450</y>
+      <width>191</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/spot.png</pixmap>
     </property>
    </widget>
    <zorder>BG</zorder>
@@ -204,16 +275,13 @@
    <zorder>label1</zorder>
    <zorder>Twitch_Title</zorder>
    <zorder>media</zorder>
-   <zorder>webTwitter</zorder>
+   <zorder>img_album</zorder>
+   <zorder>cadreMusic</zorder>
+   <zorder>titleMusic</zorder>
+   <zorder>artistMusic</zorder>
+   <zorder>cadreAlbum</zorder>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebEngineView</class>
-   <extends>QWidget</extends>
-   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="ressources.qrc"/>
  </resources>

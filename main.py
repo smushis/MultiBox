@@ -11,11 +11,11 @@ import hmac
 import json
 import sys
 
+
 from flask import request
 from flask import Response
-from TwitterGUI import Ui_MainWindow
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import pyqtSignal
+from Modules.GUI.GUI import Ui_MainWindow
+from PyQt5 import  QtWidgets
 
 
 app = flask.Flask("Webhooks listener")
@@ -65,6 +65,8 @@ if __name__ == "__main__":
     twitch_thread = ui.launchTwitchThread()
     twitter_thread = ui.launchTwitterThread()
     HTML_thread = ui.launchHTMLThread()
+    spotify_thread = ui.launchSpotifyThread()
+    timer_thread = ui.launchSpotifyListenerThread()
     MainWindow.show()
     sys.exit(appThread.exec_())        
 

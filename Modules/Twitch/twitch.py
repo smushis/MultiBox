@@ -40,14 +40,6 @@ class Twitch(QtCore.QThread):
 
     def run(self):
         print("Starting " + self.name + "\n\r")
-        #self.initStateLive()
-        #print("ID = " + id)
-        #self.fullUnsub()
-        #self.getNotif()
-        #self.getUnsub('552015849')      
-        #self.getNotifAllFollows()
-        #self.getUnsubAllFollows()
-        #self.getSubAllFollows()
         
     #Oauth token
     def authorize(self):

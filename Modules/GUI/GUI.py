@@ -6,9 +6,11 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from twitter import Twitter
-from twitch import Twitch
-from html_serv import htmlServ
+from Modules.Twitter.twitter import Twitter
+from Modules.Twitch.twitch import Twitch
+from Modules.Listener.html_serv import htmlServ
+from Modules.Spotify.spotify import Spotify
+from Modules.Spotify.spotify import SpotifyListener
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 import requests
@@ -26,7 +28,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setAutoFillBackground(False)
         self.centralwidget.setObjectName("centralwidget")
         self.label1 = QtWidgets.QLabel(self.centralwidget)
-        self.label1.setGeometry(QtCore.QRect(500, 200, 501, 221))
+        self.label1.setGeometry(QtCore.QRect(500, 200, 491, 221))
         self.label1.setBaseSize(QtCore.QSize(531, 261))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -51,7 +53,7 @@ class Ui_MainWindow(object):
         self.username.setFont(font)
         self.username.setObjectName("username")
         self.Twitch_Title = QtWidgets.QLabel(self.centralwidget)
-        self.Twitch_Title.setGeometry(QtCore.QRect(490, 290, 361, 71))
+        self.Twitch_Title.setGeometry(QtCore.QRect(490, 290, 491, 121))
         font = QtGui.QFont()
         font.setPointSize(18)
         self.Twitch_Title.setFont(font)
@@ -68,7 +70,7 @@ class Ui_MainWindow(object):
         self.BG.setPixmap(QtGui.QPixmap("img/TwitchBG.png"))
         self.BG.setObjectName("BG")
         self.media = QtWidgets.QLabel(self.centralwidget)
-        self.media.setGeometry(QtCore.QRect(570, 350, 331, 291))
+        self.media.setGeometry(QtCore.QRect(630, 350, 331, 291))
         self.media.setStyleSheet("border: 10px double blue;")
         self.media.setText("")
         self.media.setAlignment(QtCore.Qt.AlignCenter)
@@ -77,7 +79,36 @@ class Ui_MainWindow(object):
         self.cadre.setGeometry(QtCore.QRect(380, 40, 741, 481))
         self.cadre.setText("")
         self.cadre.setPixmap(QtGui.QPixmap("img/twitch_bg.png"))
-        self.cadre.setObjectName("label")
+        self.cadre.setObjectName("cadre")
+        self.img_album = QtWidgets.QLabel(self.centralwidget)
+        self.img_album.setGeometry(QtCore.QRect(50, 490, 151, 151))
+        self.img_album.setText("")
+        self.img_album.setPixmap(QtGui.QPixmap("img/kurisux150.png"))
+        self.img_album.setObjectName("img_album")
+        self.cadreMusic = QtWidgets.QLabel(self.centralwidget)
+        self.cadreMusic.setGeometry(QtCore.QRect(200, 470, 421, 201))
+        self.cadreMusic.setText("")
+        self.cadreMusic.setPixmap(QtGui.QPixmap("img/music_bg.png"))
+        self.cadreMusic.setObjectName("cadreMusic")
+        self.titleMusic = QtWidgets.QLabel(self.centralwidget)
+        self.titleMusic.setGeometry(QtCore.QRect(280, 525, 271, 31))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(16)
+        self.titleMusic.setFont(font)
+        self.titleMusic.setObjectName("titleMusic")
+        self.artistMusic = QtWidgets.QLabel(self.centralwidget)
+        self.artistMusic.setGeometry(QtCore.QRect(280, 590, 271, 31))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(16)
+        self.artistMusic.setFont(font)
+        self.artistMusic.setObjectName("artistMusic")
+        self.cadreAlbum = QtWidgets.QLabel(self.centralwidget)
+        self.cadreAlbum.setGeometry(QtCore.QRect(20, 450, 191, 211))
+        self.cadreAlbum.setText("")
+        self.cadreAlbum.setPixmap(QtGui.QPixmap("img/spot.png"))
+        self.cadreAlbum.setObjectName("cadreAlbum")
         self.BG.raise_()
         self.Photo.raise_()
         self.username.raise_()
@@ -86,6 +117,11 @@ class Ui_MainWindow(object):
         self.label1.raise_()
         self.Twitch_Title.raise_()
         self.media.raise_()
+        self.img_album.raise_()
+        self.cadreMusic.raise_()
+        self.titleMusic.raise_()
+        self.artistMusic.raise_()
+        self.cadreAlbum.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -108,6 +144,8 @@ class Ui_MainWindow(object):
         self.label1.setText(_translate("MainWindow", "Text"))
         self.username.setText(_translate("MainWindow", "TextLabel"))
         self.Twitch_Title.setText(_translate("MainWindow", "Twitch Title"))
+        self.titleMusic.setText(_translate("MainWindow", "TextLabel"))
+        self.artistMusic.setText(_translate("MainWindow", "TextLabel"))
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(3, "Twitter Thread")
@@ -124,7 +162,19 @@ class Ui_MainWindow(object):
     def launchHTMLThread(self):
         self.HTML_thread = htmlServ(3, "HTML Thread", self.app)
         self.HTML_thread.start()
-        return self.HTML_thread     
+        return self.HTML_thread   
+    
+    def launchSpotifyThread(self):
+        self.spotify_thread = Spotify(3, "Spotify Thread", self.app)
+        self.spotify_thread.Spotify_signal.connect(self.showMusic)
+        self.spotify_thread.start()
+        return self.spotify_thread
+
+    def launchSpotifyListenerThread(self):
+        self.spotListener_thread = SpotifyListener(3, "Timer Thread")
+        self.spotListener_thread.timer_signal.connect(self.spotify_thread.getCurrentTrack)
+        self.spotListener_thread.start()
+        return self.spotListener_thread        
 
     def printTweet(self, data):
         self.media.setHidden(True)
@@ -171,6 +221,15 @@ class Ui_MainWindow(object):
         self.cadre.adjustSize()
         #self.Photo.setHidden(True)
         
+    def showMusic(self, data):
+        self.media.setHidden(True)
+        self.titleMusic.setText(data["track"])
+        self.titleMusic.adjustSize()
+        self.artistMusic.setText(data["artist"])
+        self.artistMusic.adjustSize()
+        self.getImage(data["img_album"], data["track"], "Spotify")
+        self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + data["track"]+ ".png"))
+        
     def getImage(self, url, username, web):
         size = 200, 200
         Response = requests.get(url)
@@ -188,6 +247,13 @@ class Ui_MainWindow(object):
                 file.write(Response.content)
                 file.close()
                 self.reduceImageSize(300, img_path)
+        elif web == "Spotify":
+            img_path = "img/Spotify/" + username + ".png"
+            if path.exists(img_path) == False:
+                file = open(img_path, "wb")
+                file.write(Response.content)
+                file.close()
+                self.reduceImageSize(150, img_path)            
         else:
             img_path = "img/Twitch/" + username + ".png"
             if path.exists(img_path) == False:
