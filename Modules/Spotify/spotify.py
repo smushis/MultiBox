@@ -44,24 +44,33 @@ class Spotify(QtCore.QThread):
         self.token = auth["token"]      
         
     def showDevices(self):
-        self.refreshToken()
-        res = self.sp.devices()
-        print(res)
+        try:
+            self.refreshToken()
+            res = self.sp.devices()
+            print(res)
+        except:
+            print("there was a problem")
         
     def playTop97(self):
-        self.refreshToken()
-        self.sp.shuffle(True)
-        self.sp.start_playback(context_uri='spotify:playlist:2EDQvU4v6zHH39G1pKAJrr')
-        
+        try:
+            self.refreshToken()
+            self.sp.shuffle(True)
+            self.sp.start_playback(context_uri='spotify:playlist:2EDQvU4v6zHH39G1pKAJrr')
+        except:
+            print("there was a problem")
+            
     def getCurrentTrack(self):
-        self.refreshToken()
-        tr = self.sp.current_user_playing_track()
-        artist = tr['item']['artists'][0]['name']
-        track = tr['item']['name']
-        img_album = tr['item']['album']['images'][1]['url']
-        #if artist !="":
-            #print("Currently playing " + artist + " - " + track)
-        self.Spotify_signal.emit(self.createDico(artist, track, img_album))
+        try:
+            self.refreshToken()
+            tr = self.sp.current_user_playing_track()
+            artist = tr['item']['artists'][0]['name']
+            track = tr['item']['name']
+            img_album = tr['item']['album']['images'][1]['url']
+            #if artist !="":
+                #print("Currently playing " + artist + " - " + track)
+            self.Spotify_signal.emit(self.createDico(artist, track, img_album))
+        except:
+            print("there was a problem")
             
     def createDico(self, artist, track, img_album):
         dico = {}

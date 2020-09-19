@@ -128,10 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-img/Twitter
-img/Twitch
-img/media
-img/Spotify
+img/Twitter/
+img/Twitch/
+img/media/
+img/Spotify/
 
 MainWindowV2.py
 twitter_credentials.json

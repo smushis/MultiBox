@@ -6,7 +6,6 @@ Created on Sun Sep  6 11:22:49 2020
 """
 # Importing libraries
 import requests
-import threading
 import json
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
@@ -27,6 +26,7 @@ class Twitch(QtCore.QThread):
     
     Client_ID = ''
     SecretKey = ''
+    callback = ''
     
     twitch_app_token_json = {}
     
@@ -41,12 +41,14 @@ class Twitch(QtCore.QThread):
 
     def run(self):
         print("Starting " + self.name + "\n\r")
+        self.initStateLive()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
             auth = json.load(file)
         self.SecretKey = auth["SecretKey"]
         self.Client_ID = auth["Client_ID"]
+        self.callback = auth["callback"]
         
     #Oauth token
     def authorize(self):
@@ -75,7 +77,7 @@ class Twitch(QtCore.QThread):
                 'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']            
             }
             twitch_hub = {
-                'hub.callback': 'http://85.170.28.49:22220/twitch/user/' + username,
+                'hub.callback': self.callback + username,
                 'hub.mode': 'subscribe',
                 'hub.topic': self.url_streams +'?user_id=' + ID,
                 'hub.lease_seconds': 800000
@@ -189,7 +191,6 @@ class Twitch(QtCore.QThread):
             if dico == False:
                 self.follows_live.append({'Name':username, 'Live?':False})           
             else:
-                if dico['Live?'] == True:
                     dico['Live?'] = False        
         else:
             dico = self.search_username(username)
@@ -239,9 +240,12 @@ class Twitch(QtCore.QThread):
         for i in self.follows_list:
             r = requests.get(self.url_streams + "?user_id=" + i, headers = self.getOAuthHeader())
             if r.json()["data"] == []:
-                self.follows_live.append({'Name': self.getUsername(i), 'Live?':False})                 
+                name = self.getUsername(i)
+                if name !=-1:
+                    self.follows_live.append({'Name': self.getUsername(i), 'Live?':False})
             else:
-                self.follows_live.append({'Name':r.json()["data"][0]["user_name"], 'Live?':True})  
+                self.follows_live.append({'Name':r.json()["data"][0]["user_name"], 'Live?':True}) 
+            print(len(self.follows_live))
         print("Fin init")
         
     def getProfileImage(self, username):

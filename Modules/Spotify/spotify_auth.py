@@ -13,9 +13,6 @@ def generate_token(scope, token_file, refresh=False):
     except:
         token = None
         
-    if refresh == True:
-        token = util.prompt_for_user_token(auth["username"], scope, client_id=auth["CLIENT_ID"], client_secret=auth["CLIENT_SECRET"], redirect_uri=auth["REDIRECT_URI"])
-        
     if token != None:
         print("New token generated")
         auth["token"] = token
