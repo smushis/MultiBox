@@ -49,7 +49,7 @@ class Spotify(QtCore.QThread):
             res = self.sp.devices()
             print(res)
         except:
-            print("there was a problem")
+            print("No devices or Error")
         
     def playTop97(self):
         try:
