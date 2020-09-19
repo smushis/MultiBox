@@ -47,7 +47,7 @@ class Ui_MainWindow(object):
         self.username.setGeometry(QtCore.QRect(140, 400, 211, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
         self.username.setFont(font)
@@ -122,6 +122,7 @@ class Ui_MainWindow(object):
         self.titleMusic.raise_()
         self.artistMusic.raise_()
         self.cadreAlbum.raise_()
+        
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)

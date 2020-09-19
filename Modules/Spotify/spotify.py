@@ -36,7 +36,7 @@ class Spotify(QtCore.QThread):
         #self.showDevices()
         self.playTop97()
         time.sleep(1)
-        #self.getCurrentTrack()          
+        self.getCurrentTrack()          
             
     def getToken(self):      
         with open(token_file, 'r') as file:
@@ -44,14 +44,17 @@ class Spotify(QtCore.QThread):
         self.token = auth["token"]      
         
     def showDevices(self):
+        self.refreshToken()
         res = self.sp.devices()
         print(res)
         
     def playTop97(self):
+        self.refreshToken()
         self.sp.shuffle(True)
         self.sp.start_playback(context_uri='spotify:playlist:2EDQvU4v6zHH39G1pKAJrr')
         
     def getCurrentTrack(self):
+        self.refreshToken()
         tr = self.sp.current_user_playing_track()
         artist = tr['item']['artists'][0]['name']
         track = tr['item']['name']
@@ -67,10 +70,14 @@ class Spotify(QtCore.QThread):
         dico["img_album"] = img_album
         return dico
     
+    def refreshToken(self):
+        auth2.generate_token(self.scope, token_file)
+    
     
 class SpotifyListener(QtCore.QThread):
     
     timer_signal = pyqtSignal()
+    refresh_signal = pyqtSignal()
     
     def __init__(self, threadID, name):
         QtCore.QThread.__init__(self, parent=None)   
@@ -79,8 +86,8 @@ class SpotifyListener(QtCore.QThread):
         
     def run(self):
         print("Starting " + self.name + "\n\r")
-        i = True
-        while i == True:
+        i = 0
+        while i <= 3000:
+            i = i+1
             time.sleep(10)
-            self.timer_signal.emit()          
           
