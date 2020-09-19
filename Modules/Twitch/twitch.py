@@ -62,7 +62,6 @@ class Twitch(QtCore.QThread):
         }
         app_token_request = requests.post('https://id.twitch.tv/oauth2/token', params=token_params)
         self.twitch_app_token_json = app_token_request.json()
-        print(self.twitch_app_token_json)
 
     def getOAuthHeader(self):
         if (time() - self.startTime) > self.twitch_app_token_json['expires_in']:

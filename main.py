@@ -37,7 +37,7 @@ def notifs_event(username):
     return Response(status=200)
 
 @app.route('/twitter/webhooks', methods=["GET", "POST"])
-def webhook_challenge():
+def twitter_requests():
     if request.method == 'GET':
         crc=request.args.get('crc_token')
         validation = hmac.new(
