@@ -21,7 +21,7 @@ from os import path
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, app):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("Notifications panel")
         MainWindow.resize(1280, 720)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
