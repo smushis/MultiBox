@@ -22,7 +22,10 @@ from os import path
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, app):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1281, 720)
+        MainWindow.resize(1280, 720)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setAutoFillBackground(False)

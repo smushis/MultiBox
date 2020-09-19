@@ -74,8 +74,6 @@ class Spotify(QtCore.QThread):
             self.Spotify_signal.emit(self.createDico(artist, track, img_album))
         except SpotifyException as e:
             return self.handleException(e)
-        except:
-            print("ALED")
             
     def handleException(self, e):
         if e.reason == "NO_ACTIVE_DEVICE":
@@ -112,7 +110,7 @@ class SpotifyListener(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         i = True
         while i :
-            time.sleep(10)
+            time.sleep(1)
             self.timer_signal.emit()
             
             
