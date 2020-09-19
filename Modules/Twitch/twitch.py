@@ -9,6 +9,7 @@ import requests
 import json
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
+from time import time, sleep
 
 credentials_file = 'Modules/Twitch/twitch_credentials.oauth'
 
@@ -38,9 +39,11 @@ class Twitch(QtCore.QThread):
         self.threadID = threadID
         self.name = name
         self.readCredentials()
+        self.startTime = time()
 
     def run(self):
         print("Starting " + self.name + "\n\r")
+        self.authorize()
         self.initStateLive()
         
     def readCredentials(self):
@@ -55,27 +58,24 @@ class Twitch(QtCore.QThread):
         token_params = {
             'client_id': self.Client_ID,
             'client_secret': self.SecretKey,
-            'grant_type': 'client_credentials',
+            'grant_type': 'client_credentials'
         }
         app_token_request = requests.post('https://id.twitch.tv/oauth2/token', params=token_params)
         self.twitch_app_token_json = app_token_request.json()
-        return self.twitch_app_token_json
+        print(self.twitch_app_token_json)
 
     def getOAuthHeader(self):
+        if (time() - self.startTime) > self.twitch_app_token_json['expires_in']:
+           self.authorize()
+           print("regenerate token")
         return {
             'client-id': self.Client_ID,
             'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
-        }   
+        } 
 
     def getSub(self, ID):
-        self.authorize()
         username = self.getUsername(ID)
         if username != -1:
-            twitch_header = {
-                'client-id': self.Client_ID,
-                "Content-Type":"application/json", 
-                'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']            
-            }
             twitch_hub = {
                 'hub.callback': self.callback + username,
                 'hub.mode': 'subscribe',
@@ -83,16 +83,10 @@ class Twitch(QtCore.QThread):
                 'hub.lease_seconds': 800000
             } 
             twitch_hub_json = json.dumps(twitch_hub)
-            requests.post(self.url_hub, headers=twitch_header, data = twitch_hub_json)
+            requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
         
     def getUnsub(self, ID, callback, topic):
         #ID = self.getUserID("shroud")
-        self.authorize()
-        twitch_header = {
-            'client-id': self.Client_ID,
-            "Content-Type":"application/json", 
-            'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']            
-        }
         if ID != 0:
             print("Par ID")
             twitch_hub = {
@@ -110,16 +104,11 @@ class Twitch(QtCore.QThread):
                 'hub.lease_seconds': 800000
             }            
         twitch_hub_json = json.dumps(twitch_hub)
-        requests.post(self.url_hub, headers=twitch_header, data = twitch_hub_json)
+        requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
         #self.follows_list.remove(ID)
         
     def getStreamInfo(self, user):    
-        self.authorize()       
-        twitch_header = {
-            'client-id': self.Client_ID,
-            'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
-        }        
-        twitch_txt = requests.get(self.url_id + user, headers=twitch_header)
+        twitch_txt = requests.get(self.url_id + user, headers=self.getOAuthHeader())
         twitch_json = twitch_txt.json()
         stream_json = twitch_json["data"][0]     
         return stream_json
@@ -129,25 +118,15 @@ class Twitch(QtCore.QThread):
         return stream_json["id"]
     
     def getSubList(self, pagination):
-        self.authorize()       
-        twitch_header = {
-            'client-id': self.Client_ID,
-            'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
-        }
         if pagination !=0:
-            resp = requests.get(self.url_sub + "?after=" + pagination, headers=twitch_header)
+            resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
         else:
-            resp = requests.get(self.url_sub, headers=twitch_header)
+            resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
         print(resp.json())
         return resp.json()
              
-    def getUserFollows(self):
-        self.authorize()
-        twitch_header = {
-            'client-id': self.Client_ID,
-            'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
-        }       
-        resp = requests.get(self.url_follows + "36365680" + "&first=100", headers=twitch_header)
+    def getUserFollows(self):   
+        resp = requests.get(self.url_follows + "36365680" + "&first=100", headers=self.getOAuthHeader())
         #print(resp.json())
         i = resp.json()["total"]
         print("indice =", i)
@@ -156,7 +135,7 @@ class Twitch(QtCore.QThread):
             for h in range(len(prev_resp["data"])):              
                 self.follows_list.append(prev_resp['data'][h]["to_id"])
             pag = prev_resp["pagination"]["cursor"]
-            resp = requests.get(self.url_follows + "36365680&after=" + pag + "&first=100", headers=twitch_header)
+            resp = requests.get(self.url_follows + "36365680&after=" + pag + "&first=100", headers=self.getOAuthHeader())
         print("Fin Recup Follow\r")
 
     def getSubAllFollows(self):
@@ -167,13 +146,8 @@ class Twitch(QtCore.QThread):
             self.getSub(self.follows_list[i])
         self.getSubList()
 
-    def getUsername(self, ID):
-        self.authorize()       
-        twitch_header = {
-            'client-id': self.Client_ID,
-            'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
-        }        
-        twitch_txt = requests.get(self.url_name + str(ID), headers=twitch_header)
+    def getUsername(self, ID):              
+        twitch_txt = requests.get(self.url_name + str(ID), headers=self.getOAuthHeader())
         twitch_json = twitch_txt.json()
         #print(twitch_json)
         if twitch_json["data"] == []:
@@ -234,7 +208,6 @@ class Twitch(QtCore.QThread):
         resp = self.getSubList(0)
         
     def initStateLive(self):
-        self.authorize()
         self.getUserFollows()
         print("Init Streams")
         for i in self.follows_list:
@@ -245,17 +218,14 @@ class Twitch(QtCore.QThread):
                     self.follows_live.append({'Name': self.getUsername(i), 'Live?':False})
             else:
                 self.follows_live.append({'Name':r.json()["data"][0]["user_name"], 'Live?':True}) 
-            print(len(self.follows_live))
         print("Fin init")
         
     def getProfileImage(self, username):
-        self.authorize()
         r = requests.get(self.url_photo + username, headers = self.getOAuthHeader())
         #print(r.json()["data"][0]["profile_image_url"])
         return r.json()["data"][0]["profile_image_url"]
     
     def getGameTitle(self, ID):
-        self.authorize()
         r = requests.get(self.url_games + ID, headers = self.getOAuthHeader())
         return r.json()["data"][0]["name"]
         
