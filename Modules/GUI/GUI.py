@@ -11,6 +11,9 @@ from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Spotify.spotify import SpotifyListener
+temp_on = False
+if temp_on:
+    from Modules.Temperature.Temperature import DHT11 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import requests
 import io
@@ -114,7 +117,7 @@ class Ui_MainWindow(object):
         self.tempImg = QtWidgets.QLabel(self.centralwidget)
         self.tempImg.setGeometry(QtCore.QRect(980, 570, 101, 111))
         self.tempImg.setText("")
-        self.tempImg.setPixmap(QtGui.QPixmap("img/thermometer (1).png"))
+        self.tempImg.setPixmap(QtGui.QPixmap("img/thermometer.png"))
         self.tempImg.setObjectName("tempImg")
         self.temp = QtWidgets.QLabel(self.centralwidget)
         self.temp.setGeometry(QtCore.QRect(1110, 590, 111, 71))
@@ -164,7 +167,7 @@ class Ui_MainWindow(object):
         self.Twitch_Title.setText(_translate("MainWindow", "Twitch Title"))
         self.titleMusic.setText(_translate("MainWindow", "TextLabel"))
         self.artistMusic.setText(_translate("MainWindow", "TextLabel"))
-        self.temp.setText(_translate("MainWindow", "No"))   
+        self.temp.setText(_translate("MainWindow", "No Info"))   
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(3, "Twitter Thread")
@@ -194,7 +197,12 @@ class Ui_MainWindow(object):
         self.spotListener_thread.timer_signal.connect(self.spotify_thread.getCurrentTrack)
         self.spotListener_thread.start()
         return self.spotListener_thread
-      
+
+    def launchTemperatureThread(self):       
+        self.temp_thread = DHT11(3, "Temperature Thread")
+        self.temp_thread.DHT11_signal.connect(self.printTemp)
+        self.temp_thread.start()
+        return self.temp_thread           
 
     def printTweet(self, data):
         self.media.setHidden(True)
