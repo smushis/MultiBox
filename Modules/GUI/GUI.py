@@ -11,7 +11,9 @@ from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Spotify.spotify import SpotifyListener
-
+temp_on = True
+if temp_on:
+    from Modules.Temperature.Temperature import DHT11 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import requests
 import io
@@ -196,8 +198,7 @@ class Ui_MainWindow(object):
         self.spotListener_thread.start()
         return self.spotListener_thread
 
-    def launchTemperatureThread(self):
-        from Modules.Temperature.Temperature import DHT11        
+    def launchTemperatureThread(self):       
         self.temp_thread = DHT11(3, "Temperature Thread")
         self.temp_thread.DHT11_signal.connect(self.printTemp)
         self.temp_thread.start()
