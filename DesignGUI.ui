@@ -274,7 +274,7 @@
    <widget class="QLabel" name="tempImg">
     <property name="geometry">
      <rect>
-      <x>980</x>
+      <x>1000</x>
       <y>570</y>
       <width>101</width>
       <height>111</height>
