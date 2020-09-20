@@ -21,7 +21,7 @@ from os import path
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, app):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("Notifications")
         MainWindow.resize(1280, 720)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -141,8 +141,6 @@ class Ui_MainWindow(object):
         self.cadreAlbum.raise_()
         self.tempImg.raise_()
         self.temp.raise_()
-        MainWindow.setCentralWidget(self.centralwidget)
-        
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
