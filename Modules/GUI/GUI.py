@@ -201,7 +201,7 @@ class Ui_MainWindow(object):
 
     def launchTemperatureThread(self):
         self.temp_thread = DHT11(3, "Temperature Thread")
-        self.temp_thread.DHT11_signal.connect(self.temp_thread.printTemp)
+        self.temp_thread.DHT11_signal.connect(self.printTemp)
         self.temp_thread.start()
         return self.temp_thread_thread           
 
