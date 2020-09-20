@@ -5,9 +5,10 @@ Created on Sat Sep 12 11:55:34 2020
 @author: Barmando
 """
 from TwitterAPI import TwitterAPI
+from TwitterAPI import TwitterRequestError
 from pyngrok import ngrok
 import json
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSignal
 
 credentials_file = 'Modules/Twitter/twitter_credentials.oauth'
@@ -59,48 +60,84 @@ class Twitter(QtCore.QThread):
         self.ACCESS_TOKEN_SECRET = auth["ACCESS_TOKEN_SECRET"]
                 
     def registerWebhooks(self):
-        print("Registering Webhooks")        
-        r = self.twitterAPI.request('account_activity/all/:%s/webhooks' % self.ENVNAME, {'url': self.url_callback})
+        try:
+            print("Registering Webhooks")        
+            r = self.twitterAPI.request('account_activity/all/:%s/webhooks' % self.ENVNAME, {'url': self.url_callback})
+        except TwitterRequestError as error:
+            code = error.status_code
+            if code == 403:
+                print(r.json())
+            else:
+                print("Non expected problem during registering webhooks")
         #print(r.text)
     
     def getWebhooks(self):
-        print("Getting Webhooks")
-        r = self.twitterAPI.request('account_activity/all/webhooks')  
-        a = json.loads(r.text)
-        #print(a)
-        if a['environments'][0]['webhooks'] == []:
-            return -1
-        else:
-            #print("ID Webhooks=" + a['environments'][0]['webhooks'][0]['id'])
-            return a['environments'][0]['webhooks'][0]['id']
-        
+        try:
+            print("Getting Webhooks")
+            r = self.twitterAPI.request('account_activity/all/webhooks')  
+            a = json.loads(r.text)
+            #print(a)
+            if a['environments'][0]['webhooks'] == []:
+                return -1
+            else:
+                #print("ID Webhooks=" + a['environments'][0]['webhooks'][0]['id'])
+                return a['environments'][0]['webhooks'][0]['id']
+        except TwitterRequestError as error:
+            code = error.status_code
+            if code == 99:
+                print(r.json())
+            else:
+                print("Non expected problem during getting webhooks")
+                
     def deleteWebhooks(self):
-        id = self.getWebhooks()
-        if id ==-1:
-            print("No Webhooks to delete")
-        else:
-            print("Deleting Webhooks")        
-            r = self.twitterAPI.request('account_activity/all/:%s/webhooks/:%s' % (self.ENVNAME, id))
-            #print(r.text)
-            #self.getWebhooks()        
+        try:
+            id = self.getWebhooks()
+            if id ==-1:
+                print("No Webhooks to delete")
+            else:
+                print("Deleting Webhooks")        
+                r = self.twitterAPI.request('account_activity/all/:%s/webhooks/:%s' % (self.ENVNAME, id))
+        except:
+            print("Problem during deleting webhooks")
+            print(r.json())
         
     def addSubscription(self):
-        print("Adding Subscription")        
-        r = self.twitterAPI.request('account_activity/all/:%s/subscriptions' % self.ENVNAME, None, None, "POST")
-        #print (r.text)
-        
+        try:
+            print("Adding Subscription")        
+            r = self.twitterAPI.request('account_activity/all/:%s/subscriptions' % self.ENVNAME, None, None, "POST")
+            #print (r.text)
+        except TwitterRequestError as error:
+            code = error.status_code
+            if code == 348:
+                print("Access to user's webhook not permitted")
+            else:
+                print("Non expected problem during getting webhooks")            
+                print(r.json())
+                
     def getSubscription(self):
-        print("Verificating subscription")
-        r = self.twitterAPI.request('account_activity/all/:%s/subscriptions' % self.ENVNAME, None, None, "GET")
-        if r.text == "":
-            print("You are already subscribe") 
-        else:
-            print("You do not have an active subscription")
+        try:
+            print("Verificating subscription")
+            r = self.twitterAPI.request('account_activity/all/:%s/subscriptions' % self.ENVNAME, None, None, "GET")
+            if r.text == "":
+                print("You are already subscribe") 
+            else:
+                print("You do not have an active subscription")
+        except TwitterRequestError as error:
+            code = error.status_code
+            if code == 99:
+                print("You don't have access to this ressource")
+            else:
+                print("Non expected problem during getting webhooks")            
+                print(r.json())            
             
     def getTweet(self, ID):
-        print('Récupération du tweet')
-        r = self.twitterAPI.request('statuses/show/:%s' %ID)
-        print(r.text)
+        try:
+            print('Récupération du tweet')
+            r = self.twitterAPI.request('statuses/show/:%s' %ID)
+            print(r.text)
+        except TwitterRequestError:
+            print("Non expected problem during getting webhooks")            
+            print(r.json())              
             
     def tweetAnalyzer(self, tweet):
         if "tweet_create_events" in tweet:

@@ -4,7 +4,7 @@ Created on Sun Sep 20 12:45:04 2020
 
 @author: Barmando
 """
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSignal
 import adafruit_dht
 import board

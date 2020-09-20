@@ -114,20 +114,20 @@ class Ui_MainWindow(object):
         self.cadreAlbum.setText("")
         self.cadreAlbum.setPixmap(QtGui.QPixmap("img/spot.png"))
         self.cadreAlbum.setObjectName("cadreAlbum")
-        self.tempImg = QtWidgets.QLabel(self.centralwidget)
-        self.tempImg.setGeometry(QtCore.QRect(980, 570, 101, 111))
-        self.tempImg.setText("")
-        self.tempImg.setPixmap(QtGui.QPixmap("img/thermometer.png"))
-        self.tempImg.setObjectName("tempImg")
-        self.temp = QtWidgets.QLabel(self.centralwidget)
-        self.temp.setGeometry(QtCore.QRect(1110, 590, 111, 71))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(28)
-        font.setBold(True)
-        font.setWeight(75)
-        self.temp.setFont(font)
-        self.temp.setObjectName("temp")
+        # self.tempImg = QtWidgets.QLabel(self.centralwidget)
+        # self.tempImg.setGeometry(QtCore.QRect(980, 570, 101, 111))
+        # self.tempImg.setText("")
+        # self.tempImg.setPixmap(QtGui.QPixmap("img/thermometer.png"))
+        # self.tempImg.setObjectName("tempImg")
+        # self.temp = QtWidgets.QLabel(self.centralwidget)
+        # self.temp.setGeometry(QtCore.QRect(1110, 590, 111, 71))
+        # font = QtGui.QFont()
+        # font.setFamily("Arial")
+        # font.setPointSize(28)
+        # font.setBold(True)
+        # font.setWeight(75)
+        # self.temp.setFont(font)
+        # self.temp.setObjectName("temp")
         self.BG.raise_()
         self.Photo.raise_()
         self.username.raise_()
@@ -141,8 +141,8 @@ class Ui_MainWindow(object):
         self.titleMusic.raise_()
         self.artistMusic.raise_()
         self.cadreAlbum.raise_()
-        self.tempImg.raise_()
-        self.temp.raise_()
+        # self.tempImg.raise_()
+        # self.temp.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -310,25 +310,6 @@ class Ui_MainWindow(object):
         img = img.resize((basewidth, hsize), Image.ANTIALIAS)
         img.save(img_path)
         
-    def textFormating(self, text, label):
-        if len(text) > 10:
-            if label == ("Label"):
-                font = QtGui.QFont()
-                font.setPointSize(18)
-                self.label1.setFont(font)
-            elif label == ("Twitch Title"):
-                font = QtGui.QFont()
-                font.setPointSize(16)
-                self.Twitch_Title.setFont(font)        
-            elif label == ("Song"):
-                font = QtGui.QFont()
-                font.setPointSize(16)
-                self.titleMusic.setFont(font)    
-            elif label == ("Artist"):
-                font = QtGui.QFont()
-                font.setPointSize(16)
-                self.artistMusic.setFont(font)
-                      
                 
 # if __name__ == "__main__":
     # import sys
