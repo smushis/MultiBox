@@ -164,7 +164,7 @@ class Ui_MainWindow(object):
         self.Twitch_Title.setText(_translate("MainWindow", "Twitch Title"))
         self.titleMusic.setText(_translate("MainWindow", "TextLabel"))
         self.artistMusic.setText(_translate("MainWindow", "TextLabel"))
-        self.temp.setText(_translate("MainWindow", "No Info"))   
+        self.temp.setText(_translate("MainWindow", "No"))   
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(3, "Twitter Thread")
