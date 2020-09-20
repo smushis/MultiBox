@@ -68,8 +68,8 @@ if __name__ == "__main__":
     HTML_thread = ui.launchHTMLThread()
     spotify_thread = ui.launchSpotifyThread()
     timer_thread = ui.launchSpotifyListenerThread()
-    if temperature_on:
-        temp_thread = ui.launchTemperatureThread()
+    # if temperature_on:
+        # temp_thread = ui.launchTemperatureThread()
     MainWindow.show()
     sys.exit(appThread.exec_())        
 
