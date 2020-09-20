@@ -203,7 +203,7 @@ class Ui_MainWindow(object):
         self.temp_thread = DHT11(3, "Temperature Thread")
         self.temp_thread.DHT11_signal.connect(self.printTemp)
         self.temp_thread.start()
-        return self.temp_thread_thread           
+        return self.temp_thread           
 
     def printTweet(self, data):
         self.media.setHidden(True)
