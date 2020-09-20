@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../img/icon.png</normaloff>../../img/icon.png</iconset>
+    <normaloff>img/icon.png</normaloff>img/icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -118,7 +118,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="cadrePP">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -271,10 +271,47 @@
      <pixmap>img/spot.png</pixmap>
     </property>
    </widget>
+   <widget class="QLabel" name="tempImg">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>570</y>
+      <width>101</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/thermometer (1).png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="temp">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>590</y>
+      <width>111</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>28</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>24°C</string>
+    </property>
+   </widget>
    <zorder>BG</zorder>
    <zorder>Photo</zorder>
    <zorder>username</zorder>
-   <zorder>label_2</zorder>
+   <zorder>cadrePP</zorder>
    <zorder>cadre</zorder>
    <zorder>label1</zorder>
    <zorder>Twitch_Title</zorder>
@@ -284,6 +321,8 @@
    <zorder>titleMusic</zorder>
    <zorder>artistMusic</zorder>
    <zorder>cadreAlbum</zorder>
+   <zorder>tempImg</zorder>
+   <zorder>temp</zorder>
   </widget>
  </widget>
  <resources/>

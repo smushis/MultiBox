@@ -26,6 +26,8 @@ app.config["DEBUG"] = False
 # logger = logging.getLogger("werkzeug")
 # logger.setLevel(logging.ERROR)
 
+temperature_on = True
+
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
@@ -47,7 +49,6 @@ def twitter_requests():
         )
         digested = base64.b64encode(validation.digest())
         response = {
-
             'response_token': 'sha256=' + format(str(digested)[2:-1])
         }
         return json.dumps(response)
@@ -67,6 +68,8 @@ if __name__ == "__main__":
     HTML_thread = ui.launchHTMLThread()
     spotify_thread = ui.launchSpotifyThread()
     timer_thread = ui.launchSpotifyListenerThread()
+    if temperature_on:
+        temp_thread = ui.launchTemperatureThread()
     MainWindow.show()
     sys.exit(appThread.exec_())        
 

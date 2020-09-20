@@ -1,0 +1,26 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Sep 20 12:45:04 2020
+
+@author: Barmando
+"""
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
+import adafruit_dht
+import board
+from time import sleep
+
+class DHT11(QtCore.QThread):
+    DHT11_signal = pyqtSignal(float)
+    
+    def __init__(self, threadID, name):
+        QtCore.QThread.__init__(self, parent=None)   
+        self.threadID = threadID
+        self.name = name
+        self.dhtDevice = adafruit_dht.DHT11(board.D18)
+        
+    def run(self):
+        while True:
+            temp_c = self.dhtDevice.temperature
+            self.DHT11_signal.emit(temp_c)
+            sleep(10)
