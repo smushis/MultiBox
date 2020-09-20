@@ -11,7 +11,6 @@ from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Spotify.spotify import SpotifyListener
-from Modules.Temperature.Temperature import DHT11
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import requests
@@ -168,7 +167,7 @@ class Ui_MainWindow(object):
         self.Twitch_Title.setText(_translate("MainWindow", "Twitch Title"))
         self.titleMusic.setText(_translate("MainWindow", "TextLabel"))
         self.artistMusic.setText(_translate("MainWindow", "TextLabel"))
-        self.temp.setText(_translate("MainWindow", "24°C"))        
+        self.temp.setText(_translate("MainWindow", "No Info"))   
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(3, "Twitter Thread")
@@ -200,6 +199,7 @@ class Ui_MainWindow(object):
         return self.spotListener_thread
 
     def launchTemperatureThread(self):
+        from Modules.Temperature.Temperature import DHT11        
         self.temp_thread = DHT11(3, "Temperature Thread")
         self.temp_thread.DHT11_signal.connect(self.printTemp)
         self.temp_thread.start()
