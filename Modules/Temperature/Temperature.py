@@ -21,6 +21,15 @@ class DHT11(QtCore.QThread):
         
     def run(self):
         while True:
-            temp_c = self.dhtDevice.temperature
-            self.DHT11_signal.emit(temp_c)
-            sleep(10)
+            try:
+                temp_c = self.dhtDevice.temperature
+                self.DHT11_signal.emit(temp_c)
+            except RuntimeError as error:    
+                # Errors happen fairly often, DHT's are hard to read, just keep going
+                print(error.args[0])
+                sleep(2.0)
+                continue
+            except Exception as error:
+                self.dhtDevice.exit()
+                raise error                
+            sleep(2)
