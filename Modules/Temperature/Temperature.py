@@ -18,6 +18,7 @@ class DHT11(QtCore.QThread):
         QtCore.QThread.__init__(self, parent=None)   
         self.threadID = threadID
         self.name = name
+        sleep(20)
         
     def run(self):
         while True:
@@ -28,7 +29,7 @@ class DHT11(QtCore.QThread):
             except RuntimeError as error:    
                 # Errors happen fairly often, DHT's are hard to read, just keep going
                 print(error.args[0])
-                sleep(2.0)
+                sleep(2)
                 continue
             except Exception as error:
                 self.dhtDevice.exit()

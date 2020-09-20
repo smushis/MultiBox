@@ -113,8 +113,7 @@ class SpotifyListener(QtCore.QThread):
         
     def run(self):
         print("Starting " + self.name + "\n\r")
-        i = True
-        while i :
+        while True :
             time.sleep(1)
             self.timer_signal.emit()
             

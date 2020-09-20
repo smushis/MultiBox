@@ -24,7 +24,6 @@ class Twitter(QtCore.QThread):
     ENVNAME = 'AcountActivity'
      
     url_callback = ''
-      
     
     # Important NOTE: After Startup, you need to unsubscribe and resubscribe because the url callback
     # will change

@@ -4,9 +4,6 @@ Created on Thu Sep 10 14:59:11 2020
 
 @author: Barmando
 """
-
-
-import threading
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
