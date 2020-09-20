@@ -12,12 +12,12 @@ from time import sleep
 
 class DHT11(QtCore.QThread):
     DHT11_signal = pyqtSignal(float)
+    dhtDevice = adafruit_dht.DHT11(board.D18)
     
     def __init__(self, threadID, name):
         QtCore.QThread.__init__(self, parent=None)   
         self.threadID = threadID
         self.name = name
-        self.dhtDevice = adafruit_dht.DHT11(board.D18)
         
     def run(self):
         while True:
