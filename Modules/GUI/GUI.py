@@ -20,6 +20,7 @@ import io
 from PIL import Image
 from PIL import ImageCms
 from os import path
+import os
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, app):
@@ -150,6 +151,7 @@ class Ui_MainWindow(object):
        
         self.app = app
         self.media.setHidden(True)
+        self.path = os.getcwd()
         
     def switchIMG(self, state):
         if state == "Twitch":
@@ -266,6 +268,8 @@ class Ui_MainWindow(object):
     def getImage(self, url, username, web):
         if web == "Twitter":
             img_path = "img/Twitter/" + username + ".png"
+            if not(path.isdir("img/Twitter")):
+                os.mkdir("img/Twitter")
             if path.exists(img_path) == False:
                 Response = requests.get(url)
                 file = open(img_path, "wb")
@@ -273,7 +277,9 @@ class Ui_MainWindow(object):
                 file.close()
                 self.reduceImageSize(200, img_path)
         elif web == "Twitter_Media":
-            img_path = "img/Twitter/media" + username + ".png"
+            img_path = "img/Twitter/media/" + username + ".png"
+            if not(path.isdir("img/Twitter/media")): 
+                os.mkdir("img/Twitter/media")
             if path.exists(img_path) == False:
                 Response = requests.get(url)
                 file = open(img_path, "wb")
@@ -282,20 +288,26 @@ class Ui_MainWindow(object):
                 self.reduceImageSize(300, img_path)
         elif web == "Spotify":
             img_path = "img/Spotify/" + username + ".png"
+            if not(path.isdir("img/Spotify")): 
+                os.mkdir("img/Spotify")                
             if path.exists(img_path) == False:
                 Response = requests.get(url)
                 file = open(img_path, "wb")
                 file.write(Response.content)
                 file.close()
                 self.reduceImageSize(150, img_path)            
-        else:
+        elif web == "Twitch":
             img_path = "img/Twitch/" + username + ".png"
+            if not(path.isdir("img/Twitch")):
+                os.mkdir("img/Twitch")            
             if path.exists(img_path) == False:
                 Response = requests.get(url)
                 file = open(img_path, "wb")
                 file.write(Response.content)
                 file.close()
-                self.reduceImageSize(200, img_path)          
+                self.reduceImageSize(200, img_path)
+        else:
+            print("Website not recognize")
         
     def convert_to_srgb(self, img):
         '''Convert PIL image to sRGB color space (if possible)'''
