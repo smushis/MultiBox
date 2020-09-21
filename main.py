@@ -27,7 +27,7 @@ app.config["DEBUG"] = False
 # logger.setLevel(logging.ERROR)
 
 global temperature_on
-temperature_on = False
+temperature_on = True
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
