@@ -18,6 +18,9 @@ from PIL import Image
 from PIL import ImageCms
 from os import path
 import os
+temperature_on = True
+if temperature_on:
+    from Modules.Temperature.Temperature import DHT11
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, app):
@@ -164,9 +167,7 @@ class Ui_MainWindow(object):
         self.media.setHidden(True)
         self.path = os.getcwd()
         
-        temperature_on = True
         if temperature_on:
-            from Modules.Temperature.Temperature import DHT11
             self.temp.setVisible(True)
             self.humi.setVisible(True)
         else:
