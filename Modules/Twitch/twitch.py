@@ -48,7 +48,7 @@ class Twitch(QtCore.QThread):
         self.authorize()
         #self.getSubList()
         self.fullUnsub()
-        self.SubscribeAllFollows()
+        # self.SubscribeAllFollows()
         self.initStateLive()
         self.subToUser()
         
@@ -199,11 +199,14 @@ class Twitch(QtCore.QThread):
         print("total= " + str(total))
         print("Debut unsub")
         for j in range(total//20 +1):
-            print("j=" + str(j))
+            print("Unsub page =" + str(j))
             prev_resp = resp
             for h in range(len(prev_resp["data"])):
                 self.Unsubscribe(prev_resp["data"][h]["callback"], prev_resp["data"][h]["topic"])
             pag = prev_resp["pagination"]["cursor"]
+            if pag == None:
+                print(self.getSubList()["total"])
+                break
             resp = self.getSubList(pag)
         print(self.getSubList()["total"])
         

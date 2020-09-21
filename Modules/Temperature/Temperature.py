@@ -10,7 +10,7 @@ import adafruit_dht
 import board
 from time import sleep
 
-debug = False
+debug = True
 
 class DHT11(QtCore.QThread):
     DHT11_signal = pyqtSignal(str)
