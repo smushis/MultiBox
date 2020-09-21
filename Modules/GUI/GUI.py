@@ -11,7 +11,7 @@ from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Spotify.spotify import SpotifyListener
-temperature_on = False
+temperature_on = True
 if temperature_on:
     from Modules.Temperature.Temperature import DHT11 
 from PyQt5 import QtCore, QtGui, QtWidgets
