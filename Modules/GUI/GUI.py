@@ -152,6 +152,7 @@ class Ui_MainWindow(object):
         self.cadreAlbum.raise_()
         self.tempImg.raise_()
         self.temp.raise_()
+        self.humi.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
