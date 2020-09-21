@@ -104,7 +104,7 @@ class Spotify(QtCore.QThread):
     def refreshToken(self):
         auth2.generate_token(self.scope, token_file)
         self.readToken()
-
+        self.sp = spotipy.Spotify(self.token)
     
 class SpotifyListener(QtCore.QThread):
     
