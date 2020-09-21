@@ -211,6 +211,30 @@ class Twitch(QtCore.QThread):
             resp = self.getSubList(pag)
         print(self.getSubList()["total"])
         
+    def initStateLive2(self):
+        self.getUserFollows()
+        #print(self.follows_list)
+        print("Init Streams")
+        for j in self.follows_list:
+            name = self.getUsername(j)
+            if name !=-1:
+                self.follows_live.append({'Name': name, 'Live?':False})
+                
+        for i in range(int(len(self.follows_list)/100)+1):
+            params = {
+                "user_id": self.follows_list[100*i:100*(i+1)] 
+                }
+            r = requests.get(self.url_streams, params=params, headers = self.getOAuthHeader())
+            
+            if not(200 <= r.status_code < 300):
+                print("Error: "+ str(r.status_code)+" while trying to get channels", self) 
+                
+            for self.follows_list in r.json().get("data", []):
+                self.follows_live.update({"Name": self.getUsername(self.follows_list)})
+                   
+
+        print("Fin init")
+        
     def initStateLive(self):
         self.getUserFollows()
         print("Init Streams")
@@ -222,7 +246,7 @@ class Twitch(QtCore.QThread):
                     self.follows_live.append({'Name': self.getUsername(i), 'Live?':False})
             else:
                 self.follows_live.append({'Name':r.json()["data"][0]["user_name"], 'Live?':True}) 
-        print("Fin init")
+        print("Fin init")        
         
     def getProfileImage(self, username):
         r = requests.get(self.url_photo + username, headers = self.getOAuthHeader())

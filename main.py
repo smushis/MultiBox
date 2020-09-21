@@ -22,12 +22,11 @@ app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
 
 # Logger
-# import logging
-# logger = logging.getLogger("werkzeug")
-# logger.setLevel(logging.ERROR)
+import logging
+logger = logging.getLogger("werkzeug")
+logger.setLevel(logging.ERROR)
 
-global temperature_on
-temperature_on = True
+temperature_on = False
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
