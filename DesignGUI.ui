@@ -312,7 +312,24 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLabel" name="whiteSquare">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>150</y>
+      <width>201</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/whiteSquare.png</pixmap>
+    </property>
+   </widget>
    <zorder>BG</zorder>
+   <zorder>whiteSquare</zorder>
    <zorder>Photo</zorder>
    <zorder>username</zorder>
    <zorder>cadrePP</zorder>

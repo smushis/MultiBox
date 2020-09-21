@@ -11,9 +11,6 @@ from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Spotify.spotify import SpotifyListener
-temperature_on = True
-if temperature_on:
-    from Modules.Temperature.Temperature import DHT11 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import requests
 import io
@@ -137,7 +134,13 @@ class Ui_MainWindow(object):
         self.humi.setObjectName("humi")        
         self.temp.setFont(font)
         self.temp.setObjectName("temp")
+        self.whiteSquare = QtWidgets.QLabel(self.centralwidget)
+        self.whiteSquare.setGeometry(QtCore.QRect(110, 150, 201, 200))
+        self.whiteSquare.setText("")
+        self.whiteSquare.setPixmap(QtGui.QPixmap("img/whiteSquare.png"))
+        self.whiteSquare.setObjectName("whiteSquare")       
         self.BG.raise_()
+        self.whiteSquare.raise_()
         self.Photo.raise_()
         self.username.raise_()
         self.cadrePP.raise_()
@@ -150,7 +153,6 @@ class Ui_MainWindow(object):
         self.titleMusic.raise_()
         self.artistMusic.raise_()
         self.cadreAlbum.raise_()
-        self.tempImg.raise_()
         self.temp.raise_()
         self.humi.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
@@ -161,6 +163,15 @@ class Ui_MainWindow(object):
         self.app = app
         self.media.setHidden(True)
         self.path = os.getcwd()
+        
+        temperature_on = False
+        if temperature_on:
+            from Modules.Temperature.Temperature import DHT11
+            self.temp.setVisible(True)
+            self.humi.setVisible(True)
+        else:
+            self.temp.setHidden(True)
+            self.humi.setHidden(True)
         
     def switchIMG(self, state):
         if state == "Twitch":
