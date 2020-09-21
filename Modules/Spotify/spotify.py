@@ -30,7 +30,7 @@ class Spotify(QtCore.QThread):
         self.name = name
         self.app = app
         auth2.generate_token(self.scope, token_file)
-        self.getToken()
+        self.readToken()
 
     def run(self):
         print("Starting " + self.name + "\n\r")
@@ -40,7 +40,7 @@ class Spotify(QtCore.QThread):
               sleep(1)
         self.getCurrentTrack()
                    
-    def getToken(self):      
+    def readToken(self):      
         with open(token_file, 'r') as file:
             auth = json.load(file)           
         self.token = auth["token"]      
@@ -103,6 +103,7 @@ class Spotify(QtCore.QThread):
     
     def refreshToken(self):
         auth2.generate_token(self.scope, token_file)
+        self.readToken()
 
     
 class SpotifyListener(QtCore.QThread):
