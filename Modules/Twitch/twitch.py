@@ -47,8 +47,10 @@ class Twitch(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.authorize()
         #self.getSubList()
+        self.fullUnsub()
+        self.SubscribeAllFollows()
         self.initStateLive()
-        #self.subToUser()
+        self.subToUser()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -76,7 +78,7 @@ class Twitch(QtCore.QThread):
             'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
         } 
 
-    def getSub(self, ID):
+    def Subscribe(self, ID):
         username = self.getUsername(ID)
         if username != -1:
             twitch_hub = {
@@ -89,7 +91,7 @@ class Twitch(QtCore.QThread):
             twitch_hub_json = json.dumps(twitch_hub)
             requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
         
-    def getUnsub(self, callback, topic):
+    def Unsubscribe(self, callback, topic):
         #ID = self.getUserID("shroud")          
         twitch_hub = {
             'hub.callback': callback,
@@ -132,12 +134,12 @@ class Twitch(QtCore.QThread):
             resp = requests.get(self.url_follows + "36365680&after=" + pag + "&first=100", headers=self.getOAuthHeader())
         print("Fin Recup Follow\r")
 
-    def getSubAllFollows(self):
+    def SubscribeAllFollows(self):
         self.getUserFollows()
         print("Début Subscribe\r")
         for i in range(len(self.follows_list)):
             #print(self.follows_list[i])
-            self.getSub(self.follows_list[i])
+            self.Subscribe(self.follows_list[i])
         self.getSubList()
 
     def getUsername(self, ID):              
@@ -153,7 +155,7 @@ class Twitch(QtCore.QThread):
         
     def subToUser(self):
         ID = self.getUserID(self.user)
-        self.getSub(ID)
+        self.Subscribe(ID)
             
     def incoming_data(self, data, username):
         if data['data'] == []:
@@ -200,7 +202,7 @@ class Twitch(QtCore.QThread):
             print("j=" + str(j))
             prev_resp = resp
             for h in range(len(prev_resp["data"])):
-                self.getUnsub(prev_resp["data"][h]["callback"], prev_resp["data"][h]["topic"])
+                self.Unsubscribe(prev_resp["data"][h]["callback"], prev_resp["data"][h]["topic"])
             pag = prev_resp["pagination"]["cursor"]
             resp = self.getSubList(pag)
         print(self.getSubList()["total"])

@@ -132,12 +132,12 @@ class Twitter(QtCore.QThread):
             
     def getTweet(self, ID):
         try:
-            print('Récupération du tweet')
+            print('Getting tweet')
             r = self.twitterAPI.request('statuses/show/:%s' %ID)
             #print(r.text)
             return(r.json())
         except TwitterRequestError:
-            print("Non expected problem during getting webhooks")            
+            print("Non expected problem during getting the tweet")            
             print(r.json())              
             
     def tweetAnalyzer(self, tweet):
@@ -189,7 +189,6 @@ class Twitter(QtCore.QThread):
             text = 'Vous avez aimé un tweet'
             print(text)
             msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"]
-            self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])
             self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
         
     def analyzeRetweet(self, tweet):
