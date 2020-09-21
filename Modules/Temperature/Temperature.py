@@ -11,7 +11,7 @@ import board
 from time import sleep
 
 class DHT11(QtCore.QThread):
-    DHT11_signal = pyqtSignal(float)
+    DHT11_signal = pyqtSignal(str)
     
     def __init__(self, threadID, name):
         QtCore.QThread.__init__(self, parent=None)   
@@ -23,7 +23,7 @@ class DHT11(QtCore.QThread):
         while True:
             try:
                 temp_c = self.dhtDevice.temperature
-                self.DHT11_signal.emit(temp_c)
+                self.DHT11_signal.emit("{:.1f}°C".format(temp_c))
                 print("{:.1f}°C".format(temp_c))
             except RuntimeError as error:    
                 # Errors happen fairly often, DHT's are hard to read, just keep going
