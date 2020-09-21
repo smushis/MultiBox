@@ -257,13 +257,9 @@ class Ui_MainWindow(object):
         self.titleMusic.adjustSize()
         self.artistMusic.setText(data["artist"])
         self.artistMusic.adjustSize()
-        if data["album"].find('/') == -1:
-            self.getImage(data["img_album"], data["album"], "Spotify")
-            self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + data["album"]+ ".png"))
-        else:
-            album = data["album"].split('/')[0]
-            self.getImage(data["img_album"], album, "Spotify")
-            self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + album+ ".png"))            
+        self.getImage(data["img_album"], data["album"], "Spotify")
+        self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + data["album"]+ ".png"))
+         
         
     def getImage(self, url, username, web):
         if web == "Twitter":
