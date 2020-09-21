@@ -84,11 +84,11 @@ class Spotify(QtCore.QThread):
         if e.reason == "NO_ACTIVE_DEVICE":
             print("No devices active, retrying in 10s")
             return False
-        elif e.code == 401:
+        elif e.http_status == 401:
             self.refreshToken()
             return False
         else:
-            print("Reason" + e.reason)
+            print("Reason" + str(e.http_status))
             return True
             
     def createDico(self, artist, track, img_album):

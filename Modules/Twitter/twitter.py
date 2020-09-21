@@ -182,6 +182,7 @@ class Twitter(QtCore.QThread):
             print(text)
             self.twitter_signal.emit(self.createDico("fav", text, user, profile_img))
         else:
+            print(tweet)
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = 'Vous avez aimé un tweet'
             print(text)
