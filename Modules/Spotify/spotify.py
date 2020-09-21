@@ -37,9 +37,9 @@ class Spotify(QtCore.QThread):
         self.sp = spotipy.Spotify(self.token)
         #self.showDevices()
         while(not(self.playTop97())):
-              sleep(10)
-        self.getCurrentTrack()          
-            
+              sleep(1)
+        self.getCurrentTrack()
+                   
     def getToken(self):      
         with open(token_file, 'r') as file:
             auth = json.load(file)           
@@ -66,13 +66,18 @@ class Spotify(QtCore.QThread):
     def getCurrentTrack(self):
         try:
             tr = self.sp.current_user_playing_track()
-            artist = tr['item']['artists'][0]['name']
-            track = tr['item']['name']
-            img_album = tr['item']['album']['images'][1]['url']
-            #if artist !="":
-                #print("Currently playing " + artist + " - " + track)
-            self.Spotify_signal.emit(self.createDico(artist, track, img_album))
+            if tr != None:
+                artist = tr['item']['artists'][0]['name']
+                track = tr['item']['name']
+                img_album = tr['item']['album']['images'][1]['url']
+                #if artist !="":
+                    #print("Currently playing " + artist + " - " + track)
+                self.Spotify_signal.emit(self.createDico(artist, track, img_album))
+            else :
+                print("No playing track, retrying in 10s")
+                sleep(10)
         except SpotifyException as e:
+            sleep(10)
             return self.handleException(e)
             
     def handleException(self, e):
@@ -108,8 +113,7 @@ class SpotifyListener(QtCore.QThread):
         
     def run(self):
         print("Starting " + self.name + "\n\r")
-        i = True
-        while i :
+        while True :
             time.sleep(1)
             self.timer_signal.emit()
             
