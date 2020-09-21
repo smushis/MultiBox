@@ -71,7 +71,7 @@ class Spotify(QtCore.QThread):
                 artist = tr['item']['artists'][0]['name']
                 track = tr['item']['name']
                 img_album = tr['item']['album']['images'][1]['url']
-                album = tr['item']['album']['name']
+                album = tr['item']['album']['id']
                 #if artist !="":
                     #print("Currently playing " + artist + " - " + track)
                 self.Spotify_signal.emit(self.createDico(artist, track, img_album, album))
