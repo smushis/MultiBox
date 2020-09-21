@@ -34,6 +34,8 @@ class Twitch(QtCore.QThread):
     follows_list = [] #
     follows_live = []
     
+    user = "Smushis"
+    
     def __init__(self, threadID, name):
         QtCore.QThread.__init__(self, parent=None)   
         self.threadID = threadID
@@ -44,7 +46,9 @@ class Twitch(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.authorize()
+        #self.getSubList()
         self.initStateLive()
+        #self.subToUser()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -79,29 +83,21 @@ class Twitch(QtCore.QThread):
                 'hub.callback': self.callback + username,
                 'hub.mode': 'subscribe',
                 'hub.topic': self.url_streams +'?user_id=' + ID,
-                'hub.lease_seconds': 800000
+                'hub.lease_seconds': 800000,
+                'hub.secret': self.Client_ID
             } 
             twitch_hub_json = json.dumps(twitch_hub)
             requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
         
-    def getUnsub(self, ID, callback, topic):
-        #ID = self.getUserID("shroud")
-        if ID != 0:
-            print("Par ID")
-            twitch_hub = {
-                'hub.callback': callback,
-                'hub.mode': 'unsubscribe',
-                'hub.topic': topic,
-                'hub.lease_seconds': 800000
-            }
-        else:
-            print("Par URL")            
-            twitch_hub = {
-                'hub.callback': callback,
-                'hub.mode': 'unsubscribe',
-                'hub.topic': topic,
-                'hub.lease_seconds': 800000
-            }            
+    def getUnsub(self, callback, topic):
+        #ID = self.getUserID("shroud")          
+        twitch_hub = {
+            'hub.callback': callback,
+            'hub.mode': 'unsubscribe',
+            'hub.topic': topic,
+            'hub.lease_seconds': 800000,
+            'hub.secret': self.Client_ID
+        }            
         twitch_hub_json = json.dumps(twitch_hub)
         requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
         #self.follows_list.remove(ID)
@@ -116,19 +112,18 @@ class Twitch(QtCore.QThread):
         stream_json = self.getStreamInfo(user)
         return stream_json["id"]
     
-    def getSubList(self, pagination):
+    def getSubList(self, pagination=0):
         if pagination !=0:
             resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
         else:
             resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-        print(resp.json())
+            print(resp.json()["total"])
         return resp.json()
              
     def getUserFollows(self):   
         resp = requests.get(self.url_follows + "36365680" + "&first=100", headers=self.getOAuthHeader())
         #print(resp.json())
         i = resp.json()["total"]
-        print("indice =", i)
         for j in range((i//100)+1):
             prev_resp = resp.json()    
             for h in range(len(prev_resp["data"])):              
@@ -155,6 +150,10 @@ class Twitch(QtCore.QThread):
         else:    
             username = twitch_json["data"][0]["login"] 
             return username
+        
+    def subToUser(self):
+        ID = self.getUserID(self.user)
+        self.getSub(ID)
             
     def incoming_data(self, data, username):
         if data['data'] == []:
@@ -193,7 +192,7 @@ class Twitch(QtCore.QThread):
         return False
     
     def fullUnsub(self):
-        resp = self.getSubList(0)
+        resp = self.getSubList()
         total = resp["total"]
         print("total= " + str(total))
         print("Debut unsub")
@@ -201,10 +200,10 @@ class Twitch(QtCore.QThread):
             print("j=" + str(j))
             prev_resp = resp
             for h in range(len(prev_resp["data"])):
-                self.getUnsub(0, prev_resp["data"][h]["callback"], prev_resp["data"][h]["topic"])
+                self.getUnsub(prev_resp["data"][h]["callback"], prev_resp["data"][h]["topic"])
             pag = prev_resp["pagination"]["cursor"]
             resp = self.getSubList(pag)
-        resp = self.getSubList(0)
+        print(self.getSubList()["total"])
         
     def initStateLive(self):
         self.getUserFollows()
@@ -235,5 +234,4 @@ class Twitch(QtCore.QThread):
         dico["text"] = text
         dico["title"] = title
         return dico        
-            
-        
+                   
