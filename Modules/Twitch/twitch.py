@@ -47,7 +47,7 @@ class Twitch(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.authorize()
         #self.getSubList()
-        self.fullUnsub()
+        #self.fullUnsub()
         # self.SubscribeAllFollows()
         self.initStateLive()
         self.subToUser()
