@@ -126,6 +126,8 @@ class Ui_MainWindow(object):
         self.artistMusic.raise_()
         self.cadreAlbum.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
+        
+        MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
