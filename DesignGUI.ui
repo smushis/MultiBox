@@ -274,9 +274,9 @@
    <widget class="QLabel" name="temp">
     <property name="geometry">
      <rect>
-      <x>1120</x>
+      <x>1100</x>
       <y>580</y>
-      <width>121</width>
+      <width>141</width>
       <height>51</height>
      </rect>
     </property>
@@ -294,7 +294,7 @@
     <property name="geometry">
      <rect>
       <x>1120</x>
-      <y>650</y>
+      <y>640</y>
       <width>121</width>
       <height>51</height>
      </rect>
