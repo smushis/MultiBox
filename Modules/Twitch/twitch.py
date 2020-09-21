@@ -35,6 +35,7 @@ class Twitch(QtCore.QThread):
     follows_live = []
     
     user = "Smushis"
+    #ayaya
     
     def __init__(self, threadID, name):
         QtCore.QThread.__init__(self, parent=None)   
