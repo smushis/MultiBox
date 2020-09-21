@@ -11,7 +11,7 @@ from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Spotify.spotify import SpotifyListener
-temp_on = False
+temp_on = True
 if temp_on:
     from Modules.Temperature.Temperature import DHT11 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("Notifications")
         MainWindow.resize(1280, 720)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
