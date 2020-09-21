@@ -271,6 +271,47 @@
      <pixmap>img/spot.png</pixmap>
     </property>
    </widget>
+   <widget class="QLabel" name="temp">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>520</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>24.0°C</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="humi">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>600</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>85%</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>BG</zorder>
    <zorder>Photo</zorder>
    <zorder>username</zorder>
@@ -284,6 +325,8 @@
    <zorder>titleMusic</zorder>
    <zorder>artistMusic</zorder>
    <zorder>cadreAlbum</zorder>
+   <zorder>temp</zorder>
+   <zorder>humi</zorder>
   </widget>
  </widget>
  <resources/>

@@ -121,12 +121,20 @@ class Ui_MainWindow(object):
         self.tempImg.setPixmap(QtGui.QPixmap("img/thermometer.png"))
         self.tempImg.setObjectName("tempImg")
         self.temp = QtWidgets.QLabel(self.centralwidget)
-        self.temp.setGeometry(QtCore.QRect(1110, 590, 111, 71))
+        self.temp.setGeometry(QtCore.QRect(1120, 520, 121, 51))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(28)
         font.setBold(True)
         font.setWeight(75)
+        self.humi = QtWidgets.QLabel(self.centralwidget)
+        self.humi.setGeometry(QtCore.QRect(1120, 600, 121, 51))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(28)
+        self.humi.setFont(font)
+        self.humi.setAlignment(QtCore.Qt.AlignCenter)
+        self.humi.setObjectName("humi")        
         self.temp.setFont(font)
         self.temp.setObjectName("temp")
         self.BG.raise_()
@@ -169,7 +177,8 @@ class Ui_MainWindow(object):
         self.Twitch_Title.setText(_translate("MainWindow", "Twitch Title"))
         self.titleMusic.setText(_translate("MainWindow", "TextLabel"))
         self.artistMusic.setText(_translate("MainWindow", "TextLabel"))
-        self.temp.setText(_translate("MainWindow", "No Info"))   
+        self.temp.setText(_translate("MainWindow", " X°C"))
+        self.humi.setText(_translate("MainWindow", "85%"))
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(3, "Twitter Thread")
@@ -324,9 +333,11 @@ class Ui_MainWindow(object):
         img.save(img_path)
         
     def printTemp(self, temp):
-        self.temp.setText(temp)
-        self.label1.adjustSize()
-                
+        self.temp.setText(temp["Temp"])
+        self.temp.adjustSize()
+        self.humi.setText(temp["Humi"])
+        self.humi.adjustSize()
+        
 # if __name__ == "__main__":
     # import sys
     # app = QtWidgets.QApplication(sys.argv)
