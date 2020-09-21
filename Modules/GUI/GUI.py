@@ -239,7 +239,7 @@ class Ui_MainWindow(object):
         self.label1.setText(data["text"])     
         self.label1.adjustSize()
         self.getImage(data["url"], data["username"], "Twitch")
-        self.Photo.setPixmap(QtGui.QPixmap("img/Twitch/" + data["username"]+ "200x200.png"))
+        self.Photo.setPixmap(QtGui.QPixmap("img/Twitch/" + data["username"]+ ".png"))
         self.username.setText(data["username"])
         self.username.adjustSize()
         self.Twitch_Title.setVisible(True)
@@ -255,15 +255,19 @@ class Ui_MainWindow(object):
         self.titleMusic.adjustSize()
         self.artistMusic.setText(data["artist"])
         self.artistMusic.adjustSize()
-        self.getImage(data["img_album"], data["track"], "Spotify")
-        self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + data["track"]+ ".png"))
+        if data["album"].find('/') == -1:
+            self.getImage(data["img_album"], data["album"], "Spotify")
+            self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + data["album"]+ ".png"))
+        else:
+            album = data["album"].split('/')[0]
+            self.getImage(data["img_album"], album, "Spotify")
+            self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + album+ ".png"))            
         
     def getImage(self, url, username, web):
-        size = 200, 200
-        Response = requests.get(url)
         if web == "Twitter":
             img_path = "img/Twitter/" + username + ".png"
             if path.exists(img_path) == False:
+                Response = requests.get(url)
                 file = open(img_path, "wb")
                 file.write(Response.content)
                 file.close()
@@ -271,6 +275,7 @@ class Ui_MainWindow(object):
         elif web == "Twitter_Media":
             img_path = "img/Twitter/media" + username + ".png"
             if path.exists(img_path) == False:
+                Response = requests.get(url)
                 file = open(img_path, "wb")
                 file.write(Response.content)
                 file.close()
@@ -278,6 +283,7 @@ class Ui_MainWindow(object):
         elif web == "Spotify":
             img_path = "img/Spotify/" + username + ".png"
             if path.exists(img_path) == False:
+                Response = requests.get(url)
                 file = open(img_path, "wb")
                 file.write(Response.content)
                 file.close()
@@ -285,12 +291,11 @@ class Ui_MainWindow(object):
         else:
             img_path = "img/Twitch/" + username + ".png"
             if path.exists(img_path) == False:
+                Response = requests.get(url)
                 file = open(img_path, "wb")
                 file.write(Response.content)
                 file.close()
-            im = Image.open("img/Twitch/" + username + ".png")
-            im = im.resize(size)
-            im.save("img/Twitch/" + username + "200x200.png")                
+                self.reduceImageSize(200, img_path)          
         
     def convert_to_srgb(self, img):
         '''Convert PIL image to sRGB color space (if possible)'''

@@ -134,7 +134,8 @@ class Twitter(QtCore.QThread):
         try:
             print('Récupération du tweet')
             r = self.twitterAPI.request('statuses/show/:%s' %ID)
-            print(r.text)
+            #print(r.text)
+            return(r.json())
         except TwitterRequestError:
             print("Non expected problem during getting webhooks")            
             print(r.json())              
@@ -180,13 +181,16 @@ class Twitter(QtCore.QThread):
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = user + " a aimé votre tweet!"
             print(text)
-            self.twitter_signal.emit(self.createDico("fav", text, user, profile_img))
+            msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"]         
+            self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
         else:
-            print(tweet)
+            #print(tweet)
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = 'Vous avez aimé un tweet'
             print(text)
-            self.twitter_signal.emit(self.createDico("fav", text, user, profile_img))
+            msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"]
+            self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])
+            self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
         
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
@@ -206,9 +210,9 @@ class Twitter(QtCore.QThread):
 
     def getTweetID(self, event, tweet):
         if event == "fav":
-            return tweet["favorite_events"][0]["id"]
+            return tweet["favorite_events"][0]["favorited_status"]["id_str"]
         else:
-            return tweet["tweet_create_events"][0]["id_str"]
+            return tweet["tweet_create_events"][0]["id_str"]    
         
     def getTweetURL(self, event, tweet):
         ID = self.getTweetID(event, tweet)

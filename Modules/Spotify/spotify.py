@@ -66,13 +66,15 @@ class Spotify(QtCore.QThread):
     def getCurrentTrack(self):
         try:
             tr = self.sp.current_user_playing_track()
+            #print(tr)
             if tr != None:
                 artist = tr['item']['artists'][0]['name']
                 track = tr['item']['name']
                 img_album = tr['item']['album']['images'][1]['url']
+                album = tr['item']['album']['name']
                 #if artist !="":
                     #print("Currently playing " + artist + " - " + track)
-                self.Spotify_signal.emit(self.createDico(artist, track, img_album))
+                self.Spotify_signal.emit(self.createDico(artist, track, img_album, album))
             else :
                 print("No playing track, retrying in 10s")
                 sleep(10)
@@ -91,11 +93,12 @@ class Spotify(QtCore.QThread):
             print("Reason" + str(e.http_status))
             return True
             
-    def createDico(self, artist, track, img_album):
+    def createDico(self, artist, track, img_album, album):
         dico = {}
         dico["artist"] = artist
         dico["track"] = track
         dico["img_album"] = img_album
+        dico["album"] = album
         return dico
     
     def refreshToken(self):
