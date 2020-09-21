@@ -156,6 +156,7 @@ class Ui_MainWindow(object):
         self.titleMusic.raise_()
         self.artistMusic.raise_()
         self.cadreAlbum.raise_()
+        self.tempImg.raise_()
         self.temp.raise_()
         self.humi.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
@@ -170,9 +171,11 @@ class Ui_MainWindow(object):
         if temperature_on:
             self.temp.setVisible(True)
             self.humi.setVisible(True)
+            self.tempImg.setVisible(True)    
         else:
             self.temp.setHidden(True)
             self.humi.setHidden(True)
+            self.tempImg.setHidden(True)
         
     def switchIMG(self, state):
         if state == "Twitch":
