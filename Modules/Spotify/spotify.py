@@ -15,6 +15,7 @@ from spotipy.exceptions import SpotifyException
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 from time import sleep
+from requests import exceptions
 
 token_file = "Modules/Spotify/spotify_token.oauth"
 
@@ -35,7 +36,7 @@ class Spotify(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.sp = spotipy.Spotify(self.token)
-        self.showDevices()
+        # self.showDevices()
         while(not(self.playTop97())):
               sleep(1)
         self.getCurrentTrack()
@@ -81,6 +82,8 @@ class Spotify(QtCore.QThread):
         except SpotifyException as e:
             sleep(10)
             return self.handleException(e)
+        except exceptions.ReadTimeout:
+            print("Timeout during getting current track")
             
     def handleException(self, e):
         if e.reason == "NO_ACTIVE_DEVICE":

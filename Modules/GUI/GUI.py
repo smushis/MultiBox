@@ -24,7 +24,9 @@ from os import path
 from time import sleep
 import os
 
+
 TEMP_ON = True
+
 if TEMP_ON:
     from Modules.Temperature.Temperature import DHT11
 

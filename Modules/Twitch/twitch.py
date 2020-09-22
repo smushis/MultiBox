@@ -47,12 +47,14 @@ class Twitch(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.authorize()
+        #self.getUserFollows()
         #self.getSubList()
         #self.fullUnsub()
         # self.SubscribeAllFollows()
         self.initStateLive()
         # self.initStateLive2()        
         #self.subToUser()
+        
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -68,9 +70,12 @@ class Twitch(QtCore.QThread):
             'client_secret': self.SecretKey,
             'grant_type': 'client_credentials'
         }
-        app_token_request = requests.post('https://id.twitch.tv/oauth2/token', params=token_params)
-        self.twitch_app_token_json = app_token_request.json()
-
+        try:
+            app_token_request = requests.post('https://id.twitch.tv/oauth2/token', params=token_params)
+            self.twitch_app_token_json = app_token_request.json()
+        except:
+            print("Authentication didn't work")
+        
     def getOAuthHeader(self):
         if (time() - self.startTime) > self.twitch_app_token_json['expires_in']:
            self.authorize()
@@ -80,18 +85,21 @@ class Twitch(QtCore.QThread):
             'Authorization': 'Bearer ' + self.twitch_app_token_json['access_token']
         } 
 
-    def Subscribe(self, ID):
-        username = self.getUsername(ID)
-        if username != -1:
-            twitch_hub = {
-                'hub.callback': self.callback + username,
-                'hub.mode': 'subscribe',
-                'hub.topic': self.url_streams +'?user_id=' + ID,
-                'hub.lease_seconds': 800000,
-                'hub.secret': self.Client_ID
-            } 
-            twitch_hub_json = json.dumps(twitch_hub)
+    def Subscribe(self, user):
+        username = user["name"]
+        ID = user["ID"]
+        twitch_hub = {
+            'hub.callback': self.callback + username,
+            'hub.mode': 'subscribe',
+            'hub.topic': self.url_streams +'?user_id=' + ID,
+            'hub.lease_seconds': 800000,
+            'hub.secret': self.Client_ID
+        } 
+        twitch_hub_json = json.dumps(twitch_hub)
+        try:
             requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
+        except:
+            print("Error during Subscribing")
         
     def Unsubscribe(self, callback, topic):
         #ID = self.getUserID("shroud")          
@@ -103,38 +111,50 @@ class Twitch(QtCore.QThread):
             'hub.secret': self.Client_ID
         }            
         twitch_hub_json = json.dumps(twitch_hub)
-        requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
+        try:
+            requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
+        except:
+            print("Error during Unsubscribing")
         #self.follows_list.remove(ID)
         
-    def getStreamInfo(self, user):    
-        twitch_txt = requests.get(self.url_id + user, headers=self.getOAuthHeader())
-        twitch_json = twitch_txt.json()
-        stream_json = twitch_json["data"][0]     
-        return stream_json
+    def getStreamInfo(self, user):
+        try:
+            twitch_txt = requests.get(self.url_id + user, headers=self.getOAuthHeader())
+            twitch_json = twitch_txt.json()
+            stream_json = twitch_json["data"][0]     
+            return stream_json
+        except:
+            print("Error during getting Stream Info")
     
     def getUserID(self, user):
         stream_json = self.getStreamInfo(user)
         return stream_json["id"]
     
     def getSubList(self, pagination=0):
-        if pagination !=0:
-            resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
-        else:
-            resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-            print(resp.json()["total"])
-        return resp.json()
+        try:
+            if pagination !=0:
+                resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
+            else:
+                resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
+                print(resp.json()["total"])
+            return resp.json()
+        except:
+            print("Error during getting Sub List")
              
-    def getUserFollows(self):   
-        resp = requests.get(self.url_follows + "36365680" + "&first=100", headers=self.getOAuthHeader())
-        #print(resp.json())
-        i = resp.json()["total"]
-        for j in range((i//100)+1):
-            prev_resp = resp.json()    
-            for h in range(len(prev_resp["data"])):              
-                self.follows_list.append(prev_resp['data'][h]["to_id"])
-            pag = prev_resp["pagination"]["cursor"]
-            resp = requests.get(self.url_follows + "36365680&after=" + pag + "&first=100", headers=self.getOAuthHeader())
-        print("Fin Recup Follow\r")
+    def getUserFollows(self):
+        try:
+            resp = requests.get(self.url_follows + "36365680" + "&first=100", headers=self.getOAuthHeader())
+            #print(resp.json())
+            i = resp.json()["total"]
+            for j in range((i//100)+1):
+                prev_resp = resp.json()    
+                for h in range(len(prev_resp["data"])):              
+                    self.follows_list.append({"ID": prev_resp['data'][h]["to_id"], "Name": prev_resp['data'][h]["to_name"]})
+                pag = prev_resp["pagination"]["cursor"]
+                resp = requests.get(self.url_follows + "36365680&after=" + pag + "&first=100", headers=self.getOAuthHeader())
+            print("Fin Recup Follow\r")
+        except:
+            print("Problem during getting User Follows")
 
     def SubscribeAllFollows(self):
         self.getUserFollows()
@@ -144,16 +164,19 @@ class Twitch(QtCore.QThread):
             self.Subscribe(self.follows_list[i])
         self.getSubList()
 
-    def getUsername(self, ID):              
-        twitch_txt = requests.get(self.url_name + str(ID), headers=self.getOAuthHeader())
-        twitch_json = twitch_txt.json()
-        #print(twitch_json)
-        if twitch_json["data"] == []:
-            print("Problème ID=" + str(ID))
-            return -1
-        else:    
-            username = twitch_json["data"][0]["login"] 
-            return username
+    def getUsername(self, ID):
+        try:              
+            twitch_txt = requests.get(self.url_name + str(ID), headers=self.getOAuthHeader())
+            twitch_json = twitch_txt.json()
+            #print(twitch_json)
+            if twitch_json["data"] == []:
+                print("Problème ID=" + str(ID))
+                return -1
+            else:    
+                username = twitch_json["data"][0]["login"] 
+                return username
+        except:
+            print("Error when getting username")
         
     def subToUser(self):
         ID = self.getUserID(self.user)
@@ -196,62 +219,54 @@ class Twitch(QtCore.QThread):
         return False
     
     def fullUnsub(self):
-        resp = self.getSubList()
-        total = resp["total"]
-        print("total= " + str(total))
-        print("Debut unsub")
-        for j in range(total//20 +1):
-            print("Unsub page =" + str(j))
-            prev_resp = resp
-            for h in range(len(prev_resp["data"])):
-                self.Unsubscribe(prev_resp["data"][h]["callback"], prev_resp["data"][h]["topic"])
-            pag = prev_resp["pagination"]["cursor"]
-            if pag == None:
-                print(self.getSubList()["total"])
-                break
-            resp = self.getSubList(pag)
-        print(self.getSubList()["total"])
-        
-    def initStateLive2(self):
-        self.getUserFollows()
-        #print(self.follows_list)
-        print("Init Streams")              
-        for i in range(int(len(self.follows_list)/100)+1):
-            params = {
-                "user_id": self.follows_list[100*i:100*(i+1)] 
-                }
-            r = requests.get(self.url_streams, params=params, headers = self.getOAuthHeader())
-            
-            if not(200 <= r.status_code < 300):
-                print("Error: "+ str(r.status_code)+" while trying to get channels", self) 
-                
-            for self.follows_list in r.json().get("data", []):
-                self.follows_live.append({"Name": self.follows_list.get("user_name",""),"Live?": self.follows_list.get("type",False)})
-        print (self.follows_live)
-
-        print("Fin init")
+        try:
+            resp = self.getSubList()
+            total = resp["total"]
+            print("total= " + str(total))
+            print("Debut unsub")
+            for j in range(total//20 +1):
+                print("Unsub page =" + str(j))
+                prev_resp = resp
+                for h in range(len(prev_resp["data"])):
+                    self.Unsubscribe(prev_resp["data"][h]["callback"], prev_resp["data"][h]["topic"])
+                pag = prev_resp["pagination"]["cursor"]
+                if pag == None:
+                    print(self.getSubList()["total"])
+                    break
+                resp = self.getSubList(pag)
+            print(self.getSubList()["total"]) 
+        except:
+            print("Error while unsubbing to all")
         
     def initStateLive(self):
         self.getUserFollows()
         print("Init Streams")
-        for i in self.follows_list:
-            r = requests.get(self.url_streams + "?user_id=" + i, headers = self.getOAuthHeader())
-            if r.json()["data"] == []:
-                name = self.getUsername(i)
-                if name !=-1:
-                    self.follows_live.append({'Name': self.getUsername(i), 'Live?':False})
-            else:
-                self.follows_live.append({'Name':r.json()["data"][0]["user_name"], 'Live?':True}) 
-        print("Fin init")        
+        try:
+            for i in self.follows_list:
+                r = requests.get(self.url_streams + "?user_id=" + i["ID"], headers = self.getOAuthHeader())
+                if r.json()["data"] == []:
+                    name = i["Name"]
+                    self.follows_live.append({'Name': name, 'Live?':False})
+                else:
+                    self.follows_live.append({'Name': name, 'Live?':True}) 
+            print("Fin init")
+        except:
+            print("Error while initialisation of follows")
         
     def getProfileImage(self, username):
-        r = requests.get(self.url_photo + username, headers = self.getOAuthHeader())
-        #print(r.json()["data"][0]["profile_image_url"])
-        return r.json()["data"][0]["profile_image_url"]
-    
+        try:
+            r = requests.get(self.url_photo + username, headers = self.getOAuthHeader())
+            #print(r.json()["data"][0]["profile_image_url"])
+            return r.json()["data"][0]["profile_image_url"]
+        except:
+            print("Error while getting Profile Image")
+            
     def getGameTitle(self, ID):
-        r = requests.get(self.url_games + ID, headers = self.getOAuthHeader())
-        return r.json()["data"][0]["name"]
+        try:
+            r = requests.get(self.url_games + ID, headers = self.getOAuthHeader())
+            return r.json()["data"][0]["name"]
+        except:
+            print("Error while getting Game Title")
         
     def createDico(self, text, username, url, title):
         dico = {}

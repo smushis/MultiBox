@@ -14,14 +14,13 @@ import sys
 
 from flask import request
 from flask import Response
-from Modules.GUI.GUI import Ui_MainWindow
+from Modules.GUI.GUI import Ui_MainWindow, TEMP_ON
 from PyQt5 import  QtWidgets
 
 
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
 
-TEMP_ON = True
 
 # Logger
 import logging
