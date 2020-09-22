@@ -385,7 +385,7 @@ class Ui_MainWindow(object):
             self.getImage(weather["icon_url"], weather["type"], "Weather")
             self.IconWeather_2.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))       
      
-    def updateText(self, label):
+    #def updateText(self, label):
         
         
 # if __name__ == "__main__":
