@@ -60,7 +60,7 @@ class Ui_MainWindow(object):
         self.username.setFont(font)
         self.username.setObjectName("username")
         self.Twitch_Title = QtWidgets.QLabel(self.centralwidget)
-        self.Twitch_Title.setGeometry(QtCore.QRect(490, 290, 491, 121))
+        self.Twitch_Title.setGeometry(QtCore.QRect(480, 290, 531, 121))
         font = QtGui.QFont()
         font.setPointSize(18)
         self.Twitch_Title.setFont(font)
