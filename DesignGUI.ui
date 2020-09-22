@@ -27,9 +27,9 @@
    <widget class="QLabel" name="label1">
     <property name="geometry">
      <rect>
-      <x>500</x>
+      <x>490</x>
       <y>200</y>
-      <width>491</width>
+      <width>511</width>
       <height>221</height>
      </rect>
     </property>
@@ -100,9 +100,9 @@
    <widget class="QLabel" name="Twitch_Title">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>480</x>
       <y>290</y>
-      <width>491</width>
+      <width>531</width>
       <height>121</height>
      </rect>
     </property>
@@ -235,6 +235,9 @@
     <property name="text">
      <string>TextLabel</string>
     </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="artistMusic">
     <property name="geometry">
@@ -253,6 +256,9 @@
     </property>
     <property name="text">
      <string>TextLabel</string>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="cadreAlbum">
@@ -463,7 +469,6 @@
    <zorder>cadre</zorder>
    <zorder>label1</zorder>
    <zorder>Twitch_Title</zorder>
-   <zorder>media</zorder>
    <zorder>img_album</zorder>
    <zorder>cadreMusic</zorder>
    <zorder>titleMusic</zorder>
@@ -475,6 +480,7 @@
    <zorder>tempExte</zorder>
    <zorder>IconWeather_2</zorder>
    <zorder>tempExte_2</zorder>
+   <zorder>media</zorder>
   </widget>
  </widget>
  <resources/>

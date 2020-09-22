@@ -19,7 +19,7 @@ from PIL import Image
 from PIL import ImageCms
 from os import path
 import os
-temperature_on = True
+temperature_on = False
 if temperature_on:
     from Modules.Temperature.Temperature import DHT11
 
@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
         self.label1.setGeometry(QtCore.QRect(500, 200, 491, 221))
         self.label1.setBaseSize(QtCore.QSize(531, 261))
         font = QtGui.QFont()
-        font.setPointSize(22)
+        font.setPointSize(20)
         self.label1.setFont(font)
         self.label1.setStyleSheet("")
         self.label1.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
@@ -103,6 +103,7 @@ class Ui_MainWindow(object):
         font.setFamily("Arial")
         font.setPointSize(16)
         self.titleMusic.setFont(font)
+        self.titleMusic.setWordWrap(True)
         self.titleMusic.setObjectName("titleMusic")
         self.artistMusic = QtWidgets.QLabel(self.centralwidget)
         self.artistMusic.setGeometry(QtCore.QRect(280, 590, 271, 31))
@@ -110,6 +111,7 @@ class Ui_MainWindow(object):
         font.setFamily("Arial")
         font.setPointSize(16)
         self.artistMusic.setFont(font)
+        self.artistMusic.setWordWrap(True)        
         self.artistMusic.setObjectName("artistMusic")
         self.cadreAlbum = QtWidgets.QLabel(self.centralwidget)
         self.cadreAlbum.setGeometry(QtCore.QRect(20, 450, 191, 211))
@@ -193,7 +195,6 @@ class Ui_MainWindow(object):
         self.cadre.raise_()
         self.label1.raise_()
         self.Twitch_Title.raise_()
-        self.media.raise_()
         self.img_album.raise_()
         self.cadreMusic.raise_()
         self.titleMusic.raise_()
@@ -205,6 +206,7 @@ class Ui_MainWindow(object):
         self.tempExte.raise_()
         self.IconWeather_2.raise_()
         self.tempExte_2.raise_()
+        self.media.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -286,7 +288,6 @@ class Ui_MainWindow(object):
         return self.weather_thread           
 
     def printTweet(self, data):
-        self.media.setHidden(True)
         self.switchIMG("Twitter")
         text = data["text"].split('https')[0]
         self.label1.setText(text) 
@@ -300,8 +301,8 @@ class Ui_MainWindow(object):
         self.username.adjustSize()
         self.Twitch_Title.setHidden(True)
         if data["media"] != None:
-            self.getImage(data["media"]["link"],data["media"]["id"], "Twitter_Media", 300)
-            self.media.setPixmap(QtGui.QPixmap("img/Twitter/media" + data["media"]["id"] + ".png"))
+            self.getImage(data["media"]["link"], data["media"]["id"], "Twitter_Media", 275)
+            self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
             self.media.adjustSize()
             self.media.setVisible(True)
         if data["events"] == "Mention":
@@ -331,7 +332,6 @@ class Ui_MainWindow(object):
         #self.Photo.setHidden(True)
         
     def showMusic(self, data):
-        self.media.setHidden(True)
         self.titleMusic.setText(data["track"])
         self.titleMusic.adjustSize()
         self.artistMusic.setText(data["artist"])
@@ -384,6 +384,8 @@ class Ui_MainWindow(object):
             self.tempExte_2.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather")
             self.IconWeather_2.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))       
+     
+    def updateText(self, label):
         
         
 # if __name__ == "__main__":

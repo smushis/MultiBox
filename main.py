@@ -26,7 +26,7 @@ import logging
 logger = logging.getLogger("werkzeug")
 logger.setLevel(logging.ERROR)
 
-temperature_on = True
+temperature_on = False
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
