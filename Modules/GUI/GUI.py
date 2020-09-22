@@ -229,6 +229,7 @@ class Ui_MainWindow(object):
        
         self.app = app
         self.media.setHidden(True)
+        self.clock.setHidden(True)
         self.path = os.getcwd()
         
         if TEMP_ON:
