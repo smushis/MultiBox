@@ -21,12 +21,13 @@ from PyQt5 import  QtWidgets
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
 
+TEMP_ON = False
+
 # Logger
 import logging
 logger = logging.getLogger("werkzeug")
 logger.setLevel(logging.ERROR)
 
-temperature_on = True
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
@@ -68,7 +69,7 @@ if __name__ == "__main__":
     spotify_thread = ui.launchSpotifyThread()
     timer_thread = ui.launchSpotifyListenerThread()
     weather_thread = ui.launchWeatherThread()
-    if temperature_on:
+    if TEMP_ON:
         temp_thread = ui.launchTemperatureThread()
     MainWindow.show()
     sys.exit(appThread.exec_())        

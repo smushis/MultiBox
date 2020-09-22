@@ -221,9 +221,9 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>525</y>
+      <y>520</y>
       <width>271</width>
-      <height>31</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -234,6 +234,9 @@
     </property>
     <property name="text">
      <string>TextLabel</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
     </property>
     <property name="wordWrap">
      <bool>true</bool>
@@ -459,6 +462,25 @@
      <pixmap>img/home_temp_bg.png</pixmap>
     </property>
    </widget>
+   <widget class="QLabel" name="clock">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>20</y>
+      <width>271</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
    <zorder>BG</zorder>
    <zorder>homeBG</zorder>
    <zorder>weatherBG</zorder>
@@ -481,6 +503,7 @@
    <zorder>IconWeather_2</zorder>
    <zorder>tempExte_2</zorder>
    <zorder>media</zorder>
+   <zorder>clock</zorder>
   </widget>
  </widget>
  <resources/>

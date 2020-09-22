@@ -12,15 +12,20 @@ from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Spotify.spotify import SpotifyListener
 from Modules.Weather.weather import Weather
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QTimer, QTime, Qt
+from PyQt5.QtWidgets import QVBoxLayout, QLabel 
 import requests
 import io
 from PIL import Image
 from PIL import ImageCms
 from os import path
+from time import sleep
 import os
-temperature_on = True
-if temperature_on:
+
+TEMP_ON = False
+if TEMP_ON:
     from Modules.Temperature.Temperature import DHT11
 
 class Ui_MainWindow(object):
@@ -185,6 +190,13 @@ class Ui_MainWindow(object):
         self.homeBG.setText("")
         self.homeBG.setPixmap(QtGui.QPixmap("img/home_temp_bg.png"))
         self.homeBG.setObjectName("homeBG")
+        self.clock = QtWidgets.QLabel(self.centralwidget)
+        self.clock.setGeometry(QtCore.QRect(980, 20, 271, 71))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(36)
+        self.clock.setFont(font)
+        self.clock.setObjectName("clock")        
         self.BG.raise_()
         self.homeBG.raise_()
         self.weatherBG.raise_()
@@ -207,6 +219,7 @@ class Ui_MainWindow(object):
         self.IconWeather_2.raise_()
         self.tempExte_2.raise_()
         self.media.raise_()
+        self.clock.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -216,7 +229,7 @@ class Ui_MainWindow(object):
         self.media.setHidden(True)
         self.path = os.getcwd()
         
-        if temperature_on:
+        if TEMP_ON:
             self.temp.setVisible(True)
             self.humi.setVisible(True)
             self.homeBG.setVisible(True)
@@ -224,7 +237,16 @@ class Ui_MainWindow(object):
             self.temp.setHidden(True)
             self.humi.setHidden(True)
             self.homeBG.setHidden(True)
-        
+            
+        # # creating a timer object 
+        # timer = QTimer(self.) 
+  
+        # # adding action to timer 
+        # timer.timeout.connect(self.showTime) 
+  
+        # # update the timer every second 
+        # timer.start(1000) 
+                
     def switchIMG(self, state):
         if state == "Twitch":
             self.media.setHidden(True)
@@ -244,7 +266,8 @@ class Ui_MainWindow(object):
         self.temp.setText(_translate("MainWindow", "24.0°C"))
         self.humi.setText(_translate("MainWindow", "85%"))
         self.tempExte.setText(_translate("MainWindow", "24.0°C"))
-        self.tempExte_2.setText(_translate("MainWindow", "24.0°C"))     
+        self.tempExte_2.setText(_translate("MainWindow", "24.0°C"))
+        self.clock.setText(_translate("MainWindow", "TextLabel"))
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
@@ -313,7 +336,8 @@ class Ui_MainWindow(object):
             self.cadre.adjustSize()           
         elif data["events"] == "fav":
             self.cadre.setPixmap(QtGui.QPixmap("img/like_bg.png"))
-            self.cadre.adjustSize()  
+            self.cadre.adjustSize() 
+        sleep(5)
             
     def printStreams(self,data):
         self.media.setHidden(True)
@@ -329,6 +353,7 @@ class Ui_MainWindow(object):
         self.Twitch_Title.adjustSize()
         self.cadre.setPixmap(QtGui.QPixmap("img/twitch_bg.png"))
         self.cadre.adjustSize()
+        sleep(5)
         #self.Photo.setHidden(True)
         
     def showMusic(self, data):
@@ -383,7 +408,17 @@ class Ui_MainWindow(object):
         elif weather["day"] == "tomorrow":
             self.tempExte_2.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather")
-            self.IconWeather_2.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))       
+            self.IconWeather_2.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
+            
+    # method called by timer 
+    def showTime(self): 
+        # getting current time 
+        current_time = QTime.currentTime() 
+        # converting QTime object to string 
+        label_time = current_time.toString('hh:mm:ss') 
+        # showing it to the label 
+        self.clock.setText(label_time)
+        self.clock.adjustSize()
      
     #def updateText(self, label):
         
