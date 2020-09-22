@@ -190,14 +190,17 @@ class Twitch(QtCore.QThread):
             if dico == False:
                 self.follows_live.append({'Name':username, 'Live?':False})           
             else:
-                    dico['Live?'] = False        
+                dico['Live?'] = False        
         else:
             dico = self.search_username(username)
             if dico == False:
                 self.follows_live.append({'Name':username, 'Live?':True})           
                 text = username + " is live !"
                 game = self.getGameTitle(data["data"][0]["game_id"])
-                text = username + " is live playing " + game +"!"
+                if game != None:
+                    text = username + " is live playing " + game +"!"
+                else:
+                    text = username + " is live !"
                 title = data["data"][0]["title"]
                 print(text)
                 profile_img = self.getProfileImage(username)
@@ -206,7 +209,10 @@ class Twitch(QtCore.QThread):
                 if dico['Live?'] == False:
                     dico['Live?'] = True
                     game = self.getGameTitle(data["data"][0]["game_id"])
-                    text = username + " is live playing " + game +" !"
+                    if game != None:
+                        text = username + " is live playing " + game +"!"
+                    else:
+                        text = username + " is live !"
                     title = data["data"][0]["title"]
                     print(text)
                     profile_img = self.getProfileImage(username)

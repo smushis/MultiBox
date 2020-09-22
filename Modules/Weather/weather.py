@@ -13,7 +13,7 @@ from time import sleep
 class Weather(QtCore.QThread):
     weather_signal = pyqtSignal(dict)
     
-    API_Key = "de0ab0351733baf5bbca5bf3f0c86072"
+    API_Key = ""
     
     base_url = "http://api.openweathermap.org/data/2.5/onecall?"
     
@@ -27,15 +27,22 @@ class Weather(QtCore.QThread):
         self.name = name
                
     def run(self):
+        self.readAPIKey()
         self.getWeatherData(self.API_Key)
+
+    def readAPIKey(self):
+        with open("Modules/Weather/key.txt", 'r') as file:
+            key = file.read()
+        print(str(key))
+        self.API_Key = str(key)
             
     def getWeatherData(self, API_Key):
        while True:     
-            final_url = self.base_url + "appid=" + API_Key + "&lat=" + self.city_lat + "&lon=" + self.city_lon + "&exclude=minutely,daily,alerts" +"&units=metric"
+            final_url = self.base_url + "appid=" + API_Key + "&lat=" + self.city_lat + "&lon=" + self.city_lon + "&exclude=minutely,hourly,alerts" +"&units=metric"
             try:
                 weather_data = requests.get(final_url).json()
                 weather_today_data = weather_data["current"]
-                weather_tomorrow_data = weather_data["hourly"][24]
+                weather_tomorrow_data = weather_data["daily"][1]
                 #print(weather_data)
             except:
                 print("Problem during getting weather info")
@@ -51,7 +58,7 @@ class Weather(QtCore.QThread):
             ID_tom = weather_tomorrow_data["weather"][0]["id"] 
             weather_tom = weather_tomorrow_data["weather"][0]["description"]
             url_icon_tom  = self.getWeatherIcon(ID_tom )
-            temp_tom  = "{:.1f}°C".format(weather_tomorrow_data["temp"])            
+            temp_tom  = "{:.1f}°C".format(weather_tomorrow_data["temp"]["day"])            
             dico_tom = self.createDict(url_icon_tom, temp_tom, weather_tom,"tomorrow")
             self.weather_signal.emit(dico_tom)
             sleep(600)
