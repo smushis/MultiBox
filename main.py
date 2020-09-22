@@ -26,7 +26,7 @@ import logging
 logger = logging.getLogger("werkzeug")
 logger.setLevel(logging.ERROR)
 
-temperature_on = True
+temperature_on = False
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
@@ -67,6 +67,7 @@ if __name__ == "__main__":
     HTML_thread = ui.launchHTMLThread()
     spotify_thread = ui.launchSpotifyThread()
     timer_thread = ui.launchSpotifyListenerThread()
+    weather_thread = ui.launchWeatherThread()
     if temperature_on:
         temp_thread = ui.launchTemperatureThread()
     MainWindow.show()

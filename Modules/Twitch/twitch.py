@@ -51,7 +51,8 @@ class Twitch(QtCore.QThread):
         #self.fullUnsub()
         # self.SubscribeAllFollows()
         self.initStateLive()
-        self.subToUser()
+        # self.initStateLive2()        
+        #self.subToUser()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -214,12 +215,7 @@ class Twitch(QtCore.QThread):
     def initStateLive2(self):
         self.getUserFollows()
         #print(self.follows_list)
-        print("Init Streams")
-        for j in self.follows_list:
-            name = self.getUsername(j)
-            if name !=-1:
-                self.follows_live.append({'Name': name, 'Live?':False})
-                
+        print("Init Streams")              
         for i in range(int(len(self.follows_list)/100)+1):
             params = {
                 "user_id": self.follows_list[100*i:100*(i+1)] 
@@ -230,8 +226,8 @@ class Twitch(QtCore.QThread):
                 print("Error: "+ str(r.status_code)+" while trying to get channels", self) 
                 
             for self.follows_list in r.json().get("data", []):
-                self.follows_live.update({"Name": self.getUsername(self.follows_list)})
-                   
+                self.follows_live.append({"Name": self.follows_list.get("user_name",""),"Live?": self.follows_list.get("type",False)})
+        print (self.follows_live)
 
         print("Fin init")
         

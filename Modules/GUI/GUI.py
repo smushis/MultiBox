@@ -11,6 +11,7 @@ from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Spotify.spotify import SpotifyListener
+from Modules.Weather.weather import Weather
 from PyQt5 import QtCore, QtGui, QtWidgets
 import requests
 import io
@@ -18,7 +19,7 @@ from PIL import Image
 from PIL import ImageCms
 from os import path
 import os
-temperature_on = True
+temperature_on = False
 if temperature_on:
     from Modules.Temperature.Temperature import DHT11
 
@@ -142,6 +143,18 @@ class Ui_MainWindow(object):
         self.whiteSquare.setText("")
         self.whiteSquare.setPixmap(QtGui.QPixmap("img/whiteSquare.png"))
         self.whiteSquare.setObjectName("whiteSquare")       
+        self.IconWeather = QtWidgets.QLabel(self.centralwidget)
+        self.IconWeather.setGeometry(QtCore.QRect(1070, 320, 161, 131))
+        self.IconWeather.setText("")
+        self.IconWeather.setPixmap(QtGui.QPixmap("img/Weather/10d@4x.png"))
+        self.IconWeather.setObjectName("IconWeather")
+        self.tempExte = QtWidgets.QLabel(self.centralwidget)
+        self.tempExte.setGeometry(QtCore.QRect(1110, 450, 131, 51))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(28)
+        self.tempExte.setFont(font)
+        self.tempExte.setObjectName("tempExte")
         self.BG.raise_()
         self.whiteSquare.raise_()
         self.Photo.raise_()
@@ -156,9 +169,10 @@ class Ui_MainWindow(object):
         self.titleMusic.raise_()
         self.artistMusic.raise_()
         self.cadreAlbum.raise_()
-        self.tempImg.raise_()
         self.temp.raise_()
         self.humi.raise_()
+        self.IconWeather.raise_()
+        self.tempExte.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -197,13 +211,13 @@ class Ui_MainWindow(object):
         self.humi.setText(_translate("MainWindow", "85%"))
         
     def launchTwitterThread(self):
-        self.twitter_thread = Twitter(3, "Twitter Thread")
+        self.twitter_thread = Twitter(1, "Twitter Thread")
         self.twitter_thread.twitter_signal.connect(self.printTweet)
         self.twitter_thread.start()
         return self.twitter_thread
     
     def launchTwitchThread(self):
-        self.twitch_thread = Twitch(3, "Twitch Thread")
+        self.twitch_thread = Twitch(2, "Twitch Thread")
         self.twitch_thread.twitch_signal.connect(self.printStreams)
         self.twitch_thread.start()
         return self.twitch_thread  
@@ -214,22 +228,28 @@ class Ui_MainWindow(object):
         return self.HTML_thread   
     
     def launchSpotifyThread(self):
-        self.spotify_thread = Spotify(3, "Spotify Thread", self.app)
+        self.spotify_thread = Spotify(4, "Spotify Thread", self.app)
         self.spotify_thread.Spotify_signal.connect(self.showMusic)
         self.spotify_thread.start()
         return self.spotify_thread
 
     def launchSpotifyListenerThread(self):
-        self.spotListener_thread = SpotifyListener(3, "Timer Thread")
+        self.spotListener_thread = SpotifyListener(5, "Timer Thread")
         self.spotListener_thread.timer_signal.connect(self.spotify_thread.getCurrentTrack)
         self.spotListener_thread.start()
         return self.spotListener_thread
 
     def launchTemperatureThread(self):       
-        self.temp_thread = DHT11(3, "Temperature Thread")
-        self.temp_thread.DHT11_signal.connect(self.printTemp)
+        self.temp_thread = DHT11(6, "Temperature Thread")
+        self.temp_thread.DHT11_signal.connect(self.showTempHouse)
         self.temp_thread.start()
-        return self.temp_thread           
+        return self.temp_thread     
+
+    def launchWeatherThread(self):       
+        self.weather_thread = Weather(7, "Weather Thread")
+        # self.weather_thread.weather_thread_signal.connect(self.printTemp)
+        self.weather_thread.start()
+        return self.weather_thread           
 
     def printTweet(self, data):
         self.media.setHidden(True)
@@ -286,49 +306,70 @@ class Ui_MainWindow(object):
         self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + data["album"]+ ".png"))
          
         
-    def getImage(self, url, username, web):
-        if web == "Twitter":
-            img_path = "img/Twitter/" + username + ".png"
-            if not(path.isdir("img/Twitter")):
-                os.mkdir("img/Twitter")
+    # def getImage(self, url, username, web):
+    #     if web == "Twitter":
+    #         img_path = "img/Twitter/" + username + ".png"
+    #         if not(path.isdir("img/Twitter")):
+    #             os.mkdir("img/Twitter")
+    #         if path.exists(img_path) == False:
+    #             Response = requests.get(url)
+    #             file = open(img_path, "wb")
+    #             file.write(Response.content)
+    #             file.close()
+    #             self.reduceImageSize(200, img_path)
+    #     elif web == "Twitter_Media":
+    #         img_path = "img/Twitter/media/" + username + ".png"
+    #         if not(path.isdir("img/Twitter/media")): 
+    #             os.mkdir("img/Twitter/media")
+    #         if path.exists(img_path) == False:
+    #             Response = requests.get(url)
+    #             file = open(img_path, "wb")
+    #             file.write(Response.content)
+    #             file.close()
+    #             self.reduceImageSize(300, img_path)
+    #     elif web == "Spotify":
+    #         img_path = "img/Spotify/" + username + ".png"
+    #         if not(path.isdir("img/Spotify")): 
+    #             os.mkdir("img/Spotify")                
+    #         if path.exists(img_path) == False:
+    #             Response = requests.get(url)
+    #             file = open(img_path, "wb")
+    #             file.write(Response.content)
+    #             file.close()
+    #             self.reduceImageSize(150, img_path)            
+    #     elif web == "Twitch":
+    #         img_path = "img/Twitch/" + username + ".png"
+    #         if not(path.isdir("img/Twitch")):
+    #             os.mkdir("img/Twitch")            
+    #         if path.exists(img_path) == False:
+    #             Response = requests.get(url)
+    #             file = open(img_path, "wb")
+    #             file.write(Response.content)
+    #             file.close()
+    #             self.reduceImageSize(200, img_path)
+    #     elif web == "Weather":
+    #         img_path = "img/Weather/" + username + ".png"
+    #         if not(path.isdir("img/Weather")):
+    #             os.mkdir("img/Weather")            
+    #         if path.exists(img_path) == False:
+    #             Response = requests.get(url)
+    #             file = open(img_path, "wb")
+    #             file.write(Response.content)
+    #             file.close()
+    #     else:
+    #         print("Website not recognize")
+            
+    def getImage(self, url, name, media_type, size=None):
+            img_path = "img/" + media_type + "/" + name + ".png"
+            if not(path.isdir("img/" + media_type)):
+                os.mkdir("img/" + media_type)
             if path.exists(img_path) == False:
                 Response = requests.get(url)
                 file = open(img_path, "wb")
                 file.write(Response.content)
                 file.close()
-                self.reduceImageSize(200, img_path)
-        elif web == "Twitter_Media":
-            img_path = "img/Twitter/media/" + username + ".png"
-            if not(path.isdir("img/Twitter/media")): 
-                os.mkdir("img/Twitter/media")
-            if path.exists(img_path) == False:
-                Response = requests.get(url)
-                file = open(img_path, "wb")
-                file.write(Response.content)
-                file.close()
-                self.reduceImageSize(300, img_path)
-        elif web == "Spotify":
-            img_path = "img/Spotify/" + username + ".png"
-            if not(path.isdir("img/Spotify")): 
-                os.mkdir("img/Spotify")                
-            if path.exists(img_path) == False:
-                Response = requests.get(url)
-                file = open(img_path, "wb")
-                file.write(Response.content)
-                file.close()
-                self.reduceImageSize(150, img_path)            
-        elif web == "Twitch":
-            img_path = "img/Twitch/" + username + ".png"
-            if not(path.isdir("img/Twitch")):
-                os.mkdir("img/Twitch")            
-            if path.exists(img_path) == False:
-                Response = requests.get(url)
-                file = open(img_path, "wb")
-                file.write(Response.content)
-                file.close()
-                self.reduceImageSize(200, img_path)
-        else:
-            print("Website not recognize")
+                if size != None:
+                    self.reduceImageSize(size, img_path)        
         
     def convert_to_srgb(self, img):
         '''Convert PIL image to sRGB color space (if possible)'''
@@ -348,11 +389,18 @@ class Ui_MainWindow(object):
         img = img.resize((basewidth, hsize), Image.ANTIALIAS)
         img.save(img_path)
         
-    def printTemp(self, temp):
+    def showTempHouse(self, temp):
         self.temp.setText(temp["Temp"])
         self.temp.adjustSize()
         self.humi.setText(temp["Humi"])
         self.humi.adjustSize()
+        
+    def showWeather(self, weather):
+        self.tempExte.setText(weather["temp"])
+        self.getImage(weather["icon_url"], weather["type"], "Weather")
+        self.IconWeather.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
+        
+        
         
 # if __name__ == "__main__":
     # import sys
