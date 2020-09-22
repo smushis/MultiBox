@@ -21,7 +21,7 @@ from PyQt5 import  QtWidgets
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
 
-TEMP_ON = False
+TEMP_ON = True
 
 # Logger
 import logging
