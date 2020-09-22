@@ -257,7 +257,7 @@ class Ui_MainWindow(object):
         text = data["text"].split('https')[0]
         self.label1.setText(text) 
         self.label1.adjustSize()
-        self.getImage(data["url"], data["username"], "Twitter")
+        self.getImage(data["url"], data["username"], "Twitter", 200)
         im = Image.open("img/Twitter/" + data["username"]+ ".png")
         im_conv = self.convert_to_srgb(im)
         im_conv.save("img/Twitter/" + data["username"] + ".png")
@@ -266,7 +266,7 @@ class Ui_MainWindow(object):
         self.username.adjustSize()
         self.Twitch_Title.setHidden(True)
         if data["media"] != None:
-            self.getImage(data["media"]["link"],data["media"]["id"], "Twitter_Media")
+            self.getImage(data["media"]["link"],data["media"]["id"], "Twitter_Media", 300)
             self.media.setPixmap(QtGui.QPixmap("img/Twitter/media" + data["media"]["id"] + ".png"))
             self.media.adjustSize()
             self.media.setVisible(True)
@@ -285,7 +285,7 @@ class Ui_MainWindow(object):
         self.switchIMG("Twitch")
         self.label1.setText(data["text"])     
         self.label1.adjustSize()
-        self.getImage(data["url"], data["username"], "Twitch")
+        self.getImage(data["url"], data["username"], "Twitch", 200)
         self.Photo.setPixmap(QtGui.QPixmap("img/Twitch/" + data["username"]+ ".png"))
         self.username.setText(data["username"])
         self.username.adjustSize()
@@ -302,62 +302,8 @@ class Ui_MainWindow(object):
         self.titleMusic.adjustSize()
         self.artistMusic.setText(data["artist"])
         self.artistMusic.adjustSize()
-        self.getImage(data["img_album"], data["album"], "Spotify")
+        self.getImage(data["img_album"], data["album"], "Spotify", 150)
         self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + data["album"]+ ".png"))
-         
-        
-    # def getImage(self, url, username, web):
-    #     if web == "Twitter":
-    #         img_path = "img/Twitter/" + username + ".png"
-    #         if not(path.isdir("img/Twitter")):
-    #             os.mkdir("img/Twitter")
-    #         if path.exists(img_path) == False:
-    #             Response = requests.get(url)
-    #             file = open(img_path, "wb")
-    #             file.write(Response.content)
-    #             file.close()
-    #             self.reduceImageSize(200, img_path)
-    #     elif web == "Twitter_Media":
-    #         img_path = "img/Twitter/media/" + username + ".png"
-    #         if not(path.isdir("img/Twitter/media")): 
-    #             os.mkdir("img/Twitter/media")
-    #         if path.exists(img_path) == False:
-    #             Response = requests.get(url)
-    #             file = open(img_path, "wb")
-    #             file.write(Response.content)
-    #             file.close()
-    #             self.reduceImageSize(300, img_path)
-    #     elif web == "Spotify":
-    #         img_path = "img/Spotify/" + username + ".png"
-    #         if not(path.isdir("img/Spotify")): 
-    #             os.mkdir("img/Spotify")                
-    #         if path.exists(img_path) == False:
-    #             Response = requests.get(url)
-    #             file = open(img_path, "wb")
-    #             file.write(Response.content)
-    #             file.close()
-    #             self.reduceImageSize(150, img_path)            
-    #     elif web == "Twitch":
-    #         img_path = "img/Twitch/" + username + ".png"
-    #         if not(path.isdir("img/Twitch")):
-    #             os.mkdir("img/Twitch")            
-    #         if path.exists(img_path) == False:
-    #             Response = requests.get(url)
-    #             file = open(img_path, "wb")
-    #             file.write(Response.content)
-    #             file.close()
-    #             self.reduceImageSize(200, img_path)
-    #     elif web == "Weather":
-    #         img_path = "img/Weather/" + username + ".png"
-    #         if not(path.isdir("img/Weather")):
-    #             os.mkdir("img/Weather")            
-    #         if path.exists(img_path) == False:
-    #             Response = requests.get(url)
-    #             file = open(img_path, "wb")
-    #             file.write(Response.content)
-    #             file.close()
-    #     else:
-    #         print("Website not recognize")
             
     def getImage(self, url, name, media_type, size=None):
             img_path = "img/" + media_type + "/" + name + ".png"
