@@ -33,39 +33,42 @@ class Weather(QtCore.QThread):
             final_url = self.base_url + "appid=" + API_Key + "&id=" + city_id + "&units=metric"
             try:
                 weather_data = requests.get(final_url).json()
+                #print(weather_data)
             except:
                 print("Problem during getting weather info")
                 break
-            if len(weather_data['weather']) > 1:
-                weather = weather_data["weather"][0]["main"]
-            else:
-                weather = weather_data["weather"]["main"]
-            url_icon = self.getWeatherIcon(weather)
-            temp = weather_data["weather"]["main"]["temp"]
+            
+            ID = weather_data["weather"][0]["id"]
+            weather = weather_data["weather"][0]["description"]
+            url_icon = self.getWeatherIcon(ID)
+            temp = "{:.1f}°C".format(weather_data["main"]["temp"])
             dico = self.createDict(url_icon, temp, weather)
             self.weather_signal.emit(dico)
             sleep(60)
             
-    def getWeatherIcon(self, w):
-        weather = w.lower()
-        if weather == "clear sky":
-            url = "http://openweathermap.org/img/wn/01d@2x.png"
-        elif weather == "few clouds":
-            url = "http://openweathermap.org/img/wn/02d@2x.png"            
-        elif weather == "scattered clouds":
-            url = "http://openweathermap.org/img/wn/03d@2x.png"    
-        elif weather == "broken clouds":
-            url = "http://openweathermap.org/img/wn/04d@2x.png"    
-        elif weather == "shower rain":
-            url = "http://openweathermap.org/img/wn/09d@2x.png"
-        elif weather == "rain":
-            url = "http://openweathermap.org/img/wn/10d@2x.png"    
-        elif weather == "thunderstorm":
-            url = "http://openweathermap.org/img/wn/11d@2x.png"    
-        elif weather == "snow":
-            url = "http://openweathermap.org/img/wn/13d@2x.png"    
-        elif weather == "mist":
-            url = "http://openweathermap.org/img/wn/50d@2x.png"  
+    def getWeatherIcon(self, ID):
+        if ID == 800 :
+            url = "http://openweathermap.org/img/wn/01d@4x.png"
+        elif ID == 801:
+            url = "http://openweathermap.org/img/wn/02d@4x.png"            
+        elif ID == 802:
+            url = "http://openweathermap.org/img/wn/03d@4x.png"    
+        elif ID == (803|804):
+            url = "http://openweathermap.org/img/wn/04d@4x.png"    
+        elif (ID >= 300 & ID <= 321) | (ID >= 520 & ID <= 531):
+            url = "http://openweathermap.org/img/wn/09d@4x.png"
+        elif (ID >= 500 & ID <= 504):
+            url = "http://openweathermap.org/img/wn/10d@4x.png"    
+        elif (ID >= 200 & ID <= 232):
+            url = "http://openweathermap.org/img/wn/11d@4x.png"    
+        elif (ID == 511) | (ID >= 600 & ID <= 622):
+            url = "http://openweathermap.org/img/wn/13d@4x.png"    
+        elif (ID >= 701 & ID <= 781):
+            url = "http://openweathermap.org/img/wn/50d@4x.png"
+        else:
+            print("Not identified ID")
+            url = None
+        print(url)
         return url
               
     def createDict(self, icon_url, temp, w_type):

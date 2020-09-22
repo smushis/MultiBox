@@ -19,7 +19,7 @@ from PIL import Image
 from PIL import ImageCms
 from os import path
 import os
-temperature_on = False
+temperature_on = True
 if temperature_on:
     from Modules.Temperature.Temperature import DHT11
 
@@ -144,12 +144,12 @@ class Ui_MainWindow(object):
         self.whiteSquare.setPixmap(QtGui.QPixmap("img/whiteSquare.png"))
         self.whiteSquare.setObjectName("whiteSquare")       
         self.IconWeather = QtWidgets.QLabel(self.centralwidget)
-        self.IconWeather.setGeometry(QtCore.QRect(1070, 320, 161, 131))
+        self.IconWeather.setGeometry(QtCore.QRect(1080, 320, 161, 111))
         self.IconWeather.setText("")
-        self.IconWeather.setPixmap(QtGui.QPixmap("img/Weather/10d@4x.png"))
+        self.IconWeather.setPixmap(QtGui.QPixmap("img/10d@4x.png"))
         self.IconWeather.setObjectName("IconWeather")
         self.tempExte = QtWidgets.QLabel(self.centralwidget)
-        self.tempExte.setGeometry(QtCore.QRect(1110, 450, 131, 51))
+        self.tempExte.setGeometry(QtCore.QRect(1110, 440, 141, 51))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(28)
@@ -209,6 +209,7 @@ class Ui_MainWindow(object):
         self.artistMusic.setText(_translate("MainWindow", "TextLabel"))
         self.temp.setText(_translate("MainWindow", " X°C"))
         self.humi.setText(_translate("MainWindow", "85%"))
+        self.tempExte.setText(_translate("MainWindow", "24.0°C"))
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
@@ -247,7 +248,7 @@ class Ui_MainWindow(object):
 
     def launchWeatherThread(self):       
         self.weather_thread = Weather(7, "Weather Thread")
-        # self.weather_thread.weather_thread_signal.connect(self.printTemp)
+        self.weather_thread.weather_signal.connect(self.showWeather)
         self.weather_thread.start()
         return self.weather_thread           
 
