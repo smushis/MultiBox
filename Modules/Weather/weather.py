@@ -44,7 +44,7 @@ class Weather(QtCore.QThread):
             temp = "{:.1f}°C".format(weather_data["main"]["temp"])
             dico = self.createDict(url_icon, temp, weather)
             self.weather_signal.emit(dico)
-            sleep(60)
+            sleep(600)
             
     def getWeatherIcon(self, ID):
         if ID == 800 :
@@ -68,7 +68,6 @@ class Weather(QtCore.QThread):
         else:
             print("Not identified ID")
             url = None
-        print(url)
         return url
               
     def createDict(self, icon_url, temp, w_type):
