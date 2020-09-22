@@ -15,10 +15,11 @@ class Weather(QtCore.QThread):
     
     API_Key = "de0ab0351733baf5bbca5bf3f0c86072"
     
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    base_url = "http://api.openweathermap.org/data/2.5/onecall?"
     
     #List of city ID http://bulk.openweathermap.org/sample/city.list.json.gz
-    city_id = "2980291" #Saint Etienne
+    city_lon = "4.411363" #Saint Etienne
+    city_lat = "45.409149"
     
     def __init__(self, threadID, name):
         QtCore.QThread.__init__(self, parent=None)   
@@ -26,24 +27,33 @@ class Weather(QtCore.QThread):
         self.name = name
                
     def run(self):
-        self.getWeatherData(self.API_Key, self.city_id)
+        self.getWeatherData(self.API_Key)
             
-    def getWeatherData(self, API_Key, city_id):
+    def getWeatherData(self, API_Key):
        while True:     
-            final_url = self.base_url + "appid=" + API_Key + "&id=" + city_id + "&units=metric"
+            final_url = self.base_url + "appid=" + API_Key + "&lat=" + self.city_lat + "&lon=" + self.city_lon + "&exclude=minutely,daily,alerts" +"&units=metric"
             try:
                 weather_data = requests.get(final_url).json()
+                weather_today_data = weather_data["current"]
+                weather_tomorrow_data = weather_data["hourly"][24]
                 #print(weather_data)
             except:
                 print("Problem during getting weather info")
                 break
             
-            ID = weather_data["weather"][0]["id"]
-            weather = weather_data["weather"][0]["description"]
-            url_icon = self.getWeatherIcon(ID)
-            temp = "{:.1f}°C".format(weather_data["main"]["temp"])
-            dico = self.createDict(url_icon, temp, weather)
-            self.weather_signal.emit(dico)
+            ID_today = weather_today_data["weather"][0]["id"]
+            weather_today = weather_today_data["weather"][0]["description"]
+            url_icon_today = self.getWeatherIcon(ID_today)
+            temp_today = "{:.1f}°C".format(weather_today_data["temp"])
+            dico_today = self.createDict(url_icon_today, temp_today, weather_today)
+            self.weather_signal.emit(dico_today)
+            
+            ID_tom = weather_tomorrow_data["weather"][0]["id"] 
+            weather_tom = weather_tomorrow_data["weather"][0]["description"]
+            url_icon_tom  = self.getWeatherIcon(ID_tom )
+            temp_tom  = "{:.1f}°C".format(weather_tomorrow_data["temp"])            
+            dico_tom = self.createDict(url_icon_tom, temp_tom, weather_tom,"tomorrow")
+            self.weather_signal.emit(dico_tom)
             sleep(600)
             
     def getWeatherIcon(self, ID):
@@ -70,11 +80,13 @@ class Weather(QtCore.QThread):
             url = None
         return url
               
-    def createDict(self, icon_url, temp, w_type):
+    def createDict(self, icon_url, temp, w_type, day="today"):
         dico = {}
         dico["icon_url"] = icon_url
         dico["type"] = w_type
         dico["temp"] = temp
+        dico["day"] = day
+    
         return dico
     
 

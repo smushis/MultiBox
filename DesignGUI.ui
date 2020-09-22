@@ -274,9 +274,9 @@
    <widget class="QLabel" name="temp">
     <property name="geometry">
      <rect>
-      <x>1100</x>
-      <y>580</y>
-      <width>141</width>
+      <x>1060</x>
+      <y>550</y>
+      <width>181</width>
       <height>51</height>
      </rect>
     </property>
@@ -284,18 +284,23 @@
      <font>
       <family>Arial</family>
       <pointsize>28</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
      <string>24.0°C</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="humi">
     <property name="geometry">
      <rect>
-      <x>1120</x>
-      <y>640</y>
-      <width>121</width>
+      <x>1060</x>
+      <y>610</y>
+      <width>191</width>
       <height>51</height>
      </rect>
     </property>
@@ -303,6 +308,8 @@
      <font>
       <family>Arial</family>
       <pointsize>28</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -331,9 +338,9 @@
    <widget class="QLabel" name="IconWeather">
     <property name="geometry">
      <rect>
-      <x>1080</x>
-      <y>320</y>
-      <width>161</width>
+      <x>600</x>
+      <y>530</y>
+      <width>191</width>
       <height>111</height>
      </rect>
     </property>
@@ -341,15 +348,18 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>img/Weather/10d@4x.png</pixmap>
+     <pixmap>img/10d@4x.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="tempExte">
     <property name="geometry">
      <rect>
-      <x>1100</x>
-      <y>440</y>
-      <width>141</width>
+      <x>600</x>
+      <y>630</y>
+      <width>191</width>
       <height>51</height>
      </rect>
     </property>
@@ -357,13 +367,95 @@
      <font>
       <family>Arial</family>
       <pointsize>28</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
      <string>24.0°C</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="weatherBG">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>490</y>
+      <width>421</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/Weather_bg.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="IconWeather_2">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>530</y>
+      <width>191</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/10d@4x.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tempExte_2">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>630</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>28</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>24.0°C</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="homeBG">
+    <property name="geometry">
+     <rect>
+      <x>1030</x>
+      <y>480</y>
+      <width>251</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>img/home_temp_bg.png</pixmap>
+    </property>
    </widget>
    <zorder>BG</zorder>
+   <zorder>homeBG</zorder>
+   <zorder>weatherBG</zorder>
    <zorder>whiteSquare</zorder>
    <zorder>Photo</zorder>
    <zorder>username</zorder>
@@ -381,6 +473,8 @@
    <zorder>humi</zorder>
    <zorder>IconWeather</zorder>
    <zorder>tempExte</zorder>
+   <zorder>IconWeather_2</zorder>
+   <zorder>tempExte_2</zorder>
   </widget>
  </widget>
  <resources/>
