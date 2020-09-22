@@ -19,7 +19,7 @@ from PIL import Image
 from PIL import ImageCms
 from os import path
 import os
-temperature_on = False
+temperature_on = True
 if temperature_on:
     from Modules.Temperature.Temperature import DHT11
 
