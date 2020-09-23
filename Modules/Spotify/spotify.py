@@ -61,14 +61,14 @@ class Spotify(QtCore.QThread):
                 return res
             else:
                 print("No devices")
-                return {"is_active" : False}
+                return {"devices": [{"is_active" : False}]}
         except SpotifyException as E:
             if E.http_status == 404:
                 print("No Device Active")
-                return False
+                return {"devices": [{"is_active" : False}]}
             elif E.http_status == 401:
                 self.refreshToken()
-                return False
+                return {"devices": [{"is_active" : False}]}
                 
     def playTop97(self):
         try:
