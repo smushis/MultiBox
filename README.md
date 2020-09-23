@@ -43,3 +43,5 @@ If you have any questions or ideas for the GUI, don't hesitate to do an issue!
 
 ### Twitter Mentions with Media
 ![alt text](https://i.imgur.com/Gojcjfz.png)
+
+Yes, this is an avatar border from Rocket League
