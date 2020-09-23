@@ -56,7 +56,7 @@ class Spotify(QtCore.QThread):
     def showDevices(self):
         try:
             res = self.sp.devices()
-            if res != []:
+            if res["devices"]!= []:
                 print(res)
                 return res
             else:
