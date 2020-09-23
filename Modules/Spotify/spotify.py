@@ -56,9 +56,10 @@ class Spotify(QtCore.QThread):
     def showDevices(self):
         try:
             res = self.sp.devices()
-            print(res)
+            # print(res)
             return res
         except SpotifyException as E:
+            self.handleException()
             print(E)
         
     def playTop97(self):
@@ -102,6 +103,7 @@ class Spotify(QtCore.QThread):
             return self.handleException(e)
         except exceptions.ReadTimeout:
             print("Timeout during getting current track")
+        
             
     def handleException(self, e):
         if e.reason == "NO_ACTIVE_DEVICE":
