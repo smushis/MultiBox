@@ -57,7 +57,7 @@ class Spotify(QtCore.QThread):
         try:
             res = self.sp.devices()
             if res != []:
-                print(res)
+                # print(res)
                 return res
             else:
                 return {"devices": [{"is active" : False}]}
