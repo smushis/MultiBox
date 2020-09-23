@@ -56,15 +56,18 @@ class Spotify(QtCore.QThread):
     def showDevices(self):
         try:
             res = self.sp.devices()
-            print(res)
-            return res
+            if res != []:
+                print(res)
+                return res
+            else:
+                return False
         except SpotifyException as E:
             if E.http_status == 404:
                 print("No Device Active")
-                return -1
+                return False
             elif E.http_status == 401:
                 self.refreshToken()
-                return -1
+                return False
                 
     def playTop97(self):
         try:
@@ -98,7 +101,7 @@ class Spotify(QtCore.QThread):
                     sleep(2)
                 else:
                     print("Idle until Device is Active again")
-                    self.idle_spoti_signal.emit(True)                  
+                    self.idle_spoti_signal.emit(True)                 
                     while(not(self.showDevices()["devices"][0]["is_active"])):
                         sleep(10)
                     self.sleep_count = 0
