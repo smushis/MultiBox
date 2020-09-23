@@ -59,7 +59,7 @@ class Spotify(QtCore.QThread):
             # print(res)
             return res
         except SpotifyException as E:
-            self.handleException()
+            self.handleException(E)
             print(E)
         
     def playTop97(self):
