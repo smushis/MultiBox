@@ -6,12 +6,20 @@
   - Computer or Raspberry PI
   - A DHT11 Temperature Sensor (if you want to get the temperature with the RaspberryPI)
   
-### Software modules implemented:
+#### Software modules implemented:
   - **Twitch** live Notifications
   - **Twitter** Mentions(with media), Like or RT Notifications
   - **Spotify** Current track playing
-  - **OpenWeather** Meteo for current hour and tomorrow
+  - **OpenWeatherMap** Meteo for current hour and tomorrow
   - House temperature thanks to DHT11 sensor and Adafruit Library
+  
+### References:
+  - [Twitch API reference] (https://dev.twitch.tv/docs/api/reference/)
+  - [TwitterAPI, wrapper for Python] (https://github.com/geduldig/TwitterAPI)
+  - [Twitter API reference for webhooks] (https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/subscribe-account-activity/overview)
+  - [Spotipy, Spotify wrapper for Python] (https://spotipy.readthedocs.io/en/2.16.0/)
+  - [Open Weather Map API] (https://openweathermap.org/api)
+  - [Github DHT11 Sensor Adafruit] (https://github.com/adafruit/Adafruit_CircuitPython_DHT)
   
 # Exemples of GUI notifications:
 ### Twitch Live Notification
