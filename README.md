@@ -12,6 +12,8 @@
   - **Spotify** Current track playing
   - **OpenWeatherMap** Meteo for current hour and tomorrow
   - House temperature thanks to DHT11 sensor and Adafruit Library
+
+I recommand you to use the latest version of [Raspberry PI OS](https://www.raspberrypi.org/downloads/raspberry-pi-os/) if you are going to do a new project on your PI
   
 ### Goals of the project
 This project was made by me, for me. I didn't attend to publish it for other people to use it.
@@ -19,12 +21,12 @@ But this program can help you with your own project, so feel free to look at the
 If you have any questions or ideas for the GUI, don't hesitate to do an issue!
   
 ### References:
-  - [Twitch API reference] (https://dev.twitch.tv/docs/api/reference/)
-  - [TwitterAPI, wrapper for Python] (https://github.com/geduldig/TwitterAPI)
-  - [Twitter API reference for webhooks] (https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/subscribe-account-activity/overview)
-  - [Spotipy, Spotify wrapper for Python] (https://spotipy.readthedocs.io/en/2.16.0/)
-  - [Open Weather Map API] (https://openweathermap.org/api)
-  - [Github DHT11 Sensor Adafruit] (https://github.com/adafruit/Adafruit_CircuitPython_DHT)
+  - [Twitch API reference](https://dev.twitch.tv/docs/api/reference/)
+  - [TwitterAPI, wrapper for Python](https://github.com/geduldig/TwitterAPI)
+  - [Twitter API reference for webhooks](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/subscribe-account-activity/overview)
+  - [Spotipy, Spotify wrapper for Python](https://spotipy.readthedocs.io/en/2.16.0/)
+  - [Open Weather Map API](https://openweathermap.org/api)
+  - [Github DHT11 Sensor Adafruit](https://github.com/adafruit/Adafruit_CircuitPython_DHT)
   
 # Exemples of GUI notifications:
 ### Twitch Live Notification
