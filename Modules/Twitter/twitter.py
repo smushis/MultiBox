@@ -54,7 +54,6 @@ class Twitter(QtCore.QThread):
     def readCredentials(self):
         with open(credentials_file, "r") as file:
             auth = json.load(file)
-        print(auth)
         self.CONSUMER_KEY = auth["CONSUMER_KEY"]
         self.CONSUMER_SECRET = auth["CONSUMER_SECRET"]
         self.ACCESS_TOKEN = auth["ACCESS_TOKEN"]
