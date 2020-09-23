@@ -412,9 +412,7 @@ class Ui_MainWindow(object):
         
     def showTempHouse(self, temp):
         self.temp.setText(temp["Temp"])
-        self.temp.adjustSize()
         self.humi.setText(temp["Humi"])
-        self.humi.adjustSize()
         
     def showWeather(self, weather):
         if weather["day"] == "today":
