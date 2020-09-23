@@ -43,7 +43,7 @@ class Spotify(QtCore.QThread):
         self.sp = spotipy.Spotify(self.token)
         while(not(self.playTop97())):
               sleep(10)        
-        # self.showDevices()
+        self.showDevices()
         while True:
             self.getCurrentTrack()
             sleep(0.5)
@@ -94,8 +94,7 @@ class Spotify(QtCore.QThread):
                     sleep(2)
                 else:
                     print("Idle until Device is Active again")
-                    self.idle_spoti_signal.emit(True)
-                    
+                    self.idle_spoti_signal.emit(True)                  
                     while(not(self.showDevices()["devices"][0]["is_active"])):
                         sleep(10)
                     self.sleep_count = 0
