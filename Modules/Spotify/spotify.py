@@ -59,9 +59,6 @@ class Spotify(QtCore.QThread):
             if res["devices"]!= []:
                 print(res)
                 return res
-            else:
-                print("No devices")
-                return {"devices": [{"is_active" : False}]}
         except SpotifyException as E:
             if E.http_status == 404:
                 print("No Device Active")
