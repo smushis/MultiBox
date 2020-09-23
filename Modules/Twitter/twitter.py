@@ -22,7 +22,7 @@ class Twitter(QtCore.QThread):
     ACCESS_TOKEN = ''
     ACCESS_TOKEN_SECRET = '' 
     
-    ENVNAME = 'AcountActivity'
+    ENVNAME = ''
      
     url_callback = ''
     
@@ -58,6 +58,7 @@ class Twitter(QtCore.QThread):
         self.CONSUMER_SECRET = auth["CONSUMER_SECRET"]
         self.ACCESS_TOKEN = auth["ACCESS_TOKEN"]
         self.ACCESS_TOKEN_SECRET = auth["ACCESS_TOKEN_SECRET"]
+        self.ENVNAME = auth["ENVNAME"]
                 
     def registerWebhooks(self):
         try:
@@ -163,7 +164,7 @@ class Twitter(QtCore.QThread):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         data = tweet["tweet_create_events"][0]["text"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-        text =  user + " a répondu à votre tweet! : \n" + data
+        text =  user + " responded to your tweet! : \n" + data
         print(text)
         if "media" in tweet["tweet_create_events"][0]["entities"]:
             tweet_image_link = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
@@ -179,14 +180,14 @@ class Twitter(QtCore.QThread):
         user = tweet["favorite_events"][0]["user"]["screen_name"]
         if user != "Smushis":
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-            text = user + " a aimé votre tweet!"
+            text = user + " liked your tweet!"
             print(text)
             msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"]         
             self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
         else:
             #print(tweet)
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-            text = 'Vous avez aimé un tweet'
+            text = 'You liked a tweet!'
             print(text)
             msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"]
             self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
@@ -194,7 +195,7 @@ class Twitter(QtCore.QThread):
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-        text = user + " a retweeté votre tweet!"
+        text = user + " retweeted your tweet!"
         print(text)
         self.twitter_signal.emit(self.createDico("rt", text, user, profile_img))
 
