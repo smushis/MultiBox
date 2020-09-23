@@ -9,7 +9,7 @@
 #### Software modules implemented:
   - **Twitch** live Notifications
   - **Twitter** Mentions(with media), Like or RT Notifications
-  - **Spotify** Current track playing
+  - **Spotify** Current track playing (You need premium Spotify for playing playlist)
   - **OpenWeatherMap** Meteo for current hour and tomorrow
   - House temperature thanks to DHT11 sensor and Adafruit Library
 
