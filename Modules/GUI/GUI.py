@@ -10,7 +10,6 @@ from Modules.Twitter.twitter import Twitter
 from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
-from Modules.Spotify.spotify import SpotifyListener
 from Modules.Weather.weather import Weather
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -24,8 +23,7 @@ from os import path
 from time import sleep
 import os
 
-
-TEMP_ON = True
+from constants import TEMP_ON
 
 if TEMP_ON:
     from Modules.Temperature.Temperature import DHT11
@@ -305,14 +303,15 @@ class Ui_MainWindow(object):
     def launchSpotifyThread(self):
         self.spotify_thread = Spotify(4, "Spotify Thread", self.app)
         self.spotify_thread.Spotify_signal.connect(self.showMusic)
+        self.spotify_thread.idle_spoti_signal.connect(self.HideMusic)
         self.spotify_thread.start()
         return self.spotify_thread
 
-    def launchSpotifyListenerThread(self):
-        self.spotListener_thread = SpotifyListener(5, "Timer Thread")
-        self.spotListener_thread.timer_signal.connect(self.spotify_thread.getCurrentTrack)
-        self.spotListener_thread.start()
-        return self.spotListener_thread
+    # def launchSpotifyListenerThread(self):
+    #     self.spotListener_thread = SpotifyListener(5, "Timer Thread")
+    #     self.spotListener_thread.timer_signal.connect(self.spotify_thread.getCurrentTrack)
+    #     self.spotListener_thread.start()
+    #     return self.spotListener_thread
 
     def launchTemperatureThread(self):       
         self.temp_thread = DHT11(6, "Temperature Thread")
@@ -379,6 +378,20 @@ class Ui_MainWindow(object):
         self.artistMusic.adjustSize()
         self.getImage(data["img_album"], data["album"], "Spotify", 150)
         self.img_album.setPixmap(QtGui.QPixmap("img/Spotify/" + data["album"]+ ".png"))
+        
+    def HideMusic(self, state=False):
+        if state:
+            self.cadreMusic.setHidden(True)
+            self.titleMusic.setHidden(True)
+            self.artistMusic.setHidden(True)
+            self.cadreAlbum.setHidden(True)
+            self.img_album.setHidden(True)
+        elif not(state):
+            self.cadreMusic.setVisible(True)
+            self.titleMusic.setVisible(True)
+            self.artistMusic.setVisible(True)
+            self.cadreAlbum.setVisible(True)
+            self.img_album.setVisible(True)           
             
     def getImage(self, url, name, media_type, size=None):
             img_path = "img/" + media_type + "/" + name + ".png"

@@ -14,9 +14,10 @@ import sys
 
 from flask import request
 from flask import Response
-from Modules.GUI.GUI import Ui_MainWindow, TEMP_ON
+from Modules.GUI.GUI import Ui_MainWindow
 from PyQt5 import  QtWidgets
 
+from constants import Twitter_, Spotify_, Twitch_, HTML_, Weather_, TEMP_ON
 
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
@@ -26,13 +27,6 @@ app.config["DEBUG"] = False
 import logging
 logger = logging.getLogger("werkzeug")
 logger.setLevel(logging.ERROR)
-
-Twitter_ = True
-Spotify_ = True
-Twitch_ = True
-Spotify_Listener = True
-HTML_ = True
-Weather_ = True
 
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
@@ -75,9 +69,10 @@ if __name__ == "__main__":
         twitter_thread = ui.launchTwitterThread()
     if HTML_:
         HTML_thread = ui.launchHTMLThread()
-    spotify_thread = ui.launchSpotifyThread()
-    timer_thread = ui.launchSpotifyListenerThread()
-    weather_thread = ui.launchWeatherThread()
+    if Spotify_:
+        spotify_thread = ui.launchSpotifyThread()
+    if Weather_:
+        weather_thread = ui.launchWeatherThread()
     if TEMP_ON:
         temp_thread = ui.launchTemperatureThread()
     MainWindow.show()

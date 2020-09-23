@@ -21,10 +21,14 @@ token_file = "Modules/Spotify/spotify_token.oauth"
 
 class Spotify(QtCore.QThread):
     Spotify_signal = pyqtSignal(dict)
+    idle_spoti_signal = pyqtSignal(bool)
+    
     scope = "user-read-playback-state user-modify-playback-state"
     DEFAULT_DEVICE = ""
     token = ""
     device_ID = ""
+    sleep_count = 0
+    
     
     def __init__(self, threadID, name, app):
         QtCore.QThread.__init__(self, parent=None)   
@@ -37,10 +41,12 @@ class Spotify(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.sp = spotipy.Spotify(self.token)
-        # self.showDevices()
         while(not(self.playTop97())):
-              sleep(1)
-        self.getCurrentTrack()
+              sleep(10)        
+        # self.showDevices()
+        while True:
+            self.getCurrentTrack()
+            sleep(0.5)
                    
     def readToken(self):      
         with open(token_file, 'r') as file:
@@ -50,7 +56,7 @@ class Spotify(QtCore.QThread):
     def showDevices(self):
         try:
             res = self.sp.devices()
-            # print(res)
+            print(res)
             return res
         except SpotifyException as E:
             print(E)
@@ -78,9 +84,19 @@ class Spotify(QtCore.QThread):
                 #if artist !="":
                     #print("Currently playing " + artist + " - " + track)
                 self.Spotify_signal.emit(self.createDico(artist, track, img_album, album))
+                if self.sleep_count ==0:
+                    self.idle_spoti_signal.emit(False)
             else :
-                print("No playing track, retrying in 10s")
-                sleep(10)
+                if self.sleep_count < 10:
+                    print("No playing track, retrying in 5s")
+                    self.sleep_count += 1
+                    sleep(2)
+                else:
+                    print("Idle until Device is Active again")
+                    self.idle_spoti_signal.emit(True)
+                    while(not(self.showDevices()["devices"][0]["is_active"])):
+                        sleep(10)
+                    self.sleep_count = 0
         except SpotifyException as e:
             sleep(10)
             return self.handleException(e)
@@ -122,19 +138,19 @@ class Spotify(QtCore.QThread):
                 self.sp.start_playback(device_id=self.device_ID)
                 break
     
-class SpotifyListener(QtCore.QThread):
+# class SpotifyListener(QtCore.QThread):
     
-    timer_signal = pyqtSignal()
+#     timer_signal = pyqtSignal()
     
-    def __init__(self, threadID, name):
-        QtCore.QThread.__init__(self, parent=None)   
-        self.threadID = threadID
-        self.name = name
+#     def __init__(self, threadID, name):
+#         QtCore.QThread.__init__(self, parent=None)   
+#         self.threadID = threadID
+#         self.name = name
         
-    def run(self):
-        print("Starting " + self.name + "\n\r")
-        while True :
-            time.sleep(1)
-            self.timer_signal.emit()
+#     def run(self):
+#         print("Starting " + self.name + "\n\r")
+#         while True :
+#             time.sleep(1)
+#             self.timer_signal.emit()
             
             
