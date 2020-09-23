@@ -13,6 +13,11 @@
   - **OpenWeatherMap** Meteo for current hour and tomorrow
   - House temperature thanks to DHT11 sensor and Adafruit Library
   
+### Goals of the project
+This project was made by me, for me. I didn't attend to publish it for other people to use it.
+But this program can help you with your own project, so feel free to look at the code.
+If you have any questions or ideas for the GUI, don't hesitate to do an issue!
+  
 ### References:
   - [Twitch API reference] (https://dev.twitch.tv/docs/api/reference/)
   - [TwitterAPI, wrapper for Python] (https://github.com/geduldig/TwitterAPI)
