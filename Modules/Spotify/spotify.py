@@ -98,7 +98,7 @@ class Spotify(QtCore.QThread):
                 if self.sleep_count < 10:
                     print("No playing track, retrying in 5s")
                     self.sleep_count += 1
-                    sleep(2)
+                    sleep(5)
                 else:
                     print("Idle until Device is Active again")
                     self.idle_spoti_signal.emit(True)                 
