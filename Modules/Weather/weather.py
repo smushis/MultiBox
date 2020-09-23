@@ -33,7 +33,7 @@ class Weather(QtCore.QThread):
     def readAPIKey(self):
         with open("Modules/Weather/key.txt", 'r') as file:
             key = file.read()
-        print(str(key))
+        #print(str(key))
         self.API_Key = str(key)
             
     def getWeatherData(self, API_Key):

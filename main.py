@@ -27,6 +27,13 @@ import logging
 logger = logging.getLogger("werkzeug")
 logger.setLevel(logging.ERROR)
 
+Twitter_ = True
+Spotify_ = True
+Twitch_ = True
+Spotify_Listener = True
+HTML_ = True
+Weather_ = True
+
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
@@ -62,9 +69,12 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow, app)
-    twitch_thread = ui.launchTwitchThread()
-    twitter_thread = ui.launchTwitterThread()
-    HTML_thread = ui.launchHTMLThread()
+    if Twitch_:
+        twitch_thread = ui.launchTwitchThread()
+    if Twitter_:
+        twitter_thread = ui.launchTwitterThread()
+    if HTML_:
+        HTML_thread = ui.launchHTMLThread()
     spotify_thread = ui.launchSpotifyThread()
     timer_thread = ui.launchSpotifyListenerThread()
     weather_thread = ui.launchWeatherThread()

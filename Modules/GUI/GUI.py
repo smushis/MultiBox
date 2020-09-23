@@ -25,7 +25,7 @@ from time import sleep
 import os
 
 
-TEMP_ON = True
+TEMP_ON = False
 
 if TEMP_ON:
     from Modules.Temperature.Temperature import DHT11
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setAutoFillBackground(False)
         self.centralwidget.setObjectName("centralwidget")
         self.label1 = QtWidgets.QLabel(self.centralwidget)
-        self.label1.setGeometry(QtCore.QRect(500, 200, 491, 221))
+        self.label1.setGeometry(QtCore.QRect(480, 200, 480, 221))
         self.label1.setBaseSize(QtCore.QSize(531, 261))
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -67,12 +67,13 @@ class Ui_MainWindow(object):
         self.username.setFont(font)
         self.username.setObjectName("username")
         self.Twitch_Title = QtWidgets.QLabel(self.centralwidget)
-        self.Twitch_Title.setGeometry(QtCore.QRect(480, 290, 531, 121))
+        self.Twitch_Title.setGeometry(QtCore.QRect(480, 300, 480, 121))
         font = QtGui.QFont()
         font.setPointSize(18)
         self.Twitch_Title.setFont(font)
         self.Twitch_Title.setWordWrap(True)
         self.Twitch_Title.setObjectName("Twitch_Title")
+        self.Twitch_Title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)        
         self.cadrePP = QtWidgets.QLabel(self.centralwidget)
         self.cadrePP.setGeometry(QtCore.QRect(60, 30, 351, 441))
         self.cadrePP.setText("")
@@ -198,7 +199,13 @@ class Ui_MainWindow(object):
         font.setFamily("Arial")
         font.setPointSize(36)
         self.clock.setFont(font)
-        self.clock.setObjectName("clock")        
+        self.clock.setObjectName("clock") 
+        # self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        # self.pushButton.setGeometry(QtCore.QRect(170, 650, 65, 65))
+        # self.pushButton.setObjectName("pushButton")
+        # self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        # self.pushButton_2.setGeometry(QtCore.QRect(270, 650, 65, 65))
+        # self.pushButton_2.setObjectName("pushButton_2")        
         self.BG.raise_()
         self.homeBG.raise_()
         self.weatherBG.raise_()
@@ -222,6 +229,8 @@ class Ui_MainWindow(object):
         self.tempExte_2.raise_()
         self.media.raise_()
         self.clock.raise_()
+        # self.pushButton.raise_()
+        # self.pushButton_2.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -241,6 +250,10 @@ class Ui_MainWindow(object):
             self.humi.setHidden(True)
             self.homeBG.setHidden(True)
             
+        # self.pushButton.setStyleSheet("background-image : url(img/speaker.png);")
+        # self.pushButton_2.setStyleSheet("background-image : url(img/computer.png);")         
+        # self.pushButton.clicked.connect(self.SpeakerOutput)
+        # self.pushButton_2.clicked.connect(self.ComputerOutput)   
         # # creating a timer object 
         # timer = QTimer(self.) 
   
@@ -422,6 +435,12 @@ class Ui_MainWindow(object):
         # showing it to the label 
         self.clock.setText(label_time)
         self.clock.adjustSize()
+        
+    # def SpeakerOutput(self):
+    #     self.spotify_thread.changeAudioOutput("Speaker")
+        
+    # def ComputerOutput(self):
+    #     self.spotify_thread.changeAudioOutput("Computer")
      
     #def updateText(self, label):
         

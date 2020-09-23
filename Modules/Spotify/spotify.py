@@ -24,6 +24,7 @@ class Spotify(QtCore.QThread):
     scope = "user-read-playback-state user-modify-playback-state"
     DEFAULT_DEVICE = ""
     token = ""
+    device_ID = ""
     
     def __init__(self, threadID, name, app):
         QtCore.QThread.__init__(self, parent=None)   
@@ -49,7 +50,8 @@ class Spotify(QtCore.QThread):
     def showDevices(self):
         try:
             res = self.sp.devices()
-            print(res)
+            # print(res)
+            return res
         except SpotifyException as E:
             print(E)
         
@@ -108,6 +110,17 @@ class Spotify(QtCore.QThread):
         auth2.generate_token(self.scope, token_file)
         self.readToken()
         self.sp = spotipy.Spotify(self.token)
+        
+    def changeAudioOutput(self, output):
+        devices = self.showDevices()
+        for i in devices["devices"]:
+            if i["type"] == output:
+                self.sp.pause_playback()
+                sleep(1)
+                self.device_ID = i["id"]
+                print(i)
+                self.sp.start_playback(device_id=self.device_ID)
+                break
     
 class SpotifyListener(QtCore.QThread):
     

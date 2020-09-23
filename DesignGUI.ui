@@ -27,9 +27,9 @@
    <widget class="QLabel" name="label1">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>480</x>
       <y>200</y>
-      <width>511</width>
+      <width>480</width>
       <height>221</height>
      </rect>
     </property>
@@ -101,8 +101,8 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>290</y>
-      <width>531</width>
+      <y>300</y>
+      <width>480</width>
       <height>121</height>
      </rect>
     </property>
@@ -113,6 +113,9 @@
     </property>
     <property name="text">
      <string>Twitch Title</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="wordWrap">
      <bool>true</bool>
@@ -167,6 +170,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="buddy">
+     <cstring>media</cstring>
     </property>
    </widget>
    <widget class="QLabel" name="cadre">
