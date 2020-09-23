@@ -41,8 +41,8 @@ class Spotify(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.sp = spotipy.Spotify(self.token)
-        while(not(self.playTop97())):
-              sleep(10)        
+        # while(not(self.playTop97())):
+        #       sleep(10)        
         self.showDevices()
         while True:
             self.getCurrentTrack()
@@ -59,9 +59,13 @@ class Spotify(QtCore.QThread):
             print(res)
             return res
         except SpotifyException as E:
-            self.handleException(E)
-            print(E)
-        
+            if E.http_status == 404:
+                print("No Device Active")
+                return -1
+            elif E.http_status == 401:
+                self.refreshToken()
+                return -1
+                
     def playTop97(self):
         try:
             self.sp.shuffle(True)
@@ -106,7 +110,7 @@ class Spotify(QtCore.QThread):
         
             
     def handleException(self, e):
-        if e.reason == "NO_ACTIVE_DEVICE":
+        if e.http_status == 404:
             print("No devices active, retrying in 10s")
             return False
         elif e.http_status == 401:
