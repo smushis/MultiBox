@@ -63,7 +63,7 @@ class Twitter(QtCore.QThread):
                 
     def registerWebhooks(self):
         try:
-            print("Registering Webhooks")        
+            print("Registering Twitter Webhooks")        
             r = self.twitterAPI.request('account_activity/all/:%s/webhooks' % self.ENVNAME, {'url': self.url_callback})
         except TwitterRequestError as error:
             code = error.status_code
@@ -75,7 +75,7 @@ class Twitter(QtCore.QThread):
     
     def getWebhooks(self):
         try:
-            print("Getting Webhooks")
+            print("Getting Twitter Webhooks")
             r = self.twitterAPI.request('account_activity/all/webhooks')  
             a = json.loads(r.text)
             #print(a)
@@ -95,12 +95,12 @@ class Twitter(QtCore.QThread):
         try:
             id = self.getWebhooks()
             if id ==-1:
-                print("No Webhooks to delete")
+                print("No Twitter Webhooks to delete")
             else:
-                print("Deleting Webhooks")        
+                print("Deleting Twitter Webhooks")        
                 r = self.twitterAPI.request('account_activity/all/:%s/webhooks/:%s' % (self.ENVNAME, id))
         except:
-            print("Problem during deleting webhooks")
+            print("Problem during deleting webhooks from Twitter")
             print(r.json())
         
     def addSubscription(self):
@@ -196,9 +196,10 @@ class Twitter(QtCore.QThread):
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-        text = user + " retweeted your tweet!"
+        text = user + " retweeted your tweet! \n"
+        msg = tweet["tweet_create_events"][0]["text"]
         print(text)
-        self.twitter_signal.emit(self.createDico("rt", text, user, profile_img))
+        self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img))
 
     def createDico(self, event, text, username, url, image=None):
         dico = {}
