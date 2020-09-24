@@ -47,16 +47,11 @@ class Twitch(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.authorize()
-        # self.initStateLive()
         self.initStateLiveQuick()
-        # self.SubscribeAllFollows()
-        self.getSubList()
-        self.Subscribe({'ID': '31762607', 'Name': 'Rawb_'})
-        self.getSubList()
-        # while True:
-        #     sleep(10)    
-        #     if self.getTotalSub() < 2:
-        #         self.SubscribeAllFollows()
+        while True:
+            sleep(10)    
+            if self.getTotalSub() < 2:
+                self.SubscribeAllFollows()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -95,10 +90,9 @@ class Twitch(QtCore.QThread):
             'hub.callback': self.callback + username,
             'hub.mode': 'subscribe',
             'hub.topic': self.url_streams +'?user_id=' + ID,
-            'hub.lease_seconds': 800000,
-            'hub.secret': self.Client_ID
+            'hub.lease_seconds': 800000
+            #,hub.secret': self.Client_ID
         }
-        print(twitch_hub)
         twitch_hub_json = json.dumps(twitch_hub)
         try:
             requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
