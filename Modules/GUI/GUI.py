@@ -192,7 +192,7 @@ class Ui_MainWindow(object):
         self.homeBG.setPixmap(QtGui.QPixmap("img/home_temp_bg.png"))
         self.homeBG.setObjectName("homeBG")
         self.clock = QtWidgets.QLabel(self.centralwidget)
-        self.clock.setGeometry(QtCore.QRect(1170, 10, 101, 41))
+        self.clock.setGeometry(QtCore.QRect(1200, 10, 10, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(24)
@@ -270,7 +270,7 @@ class Ui_MainWindow(object):
         self.humi.setText(_translate("MainWindow", "85%"))
         self.tempExte.setText(_translate("MainWindow", "24.0°C"))
         self.tempExte_2.setText(_translate("MainWindow", "24.0°C"))
-        self.clock.setText(_translate("MainWindow", "TextLabel"))
+        self.clock.setText(_translate("MainWindow", "12:12"))
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
