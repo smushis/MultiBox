@@ -48,8 +48,9 @@ class Twitch(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.authorize()
         self.initStateLive()
+        # self.initStateLiveQuick()
         while True:
-            sleep(3600)    
+            sleep(10)    
             if self.getTotalSub() < 1:
                 self.SubscribeAllFollows()
         
@@ -145,8 +146,9 @@ class Twitch(QtCore.QThread):
             resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
             print("Number of subs:" + resp.json()["total"])
             return resp.json()["total"]
-        except:
+        except Exception as E:
             print("Error during getting number of SubZ")
+            print(E)
              
     def getUserFollows(self):
         try:
@@ -265,7 +267,31 @@ class Twitch(QtCore.QThread):
             print("Fin init")
         except:
             print("Error while initialisation of follows")
-        
+            
+    def initStateLiveQuick(self):
+        self.getUserFollows()
+        # print(self.follows_list)
+        print("Init Stream")
+        channels = [user["Name"] for user in self.follows_list]
+        try:
+            for i in range(int(len(self.follows_list)/100)+1):    
+                params = {
+                    "user_name": channels[100*i:100*(i+1)]
+                }
+                r = requests.get(self.url_streams, params=params, headers=self.getOAuthHeader())
+                
+                if not(200 <= r.status_code <300):
+                    print("Error:" + str(r.status_code))       
+                try:
+                    for channel in r.json().get("data", []):
+                        self.follows_live.append({'Name': channel.get("user_name",""), 'Live?': channel.get("type", False)})
+                except Exception as E:
+                    print("Eroor" + E)
+            print(self.follows_live)
+        except Exception as E:
+            print("error initQuick")
+            print(E)
+                
     def getProfileImage(self, username):
         try:
             r = requests.get(self.url_photo + username, headers = self.getOAuthHeader())
