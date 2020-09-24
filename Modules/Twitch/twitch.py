@@ -287,7 +287,7 @@ class Twitch(QtCore.QThread):
                         self.follows_live.append({'Name': channel.get("user_name",""), 'Live?': channel.get("type", False)})
                 except Exception as E:
                     print("Eroor" + E)
-            print(self.follows_live)
+            print("Fin init")
         except Exception as E:
             print("error initQuick")
             print(E)
