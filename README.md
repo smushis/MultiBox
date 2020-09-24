@@ -1,7 +1,6 @@
 # MultiBox
 ### Simple GUI interfacing Twitch and Twitter notifications, Spotify tracking, Weather data and Home temperature, designed for RaspberryPI 
 
-
 #### Hardware needed:
   - Computer or Raspberry PI
   - A DHT11 Temperature Sensor (if you want to get the temperature with the RaspberryPI)
@@ -31,7 +30,12 @@ If you have any questions or ideas for the GUI, don't hesitate to do an issue!
   - Maybe switch from Raspotify to classic Spotify player on Raspi
   - New Modules
   - Thinking of responsive design (involved HTML so meh)
+  
+### Recommanded Spotify playlist
+I want to share my personnal playlist to all of you, so go [here](https://open.spotify.com/playlist/2EDQvU4v6zHH39G1pKAJrr?si=BH-ZqEx-SRayr16gIOj58w) right now!
 
+### Social Medias
+  - Twitter : [@Smushis](https://twitter.com/Smushis)
 
 ### References:
   - [Twitch API reference](https://dev.twitch.tv/docs/api/reference/)
