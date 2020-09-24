@@ -89,7 +89,8 @@ class Twitch(QtCore.QThread):
         } 
 
     def Subscribe(self, user):
-        username = user["name"]
+        print(user)
+        username = user["Name"]
         ID = user["ID"]
         twitch_hub = {
             'hub.callback': self.callback + username,
