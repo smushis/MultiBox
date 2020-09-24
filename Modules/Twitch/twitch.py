@@ -97,7 +97,8 @@ class Twitch(QtCore.QThread):
             'hub.topic': self.url_streams +'?user_id=' + ID,
             'hub.lease_seconds': 800000,
             'hub.secret': self.Client_ID
-        } 
+        }
+        print(twitch_hub)
         twitch_hub_json = json.dumps(twitch_hub)
         try:
             requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
