@@ -5,7 +5,7 @@ Created on Wed Sep 23 18:24:18 2020
 @author: Barmando
 """
 
-Twitter_ = False
+Twitter_ = True
 Spotify_ = False
 Twitch_ = True
 HTML_ = True

@@ -48,13 +48,10 @@ class Twitch(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.authorize()
         self.initStateLiveQuick()
-        self.getTotalSub()
-        self.Subscribe({'ID': '31762607', 'Name': 'Rawb_'})
-        self.getTotalSub()
-        # while True:
-        #     sleep(10)    
-        #     if self.getTotalSub() < 2:
-        #         self.SubscribeAllFollows()
+        while True:
+            sleep(10)    
+            if self.getTotalSub() < 5:
+                self.SubscribeAllFollows()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -94,13 +91,15 @@ class Twitch(QtCore.QThread):
             'hub.mode': 'subscribe',
             'hub.topic': self.url_streams +'?user_id=' + ID,
             'hub.lease_seconds': 800000
-            #,hub.secret': self.Client_ID
         }
-        twitch_hub_json = json.dumps(twitch_hub)
+        print(twitch_hub)
+        # twitch_hub_json = json.dumps(twitch_hub)
         try:
-            requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
+            r = requests.post(self.url_hub, headers=self.getOAuthHeader(), params = twitch_hub)
+            print(r)
         except:
             print("Error during Subscribing")
+            print(r)
         
     def Unsubscribe(self, callback, topic):
         #ID = self.getUserID("shroud")          
@@ -146,7 +145,7 @@ class Twitch(QtCore.QThread):
     def getTotalSub(self):
         try:
             resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-            print("Number of subs:" + str(resp.json()["total"]))
+            # print("Number of subs:" + str(resp.json()["total"]))
             return resp.json()["total"]
         except Exception as E:
             print("Error during getting number of SubZ")
