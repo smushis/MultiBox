@@ -49,6 +49,7 @@ class Twitch(QtCore.QThread):
         self.authorize()
         # self.initStateLive()
         self.initStateLiveQuick()
+        self.SubscribeAllFollows()
         self.getSubList()
         while True:
             sleep(10)    
@@ -130,7 +131,7 @@ class Twitch(QtCore.QThread):
         stream_json = self.getStreamInfo(user)
         return stream_json["id"]
     
-    def getSubList(self, pagination=0):
+    # def getSubList(self, pagination=0):
         try:
             if pagination !=0:
                 resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
