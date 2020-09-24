@@ -48,16 +48,16 @@ class Twitch(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.authorize()
         # self.getUserFollows()
-        #self.getSubList()
-        self.fullUnsub()
-        self.SubscribeAllFollows()
-        self.initStateLive()
+        self.getSubList()
+        # self.fullUnsub()
+        # self.SubscribeAllFollows()
+        # self.initStateLive()
         # self.initStateLive2()        
-        self.subToUser()
-        while True:
-            sleep(3600)    
-            if self.getTotalSub() < 10:
-                self.SubscribeAllFollows()
+        # self.subToUser()
+        # while True:
+        #     sleep(3600)    
+        #     if self.getTotalSub() < 10:
+        #         self.SubscribeAllFollows()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
