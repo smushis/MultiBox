@@ -49,12 +49,14 @@ class Twitch(QtCore.QThread):
         self.authorize()
         # self.initStateLive()
         self.initStateLiveQuick()
-        self.SubscribeAllFollows()
+        # self.SubscribeAllFollows()
         self.getSubList()
-        while True:
-            sleep(10)    
-            if self.getTotalSub() < 2:
-                self.SubscribeAllFollows()
+        self.Subscribe({'ID': '31762607', 'Name': 'Rawb_'})
+        self.getSubList()
+        # while True:
+        #     sleep(10)    
+        #     if self.getTotalSub() < 2:
+        #         self.SubscribeAllFollows()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -131,7 +133,7 @@ class Twitch(QtCore.QThread):
         stream_json = self.getStreamInfo(user)
         return stream_json["id"]
     
-    # def getSubList(self, pagination=0):
+    def getSubList(self, pagination=0):
         try:
             if pagination !=0:
                 resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
@@ -273,22 +275,22 @@ class Twitch(QtCore.QThread):
     def initStateLiveQuick(self):
         self.getUserFollows()
         # print(self.follows_list)
-        print("Init Stream")
-        channels = [user["Name"] for user in self.follows_list]
+        print("Init Streams")
+        channels = [user["ID"] for user in self.follows_list]
         try:
             for i in range(int(len(self.follows_list)/100)+1):    
                 params = {
-                    "user_name": channels[100*i:100*(i+1)]
+                    "user_id": channels[100*i:100*(i+1)]
                 }
                 r = requests.get(self.url_streams, params=params, headers=self.getOAuthHeader())
-                
+                # print(r.json())
                 if not(200 <= r.status_code <300):
-                    print("Error:" + str(r.status_code))       
+                    print("Error:" + str(r.status_code) + r.json())       
                 try:
                     for channel in r.json().get("data", []):
-                        self.follows_live.append({'Name': channel.get("user_name",""), 'Live?': channel.get("type", False)})
+                        self.follows_live.append({'Name': channel.get("user_name","").lower(), 'Live?': channel.get("type", False)})
                 except Exception as E:
-                    print("Eroor" + E)
+                    print("Eroor" + str(E))
             print("Fin init")
             print(self.follows_live)
         except Exception as E:
