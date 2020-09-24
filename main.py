@@ -24,9 +24,9 @@ app.config["DEBUG"] = False
 
 
 # Logger
-import logging
-logger = logging.getLogger("werkzeug")
-logger.setLevel(logging.ERROR)
+# import logging
+# logger = logging.getLogger("werkzeug")
+# logger.setLevel(logging.ERROR)
 
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])

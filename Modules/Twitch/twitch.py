@@ -48,10 +48,13 @@ class Twitch(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.authorize()
         self.initStateLiveQuick()
-        while True:
-            sleep(10)    
-            if self.getTotalSub() < 2:
-                self.SubscribeAllFollows()
+        self.getTotalSub()
+        self.Subscribe({'ID': '31762607', 'Name': 'Rawb_'})
+        self.getTotalSub()
+        # while True:
+        #     sleep(10)    
+        #     if self.getTotalSub() < 2:
+        #         self.SubscribeAllFollows()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -130,7 +133,7 @@ class Twitch(QtCore.QThread):
     
     def getSubList(self, pagination=0):
         try:
-            if pagination !=0:
+            if pagination != 0:
                 resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
             else:
                 resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
@@ -171,6 +174,7 @@ class Twitch(QtCore.QThread):
             #print(self.follows_list[i])
             self.Subscribe(self.follows_list[i])
         self.getTotalSub()
+        print("Fin Full Sub")
 
     def getUsername(self, ID):
         try:              
