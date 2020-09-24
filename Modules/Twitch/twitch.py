@@ -134,7 +134,7 @@ class Twitch(QtCore.QThread):
                 resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
             else:
                 resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-                print(resp.json())
+                # print(resp.json())
             return resp.json()
         except Exception as E:
             print("Error during getting Sub List")
@@ -287,7 +287,7 @@ class Twitch(QtCore.QThread):
                 except Exception as E:
                     print("Eroor" + str(E))
             print("Fin init")
-            print(self.follows_live)
+            # print(self.follows_live)
         except Exception as E:
             print("error initQuick")
             print(E)
