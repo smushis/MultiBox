@@ -47,14 +47,17 @@ class Twitch(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.authorize()
-        #self.getUserFollows()
-        self.getSubList()
-        #self.fullUnsub()
-        # self.SubscribeAllFollows()
-        #self.initStateLive()
+        # self.getUserFollows()
+        #self.getSubList()
+        self.fullUnsub()
+        self.SubscribeAllFollows()
+        self.initStateLive()
         # self.initStateLive2()        
-        #self.subToUser()
-        
+        self.subToUser()
+        while True:
+            sleep(3600)    
+            if self.getTotalSub() < 10:
+                self.SubscribeAllFollows()
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -136,10 +139,18 @@ class Twitch(QtCore.QThread):
                 resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
             else:
                 resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-                print(resp.json())
+                print("Total subs=" + resp.json()["Total"])
             return resp.json()
         except:
             print("Error during getting Sub List")
+            
+    def getTotalSub(self):
+        try:
+            resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
+            print("Number of subs:" + resp.json()["Total"])
+            return resp.json()["Total"]
+        except:
+            print("Error during getting number of SubZ")
              
     def getUserFollows(self):
         try:
@@ -162,7 +173,7 @@ class Twitch(QtCore.QThread):
         for i in range(len(self.follows_list)):
             #print(self.follows_list[i])
             self.Subscribe(self.follows_list[i])
-        self.getSubList()
+        self.getTotalSub()
 
     def getUsername(self, ID):
         try:              
