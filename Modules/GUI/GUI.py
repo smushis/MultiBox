@@ -438,7 +438,7 @@ class Ui_MainWindow(object):
         # getting current time 
         current_time = QTime.currentTime() 
         # converting QTime object to string 
-        label_time = current_time.toString('hh:mm:ss') 
+        label_time = current_time.toString('hh:mm') 
         # showing it to the label 
         self.clock.setText(label_time)
         
