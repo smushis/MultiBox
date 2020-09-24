@@ -468,23 +468,23 @@
      <pixmap>img/home_temp_bg.png</pixmap>
     </property>
    </widget>
-   <widget class="QLabel" name="clock">
+   <widget class="QLabel" name="clock_2">
     <property name="geometry">
      <rect>
-      <x>980</x>
-      <y>20</y>
-      <width>271</width>
-      <height>71</height>
+      <x>1170</x>
+      <y>10</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>36</pointsize>
+      <pointsize>24</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>23:31</string>
     </property>
    </widget>
    <zorder>BG</zorder>
@@ -509,7 +509,7 @@
    <zorder>IconWeather_2</zorder>
    <zorder>tempExte_2</zorder>
    <zorder>media</zorder>
-   <zorder>clock</zorder>
+   <zorder>clock_2</zorder>
   </widget>
  </widget>
  <resources/>

@@ -192,18 +192,12 @@ class Ui_MainWindow(object):
         self.homeBG.setPixmap(QtGui.QPixmap("img/home_temp_bg.png"))
         self.homeBG.setObjectName("homeBG")
         self.clock = QtWidgets.QLabel(self.centralwidget)
-        self.clock.setGeometry(QtCore.QRect(980, 20, 271, 71))
+        self.clock.setGeometry(QtCore.QRect(1170, 10, 101, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(36)
+        font.setPointSize(24)
         self.clock.setFont(font)
-        self.clock.setObjectName("clock") 
-        # self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        # self.pushButton.setGeometry(QtCore.QRect(170, 650, 65, 65))
-        # self.pushButton.setObjectName("pushButton")
-        # self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        # self.pushButton_2.setGeometry(QtCore.QRect(270, 650, 65, 65))
-        # self.pushButton_2.setObjectName("pushButton_2")        
+        self.clock.setObjectName("clock")     
         self.BG.raise_()
         self.homeBG.raise_()
         self.weatherBG.raise_()
@@ -227,8 +221,7 @@ class Ui_MainWindow(object):
         self.tempExte_2.raise_()
         self.media.raise_()
         self.clock.raise_()
-        # self.pushButton.raise_()
-        # self.pushButton_2.raise_()
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -236,7 +229,7 @@ class Ui_MainWindow(object):
        
         self.app = app
         self.media.setHidden(True)
-        self.clock.setHidden(True)
+        # self.clock.setHidden(True)
         self.path = os.getcwd()
         
         if TEMP_ON:
@@ -247,19 +240,15 @@ class Ui_MainWindow(object):
             self.temp.setHidden(True)
             self.humi.setHidden(True)
             self.homeBG.setHidden(True)
-            
-        # self.pushButton.setStyleSheet("background-image : url(img/speaker.png);")
-        # self.pushButton_2.setStyleSheet("background-image : url(img/computer.png);")         
-        # self.pushButton.clicked.connect(self.SpeakerOutput)
-        # self.pushButton_2.clicked.connect(self.ComputerOutput)   
-        # # creating a timer object 
-        # timer = QTimer(self.) 
+               
+        # creating a timer object 
+        timer = QTimer(self.centralwidget) 
   
-        # # adding action to timer 
-        # timer.timeout.connect(self.showTime) 
+        # adding action to timer 
+        timer.timeout.connect(self.showTime) 
   
-        # # update the timer every second 
-        # timer.start(1000) 
+        # update the timer every second 
+        timer.start(1000) 
                 
     def switchIMG(self, state):
         if state == "Twitch":
@@ -394,6 +383,7 @@ class Ui_MainWindow(object):
             self.img_album.setVisible(True)           
             
     def getImage(self, url, name, media_type, size=None):
+        try:
             img_path = "img/" + media_type + "/" + name + ".png"
             if not(path.isdir("img/" + media_type)):
                 os.mkdir("img/" + media_type)
@@ -404,7 +394,13 @@ class Ui_MainWindow(object):
                 file.close()
                 if size != None:
                     self.reduceImageSize(size, img_path)        
-        
+        except OSError as Os:
+            print("Problem during conversion of image")
+            print(str(Os))
+        except Exception as error:
+            print("Error when getting image")
+            print(error)
+            
     def convert_to_srgb(self, img):
         '''Convert PIL image to sRGB color space (if possible)'''
         icc = img.info.get('icc_profile', '')
@@ -445,7 +441,7 @@ class Ui_MainWindow(object):
         label_time = current_time.toString('hh:mm:ss') 
         # showing it to the label 
         self.clock.setText(label_time)
-        self.clock.adjustSize()
+        
         
     # def SpeakerOutput(self):
     #     self.spotify_thread.changeAudioOutput("Speaker")
