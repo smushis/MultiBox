@@ -49,7 +49,7 @@ class Twitch(QtCore.QThread):
         self.authorize()
         self.initStateLiveQuick()
         while True:
-            sleep(10)    
+            sleep(100)    
             if self.getTotalSub() < 5:
                 self.SubscribeAllFollows()
         

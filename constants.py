@@ -6,8 +6,8 @@ Created on Wed Sep 23 18:24:18 2020
 """
 
 Twitter_ = True
-Spotify_ = False
+Spotify_ = True
 Twitch_ = True
 HTML_ = True
-Weather_ = False
-TEMP_ON = False
+Weather_ = True
+TEMP_ON = True
