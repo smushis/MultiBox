@@ -136,7 +136,7 @@ class Twitch(QtCore.QThread):
                 resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
             else:
                 resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-                print(resp.json()["total"])
+                print(resp.json())
             return resp.json()
         except:
             print("Error during getting Sub List")
