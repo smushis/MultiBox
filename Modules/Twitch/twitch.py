@@ -141,8 +141,9 @@ class Twitch(QtCore.QThread):
                 resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
                 print("Total subs=" + resp.json()["Total"])
             return resp.json()
-        except:
+        except Exception as E:
             print("Error during getting Sub List")
+            print(E)
             
     def getTotalSub(self):
         try:
@@ -169,7 +170,7 @@ class Twitch(QtCore.QThread):
 
     def SubscribeAllFollows(self):
         self.getUserFollows()
-        print("Début Subscribe\r")
+        print("Début Full Subscribe\r")
         for i in range(len(self.follows_list)):
             #print(self.follows_list[i])
             self.Subscribe(self.follows_list[i])
