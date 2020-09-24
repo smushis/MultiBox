@@ -47,8 +47,8 @@ class Twitch(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.authorize()
-        self.initStateLive()
-        # self.initStateLiveQuick()
+        # self.initStateLive()
+        self.initStateLiveQuick()
         while True:
             sleep(10)    
             if self.getTotalSub() < 1:
@@ -144,7 +144,7 @@ class Twitch(QtCore.QThread):
     def getTotalSub(self):
         try:
             resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-            print("Number of subs:" + resp.json()["total"])
+            print("Number of subs:" + str(resp.json()["total"]))
             return resp.json()["total"]
         except Exception as E:
             print("Error during getting number of SubZ")
@@ -196,7 +196,7 @@ class Twitch(QtCore.QThread):
             print(username + " is offline !")
             #self.twitch_signal.emit(username + " is offline !")
             dico = self.search_username(username)
-            if dico == False:
+            if not(dico):
                 self.follows_live.append({'Name':username, 'Live?':False})           
             else:
                 dico['Live?'] = False        
