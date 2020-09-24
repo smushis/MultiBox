@@ -49,9 +49,10 @@ class Twitch(QtCore.QThread):
         self.authorize()
         # self.initStateLive()
         self.initStateLiveQuick()
+        self.getSubList()
         while True:
             sleep(10)    
-            if self.getTotalSub() < 1:
+            if self.getTotalSub() < 2:
                 self.SubscribeAllFollows()
         
     def readCredentials(self):
@@ -135,7 +136,7 @@ class Twitch(QtCore.QThread):
                 resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
             else:
                 resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-                print("Total subs=" + resp.json()["total"])
+                print(resp.json())
             return resp.json()
         except Exception as E:
             print("Error during getting Sub List")
@@ -288,6 +289,7 @@ class Twitch(QtCore.QThread):
                 except Exception as E:
                     print("Eroor" + E)
             print("Fin init")
+            print(self.follows_live)
         except Exception as E:
             print("error initQuick")
             print(E)
