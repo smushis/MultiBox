@@ -192,7 +192,7 @@ class Ui_MainWindow(object):
         self.homeBG.setPixmap(QtGui.QPixmap("img/home_temp_bg.png"))
         self.homeBG.setObjectName("homeBG")
         self.clock = QtWidgets.QLabel(self.centralwidget)
-        self.clock.setGeometry(QtCore.QRect(1180, 10, 10, 41))
+        self.clock.setGeometry(QtCore.QRect(1170, 10, 101, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(24)

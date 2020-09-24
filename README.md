@@ -10,8 +10,8 @@
   - **Twitch** live Notifications
   - **Twitter** Mentions(with media), Like or RT Notifications
   - **Spotify** Current track playing (You need premium Spotify for playing playlist)
-  - **OpenWeatherMap** Meteo for current hour and tomorrow
-  - House temperature thanks to DHT11 sensor and Adafruit Library
+  - **OpenWeatherMap** Weather for current hour and tomorrow
+  - House temperature thanks to DHT11 sensor 
 
 I recommand you to use the latest version of [Raspberry PI OS](https://www.raspberrypi.org/downloads/raspberry-pi-os/) if you are going to do a new project on your PI.
 The software is using ~150MB of RAM and less than 20% of the CPU (when not idle) on my Raspberry PI 3 B+.
@@ -20,7 +20,19 @@ The software is using ~150MB of RAM and less than 20% of the CPU (when not idle)
 This project was made by me, for me. I didn't attend to publish it for other people to use it.
 But this program can help you with your own project, so feel free to look at the code.
 If you have any questions or ideas for the GUI, don't hesitate to do an issue!
-  
+
+### Future updates that might come (in order of  priority)
+  - Better GUI interface (not as good as I want atm)
+  - 7 days weather  
+  - Better Handling of Exception
+  - Buttons to skip music, play/pause/resume, launch a playlist, progress bar of the song
+  - Change Avatar border
+  - Fix connection of Bluetooth speaker with Raspi 3 (or use cable)
+  - Maybe switch from Raspotify to classic Spotify player on Raspi
+  - New Modules
+  - Thinking of responsive design (involved HTML so meh)
+
+
 ### References:
   - [Twitch API reference](https://dev.twitch.tv/docs/api/reference/)
   - [TwitterAPI, wrapper for Python](https://github.com/geduldig/TwitterAPI)

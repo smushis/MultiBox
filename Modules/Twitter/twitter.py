@@ -167,11 +167,9 @@ class Twitter(QtCore.QThread):
         text =  user + " responded to your tweet! : \n" + data
         print(text)
         if "media" in tweet["tweet_create_events"][0]["entities"]:
-            tweet_image_link = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
-            tweet_image_id = tweet["tweet_create_events"][0]["entities"]["media"][0]["id_str"]
             tweet_image_info = {}
-            tweet_image_info["link"] = tweet_image_link
-            tweet_image_info["id"] = tweet_image_id
+            tweet_image_info["link"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
+            tweet_image_info["id"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["id_str"]
             self.twitter_signal.emit(self.createDico("Mention", text, user, profile_img, tweet_image_info))
         else:
             self.twitter_signal.emit(self.createDico("Mention", text, user, profile_img))
@@ -182,23 +180,34 @@ class Twitter(QtCore.QThread):
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = user + " liked your tweet!"
             print(text)
-            msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"]         
-            self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
+            msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"] 
+            if "media" in tweet["favorite_events"][0]["favorited_status"]["entities"]:
+                tweet_image_info = {}
+                tweet_image_info["link"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["media_url"]
+                tweet_image_info["id"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["id_str"]  
+                self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img, tweet_image_info))
+            else:
+                self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
         else:
-            #print(tweet)
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = 'You liked a tweet!'
             print(text)
-            msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"]
-            self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
+            # msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"]
+            # self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
         
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text = user + " retweeted your tweet! \n"
         msg = tweet["tweet_create_events"][0]["text"]
+        if "media" in tweet["tweet_create_events"][0]["entities"]:
+            tweet_image_info = {}
+            tweet_image_info["link"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
+            tweet_image_info["id"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["id_str"]
+            self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img, tweet_image_info))
+        else:
+            self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img))
         print(text)
-        self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img))
 
     def createDico(self, event, text, username, url, image=None):
         dico = {}

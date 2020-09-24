@@ -142,3 +142,10 @@ Modules/Spotify/spotify_token.oauth
 .cache-Smushis
 Modules/Twitch/twitch_credentials.oauth
 Modules/Twitter/twitter_credentials.oauth
+DesignGUI.ui.bak
+Modules/Weather/key.txt
+aya.py
+img/Twitter_Media/
+img/Weather/
+img/computer.png
+img/speaker.png
