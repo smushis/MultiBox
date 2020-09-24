@@ -47,16 +47,10 @@ class Twitch(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.authorize()
-        # self.getUserFollows()
-        # self.getSubList()
-        # self.fullUnsub()
-        self.SubscribeAllFollows()
         self.initStateLive()
-        # self.initStateLive2()        
-        self.subToUser()
         while True:
             sleep(3600)    
-            if self.getTotalSub() < 10:
+            if self.getTotalSub() < 1:
                 self.SubscribeAllFollows()
         
     def readCredentials(self):
@@ -89,7 +83,7 @@ class Twitch(QtCore.QThread):
         } 
 
     def Subscribe(self, user):
-        print(user)
+        #print(user)
         username = user["Name"]
         ID = user["ID"]
         twitch_hub = {
@@ -149,8 +143,8 @@ class Twitch(QtCore.QThread):
     def getTotalSub(self):
         try:
             resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
-            print("Number of subs:" + resp.json()["Total"])
-            return resp.json()["Total"]
+            print("Number of subs:" + resp.json()["total"])
+            return resp.json()["total"]
         except:
             print("Error during getting number of SubZ")
              
