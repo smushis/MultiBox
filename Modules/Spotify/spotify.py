@@ -57,7 +57,7 @@ class Spotify(QtCore.QThread):
         try:
             res = self.sp.devices()
             if res["devices"]!= []:
-                print(res)
+                # print(res)
                 return res
             else:
                 #print("No devices")
@@ -104,7 +104,7 @@ class Spotify(QtCore.QThread):
                     print("Idle until Device is Active again")
                     self.idle_spoti_signal.emit(True)
                     while(not(self.showDevices()["devices"][0]["is_active"])):
-                        sleep(10)
+                        sleep(5)
                     self.sleep_count = 0
         except SpotifyException as e:
             sleep(10)
