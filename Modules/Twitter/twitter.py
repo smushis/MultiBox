@@ -169,10 +169,14 @@ class Twitter(QtCore.QThread):
         text =  user + " responded to your tweet! : \n" + data
         print(text)
         if "media" in tweet["tweet_create_events"][0]["entities"]:
-            tweet_image_info = {}
-            tweet_image_info["link"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
-            tweet_image_info["id"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["id_str"]
-            self.twitter_signal.emit(self.createDico("Mention", text, user, profile_img, tweet_image_info))
+            tweet_media = {}
+            tweet_media["link"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
+            tweet_media["id"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["id_str"]
+            tweet_media["type"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["type"]           
+            if tweet_media["type"] == "photo":
+                self.twitter_signal.emit(self.createDico("Mention", text, user, profile_img, tweet_media))
+            else:
+                print(tweet_media["type"] + "is not currently supported")     
         else:
             self.twitter_signal.emit(self.createDico("Mention", text, user, profile_img))
         
@@ -184,10 +188,14 @@ class Twitter(QtCore.QThread):
             print(text)
             msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"] 
             if "media" in tweet["favorite_events"][0]["favorited_status"]["entities"]:
-                tweet_image_info = {}
-                tweet_image_info["link"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["media_url"]
-                tweet_image_info["id"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["id_str"]  
-                self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img, tweet_image_info))
+                tweet_media = {}
+                tweet_media["link"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["media_url"]
+                tweet_media["id"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["id_str"] 
+                tweet_media["type"] = ["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["type"]
+                if tweet_media["type"] == "photo":
+                    self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img, tweet_media))
+                else:
+                    print(tweet_media["type"] + "is not currently supported")
             else:
                 self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
         else:
@@ -203,10 +211,11 @@ class Twitter(QtCore.QThread):
         text = user + " retweeted your tweet! \n"
         msg = tweet["tweet_create_events"][0]["text"].split(self.username, 1)[1]
         if "media" in tweet["tweet_create_events"][0]["entities"]:
-            tweet_image_info = {}
-            tweet_image_info["link"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
-            tweet_image_info["id"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["id_str"]
-            self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img, tweet_image_info))
+            tweet_media = {}
+            tweet_media["link"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
+            tweet_media["id"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["id_str"]
+            tweet_media["type"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["type"]
+            self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img, tweet_media))
         else:
             self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img))
         print(text)
