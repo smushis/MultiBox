@@ -31,12 +31,29 @@ app.config["DEBUG"] = False
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
+    raw_data = request.get_data()
+    try:
+        data = request.json
+    except Exception as e:
+        print(e)
+        data = {}
+        return Response(status=400)
+    
+    signed = False
+    signature = request.headers.get("x-hub-signature", "=").split("=")[-1]
+    hash = hmac.new(str.encode(twitch_thread.Client_ID), msg=raw_data, digestmod=hashlib.sha256).hexdigest()
+    if hash == signature:
+        signed = True
+       
     if request.method == 'GET':
         chall = request.args.get("hub.challenge")
         return chall 
+    elif signed:
+        twitch_thread.incoming_data(data, username)
+        return Response(status=200)
     else:
-        twitch_thread.incoming_data(request.get_json(), username)
-    return Response(status=200)
+        print("Signature could not be verified")
+        return Response(status=401)
 
 @app.route('/twitter/webhooks', methods=["GET", "POST"])
 def twitter_requests():

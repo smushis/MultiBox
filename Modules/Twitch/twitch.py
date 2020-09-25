@@ -49,9 +49,9 @@ class Twitch(QtCore.QThread):
         self.authorize()
         self.initStateLiveQuick()
         while True:
-            sleep(100)    
             if self.getTotalSub() < 5:
                 self.SubscribeAllFollows()
+            sleep(100)
         
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -90,10 +90,9 @@ class Twitch(QtCore.QThread):
             'hub.callback': self.callback + username,
             'hub.mode': 'subscribe',
             'hub.topic': self.url_streams +'?user_id=' + ID,
-            'hub.lease_seconds': 800000
+            'hub.lease_seconds': 800000,
+            'hub.secret': self.Client_ID
         }
-        print(twitch_hub)
-        # twitch_hub_json = json.dumps(twitch_hub)
         try:
             r = requests.post(self.url_hub, headers=self.getOAuthHeader(), params = twitch_hub)
             print(r)
@@ -110,12 +109,11 @@ class Twitch(QtCore.QThread):
             'hub.lease_seconds': 800000,
             'hub.secret': self.Client_ID
         }            
-        twitch_hub_json = json.dumps(twitch_hub)
         try:
-            requests.post(self.url_hub, headers=self.getOAuthHeader(), data = twitch_hub_json)
+            requests.post(self.url_hub, headers=self.getOAuthHeader(), params = twitch_hub)
         except:
             print("Error during Unsubscribing")
-        #self.follows_list.remove(ID)
+
         
     def getStreamInfo(self, user):
         try:
@@ -133,9 +131,9 @@ class Twitch(QtCore.QThread):
     def getSubList(self, pagination=0):
         try:
             if pagination != 0:
-                resp = requests.get(self.url_sub + "?after=" + pagination, headers=self.getOAuthHeader())
+                resp = requests.get(self.url_sub + "?after=" + pagination + "&first=100", headers=self.getOAuthHeader())
             else:
-                resp = requests.get(self.url_sub, headers=self.getOAuthHeader())
+                resp = requests.get(self.url_sub + "&first=100", headers=self.getOAuthHeader())
                 # print(resp.json())
             return resp.json()
         except Exception as E:
@@ -241,7 +239,7 @@ class Twitch(QtCore.QThread):
             total = resp["total"]
             print("total= " + str(total))
             print("Debut unsub")
-            for j in range(total//20 +1):
+            for j in range(total//100 +1):
                 print("Unsub page =" + str(j))
                 prev_resp = resp
                 for h in range(len(prev_resp["data"])):
@@ -251,7 +249,7 @@ class Twitch(QtCore.QThread):
                     print(self.getSubList()["total"])
                     break
                 resp = self.getSubList(pag)
-            print(self.getSubList()["total"]) 
+            print(self.getTotalSub()) 
         except:
             print("Error while unsubbing to all")
         
