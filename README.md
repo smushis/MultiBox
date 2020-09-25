@@ -24,7 +24,7 @@ If you have any questions or ideas for the GUI, don't hesitate to do an issue!
   - Find a way to wrap the text from Twitch or Twitter more correctly
   - Better GUI interface (not as good as I want atm)
   - 7 days weather  
-  - Twitch Secret message
+  - ~~Twitch Secret message~~
   - Better Handling of Exception
   - Twitter Video 
   - ~~Delete @username before tweet printing~~
