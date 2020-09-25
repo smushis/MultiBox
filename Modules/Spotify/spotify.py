@@ -87,7 +87,7 @@ class Spotify(QtCore.QThread):
                 img_album = tr.get("item", {}).get("album", {}).get("images", [{}])[1].get("url",'')
                 album = tr.get("item", {}).get("album",{}).get("id", 0)
                 self.Spotify_signal.emit(self.createDico(artist, track, img_album, album))
-                if self.sleep_count ==0:
+                if self.sleep_count == 0:
                     self.idle_spoti_signal.emit(False)
             else :
                 if self.sleep_count < 5:
@@ -134,7 +134,7 @@ class Spotify(QtCore.QThread):
     def changeAudioOutput(self, output):
         devices = self.showDevices()
         for i in devices["devices"]:
-            if i["type"] == output:
+            if i.get("type", "nothing") == output:
                 self.sp.pause_playback()
                 sleep(1)
                 self.device_ID = i["id"]
