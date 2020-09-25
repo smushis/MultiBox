@@ -26,6 +26,8 @@ class Twitter(QtCore.QThread):
      
     url_callback = ''
     
+    username ='Smushis' #Your @
+    
     # Important NOTE: After Startup, you need to unsubscribe and resubscribe because the url callback
     # will change
     
@@ -162,7 +164,7 @@ class Twitter(QtCore.QThread):
                       
     def analyzeMention(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
-        data = tweet["tweet_create_events"][0]["text"]
+        data = tweet["tweet_create_events"][0]["text"].split(self.username,1)[1]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text =  user + " responded to your tweet! : \n" + data
         print(text)
@@ -199,7 +201,7 @@ class Twitter(QtCore.QThread):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text = user + " retweeted your tweet! \n"
-        msg = tweet["tweet_create_events"][0]["text"]
+        msg = tweet["tweet_create_events"][0]["text"].split(self.username, 1)[1]
         if "media" in tweet["tweet_create_events"][0]["entities"]:
             tweet_image_info = {}
             tweet_image_info["link"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
