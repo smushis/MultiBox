@@ -48,6 +48,7 @@ class Twitch(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.authorize()
         self.initStateLiveQuick()
+        print(self.getTotalSub())
         while True:
             if self.getTotalSub() < 5:
                 self.SubscribeAllFollows()
@@ -95,7 +96,6 @@ class Twitch(QtCore.QThread):
         }
         try:
             r = requests.post(self.url_hub, headers=self.getOAuthHeader(), params = twitch_hub)
-            print(r)
         except:
             print("Error during Subscribing")
             print(r)
@@ -110,9 +110,10 @@ class Twitch(QtCore.QThread):
             'hub.secret': self.Client_ID
         }            
         try:
-            requests.post(self.url_hub, headers=self.getOAuthHeader(), params = twitch_hub)
+            r = requests.post(self.url_hub, headers=self.getOAuthHeader(), params = twitch_hub)
         except:
             print("Error during Unsubscribing")
+            print(r)
 
         
     def getStreamInfo(self, user):
