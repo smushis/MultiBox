@@ -28,8 +28,7 @@ class Spotify(QtCore.QThread):
     token = ""
     device_ID = ""
     sleep_count = 0
-    
-    
+     
     def __init__(self, threadID, name, app):
         QtCore.QThread.__init__(self, parent=None)   
         self.threadID = threadID
@@ -40,9 +39,7 @@ class Spotify(QtCore.QThread):
 
     def run(self):
         print("Starting " + self.name + "\n\r")
-        self.sp = spotipy.Spotify(self.token)
-        # while(not(self.playTop97())):
-        #       sleep(10)        
+        self.sp = spotipy.Spotify(self.token)     
         self.showDevices()
         while True:
             self.getCurrentTrack()
@@ -57,7 +54,6 @@ class Spotify(QtCore.QThread):
         try:
             res = self.sp.devices()
             if res["devices"]!= []:
-                # print(res)
                 return res
             else:
                 #print("No devices")
@@ -86,24 +82,22 @@ class Spotify(QtCore.QThread):
             tr = self.sp.current_user_playing_track()
             #print(tr)
             if tr != None:
-                artist = tr['item']['artists'][0]['name']
-                track = tr['item']['name']
-                img_album = tr['item']['album']['images'][1]['url']
-                album = tr['item']['album']['id']
-                #if artist !="":
-                    #print("Currently playing " + artist + " - " + track)
+                artist = tr.get("item",{}).get('artists',[{}])[0].get('name','Unknown Artist')
+                track = tr.get("item",{}).get('name', 'Unknown Track')
+                img_album = tr.get("item", {}).get("album", {}).get("images", [{}])[1].get("url",'')
+                album = tr.get("item", {}).get("album",{}).get("id", 0)
                 self.Spotify_signal.emit(self.createDico(artist, track, img_album, album))
                 if self.sleep_count ==0:
                     self.idle_spoti_signal.emit(False)
             else :
-                if self.sleep_count < 10:
+                if self.sleep_count < 5:
                     print("No playing track, retrying in 5s")
                     self.sleep_count += 1
                     sleep(5)
                 else:
                     print("Idle until Device is Active again")
                     self.idle_spoti_signal.emit(True)
-                    while(not(self.showDevices()["devices"][0]["is_active"])):
+                    while(not(self.showDevices().get("devices",[{}])[0].get('is_active', False))):
                         sleep(5)
                     self.sleep_count = 0
         except SpotifyException as e:
