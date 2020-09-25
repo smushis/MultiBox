@@ -24,8 +24,9 @@ If you have any questions or ideas for the GUI, don't hesitate to do an issue!
   - Find a way to wrap the text from Twitch or Twitter more correctly
   - Better GUI interface (not as good as I want atm)
   - 7 days weather  
+  - Twitch Secret message
   - Better Handling of Exception
-  - Delete @username before tweet printing
+  - ~~Delete @username before tweet printing~~
   - Buttons to skip music, play/pause/resume, launch a playlist, progress bar of the song
   - Change Avatar border
   - Fix connection of Bluetooth speaker with Raspi 3 (or use cable)
