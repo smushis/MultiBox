@@ -148,7 +148,8 @@ class Twitter(QtCore.QThread):
             self.tweetCreationEvent(tweet)
         elif "favorite_events" in tweet:
             self.tweetFavoriteEvent(tweet)
-        else:
+        elif "direct_message_events" in tweet:
+            self.analyzeDM(tweet)
             print("nothing to be done")
             
     def tweetCreationEvent(self, tweet):
@@ -218,8 +219,23 @@ class Twitter(QtCore.QThread):
             self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img, tweet_media))
         else:
             self.twitter_signal.emit(self.createDico("rt", text + msg, user, profile_img))
-        print(text)
-
+        
+    def analyzeDM(self, tweet):
+        ID_Sender = tweet.get("direct_message_events",[{}])[0].get('message_create', {}).get("sender_id")
+        user = tweet.get('users', {}).get(ID_Sender, {}).get('screen_name', "No Name")
+        msg = tweet.get("direct_message_events",[{}])[0].get('message_create', {}).get("message_data", {}).get("text", "Error with DM")
+        profile_img = tweet.get('users', {}).get(ID_Sender, {}).get('profile_image_url', None)
+        text = user + " send you a DM! \n" + msg
+        if "media" in tweet['direct_message_events'][0]["message_create"]["message_data"]["attachment"]:
+            tweet_media = {}
+            tweet_media["link"] = tweet['direct_message_events'][0]["message_create"]["message_data"]["attachment"]["media"]['media_url']
+            tweet_media["id"] = tweet['direct_message_events'][0]["message_create"]["message_data"]["attachment"]["media"]['id_str']
+            tweet_media["type"] = tweet['direct_message_events'][0]["message_create"]["message_data"]["attachment"]["media"]['type']
+            self.twitter_signal.emit(self.createDico("dm", text, user, profile_img, tweet_media))
+        else:
+            self.twitter_signal.emit(self.createDico("dm", text, user, profile_img))
+        return self.createDico("dm", text, user, profile_img, tweet_media)
+        
     def createDico(self, event, text, username, url, image=None):
         dico = {}
         dico["events"] = event

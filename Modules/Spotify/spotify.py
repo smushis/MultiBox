@@ -23,7 +23,7 @@ class Spotify(QtCore.QThread):
     Spotify_signal = pyqtSignal(dict)
     idle_spoti_signal = pyqtSignal(bool)
     
-    scope = "user-read-playback-state user-modify-playback-state"
+    scope = "user-read-playback-state user-modify-playback-state user-top-read"
     DEFAULT_DEVICE = ""
     token = ""
     device_ID = ""
@@ -41,6 +41,7 @@ class Spotify(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.sp = spotipy.Spotify(self.token)     
         self.showDevices()
+        self.getCurrentTopArtist("short_term")
         while True:
             self.getCurrentTrack()
             sleep(0.5)
@@ -141,6 +142,20 @@ class Spotify(QtCore.QThread):
                 print(i)
                 self.sp.start_playback(device_id=self.device_ID)
                 break
+    
+    def getCurrentTopArtist(self, Range='long_term'):
+        data = self.sp.current_user_top_artists(time_range=Range)
+        for i in range(len(data.get("items", [{}]))):
+            print("#" + str(i+1) + " "+ data.get("items", [{}])[i].get("name", "No name"))       
+        
+    def getCurrentTopTracks(self):
+        data = self.sp.current_user_top_tracks(time_range='long_term')
+        for i in range(len(data.get("items", [{}]))):
+            dico = {}
+            dico['track'] = data.get("items", [{}])[i].get("name", "No name")
+            dico['album'] = data.get("items", [{}])[i].get("album", {}).get('name', "no album name")
+            dico['artists'] = data.get("items", [{}])[i].get("artists", [{}])[0].get('name', "no artists")        
+            print(dico)
     
 # class SpotifyListener(QtCore.QThread):
     

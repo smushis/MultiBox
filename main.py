@@ -17,7 +17,7 @@ from flask import Response
 from Modules.GUI.GUI import Ui_MainWindow
 from PyQt5 import  QtWidgets
 
-from constants import Twitter_, Spotify_, Twitch_, HTML_, Weather_, TEMP_ON
+from constants import Twitter_, Spotify_, Twitch_, HTML_, Weather_, TEMP_ON, GUI_, Youtube_
 
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
@@ -46,13 +46,12 @@ def notifs_event(username):
         signed = True
        
     if request.method == 'GET':
-        chall = request.args.get("hub.challenge")
-        return chall 
+        return request.args.get("hub.challenge") 
     elif signed:
         twitch_thread.incoming_data(data, username)
         return Response(status=200)
     else:
-        print("Signature could not be verified")
+        print("Sign ature could not be verified")
         return Response(status=401)
 
 @app.route('/twitter/webhooks', methods=["GET", "POST"])
@@ -73,7 +72,17 @@ def twitter_requests():
         #print(request.get_json())
         twitter_thread.tweetAnalyzer(request.get_json())
         return Response(status=200)
-        
+    
+@app.route('/youtube/user/<username>')
+def youtube_webhooks(username):
+    if request.method == 'GET':
+        return request.args.get("hub.challenge")
+    else:
+        print("Data for" + username + "\n")
+        data = request.json
+        yt_thread.incomming_Data(data)
+        return Response(status=200)
+    
 if __name__ == "__main__":
         
     appThread = QtWidgets.QApplication(sys.argv)
@@ -92,8 +101,11 @@ if __name__ == "__main__":
         weather_thread = ui.launchWeatherThread()
     if TEMP_ON:
         temp_thread = ui.launchTemperatureThread()
-    MainWindow.show()
-    sys.exit(appThread.exec_())        
+    if Youtube_:
+        yt_thread = ui.launchYoutubeThread()
+    if GUI_:
+        MainWindow.show()
+        sys.exit(appThread.exec_())        
 
     
 

@@ -11,6 +11,7 @@ from Modules.Twitch.twitch import Twitch
 from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Weather.weather import Weather
+from Modules.Youtube.youtube import Youtube
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer, QTime, Qt
@@ -312,7 +313,13 @@ class Ui_MainWindow(object):
         self.weather_thread = Weather(7, "Weather Thread")
         self.weather_thread.weather_signal.connect(self.showWeather)
         self.weather_thread.start()
-        return self.weather_thread           
+        return self.weather_thread 
+
+    def launchYoutubeThread(self):       
+        self.youtube_thread = Youtube(8, "Youtube Thread")
+        # self.youtube_thread.yt_signal.connect()
+        self.youtube_thread.start()
+        return self.youtube_thread             
 
     def printTweet(self, data):
         self.switchIMG("Twitter")

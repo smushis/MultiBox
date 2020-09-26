@@ -13,7 +13,7 @@
   - House temperature thanks to DHT11 sensor 
 
 I recommand you to use the latest version of [Raspberry PI OS](https://www.raspberrypi.org/downloads/raspberry-pi-os/) if you are going to do a new project on your PI.
-The software is using ~150MB of RAM and less than 20% of the CPU (when not idle) on my Raspberry PI 3 B+.
+The software is using ~150MB of RAM and less than 20% of the CPU (less than 5% in idle) on my Raspberry PI 3 B+.
   
 ### Goals of the project
 This project was made by me, for me. I didn't attend to publish it for other people to use it.
@@ -21,18 +21,19 @@ But this program can help you with your own project, so feel free to look at the
 If you have any questions or ideas for the GUI, don't hesitate to do an issue!
 
 ### Future updates that might come (in order of  priority)
-  - Find a way to wrap the text from Twitch or Twitter more correctly
+  - Find a way to wrap the text from Twitch and Twitter more correctly
   - Better GUI interface (not as good as I want atm)
   - 7 days weather  
   - ~~Twitch Secret message~~
-  - Better Handling of Exception
+  - Better Handling of Exception and Json reading
   - Twitter Video 
   - ~~Delete @username before tweet printing~~
   - Buttons to skip music, play/pause/resume, launch a playlist, progress bar of the song
   - Change Avatar border
-  - Fix connection of Bluetooth speaker with Raspi 3 (or use cable)
+  - Fix connection with Bluetooth speaker with Raspi 3 (or use cable)
   - Maybe switch from Raspotify to classic Spotify player on Raspi
   - New Modules
+  - Spotify tracker ? (like Lastfm)
   - Thinking of responsive design (involved HTML so meh)
   
 ### Recommanded Spotify playlist

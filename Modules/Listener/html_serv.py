@@ -9,7 +9,7 @@ from PyQt5.QtCore import pyqtSignal
 
 class htmlServ(QtCore.QThread):
     host  = "0.0.0.0"
-    port = 22220
+    port = 2222
     
     def __init__(self, threadID, name, app):
         QtCore.QThread.__init__(self, parent=None)   
