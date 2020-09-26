@@ -24,7 +24,7 @@ channels = [
     'Vsauce',
     'KoteiLoL', # Kameto
     'ChannelSuperFun',
-    # 'TevLouis',
+    'TevLouis',
     'LouisSan',
     'IciJapon',
     'physicsgirl',
@@ -35,6 +35,7 @@ channels = [
     'BestOfAntoineDaniel',
     'Corridor'
     ]
+channels_by_id = []
 
 class Youtube(QtCore.QThread): 
     yt_signal = pyqtSignal(dict)
@@ -88,7 +89,7 @@ class Youtube(QtCore.QThread):
             if ID != 0:
                 self.Subscribe(ID, username)
             else:
-                print("Problem with username")
+                print("Problem with username: " + username)
             sleep(1)
         print("Sub all finish")
     
