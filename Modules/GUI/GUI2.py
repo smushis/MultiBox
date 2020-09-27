@@ -532,14 +532,7 @@ class Ui_MainWindow(object):
         
         self.notifs = []
         
-                
-    def switchIMG(self, state):
-        if state == "Twitch":
-            self.media.setHidden(True)
-            self.BG.setPixmap(QtGui.QPixmap("img/TwitchBG.png"))
-        else:
-            self.media.setHidden(True)
-            self.BG.setPixmap(QtGui.QPixmap("img/twitter_bg.png"))            
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -624,7 +617,6 @@ class Ui_MainWindow(object):
         return self.youtube_thread             
 
     def printTweet(self, data, label, Photo, cadre):
-        self.switchIMG("Twitter")
         text = data["text"].split('https')[0]
         label.setText(text) 
         label.adjustSize()
@@ -652,7 +644,6 @@ class Ui_MainWindow(object):
             
     def printStreams(self, data, label, Photo, title, cadre):
         self.media.setHidden(True)
-        self.switchIMG("Twitch")
         label.setText(data["text"])     
         label.adjustSize()
         self.getImage(data["url"], data["username"], "Twitch", 200)
