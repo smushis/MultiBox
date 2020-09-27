@@ -11,6 +11,7 @@
   - **Spotify** Current track playing (You need premium Spotify for playing playlist)
   - **OpenWeatherMap** Weather for current hour and tomorrow
   - House temperature thanks to DHT11 sensor 
+  - ** *New* YOUTUBE** webhooks notifications (console only currently)
 
 I recommand you to use the latest version of [Raspberry PI OS](https://www.raspberrypi.org/downloads/raspberry-pi-os/) if you are going to do a new project on your PI.
 The software is using ~150MB of RAM and less than 20% of the CPU (less than 5% in idle) on my Raspberry PI 3 B+.
