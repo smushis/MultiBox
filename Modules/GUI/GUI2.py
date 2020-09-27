@@ -24,6 +24,7 @@ from PIL import ImageCms
 from os import path
 from time import sleep
 import os
+from datetime import date
 
 from constants import TEMP_ON
 
@@ -512,6 +513,10 @@ class Ui_MainWindow(object):
         # self.clock.setHidden(True)
         self.path = os.getcwd()
         
+        self.spot_play.setStyleSheet("background-image : url(img/GUI2/play.png);")
+        self.spot_back.setStyleSheet("background-image : url(img/GUI2/backward.png);")
+        self.spot_forward.setStyleSheet("background-image : url(img/GUI2/forward.png);")
+        
         if TEMP_ON:
             self.temp.setVisible(True)
             self.humi.setVisible(True)
@@ -619,8 +624,9 @@ class Ui_MainWindow(object):
         self.youtube_thread.start()
         return self.youtube_thread             
 
-    def printTweet(self, data, label, Photo, cadre):
+    def printTweet(self, data, label, Photo, cadre, title):
         text = data["text"].split('https')[0]
+        title.setHidden(True)
         label.setText(text) 
         label.adjustSize()
         self.getImage(data["url"], data["username"], "Twitter", 90)
@@ -648,9 +654,9 @@ class Ui_MainWindow(object):
         label.adjustSize()
         self.getImage(data["url"], data["username"], "Twitch", 90)
         Photo.setPixmap(QtGui.QPixmap("img/Twitch/" + data["username"]+ ".png"))
-        self.Twitch_Title.setVisible(True)
-        self.Twitch_Title.setText(data["title"])      
-        self.Twitch_Title.adjustSize()
+        title.setVisible(True)
+        title.setText(data["title"])      
+        title.adjustSize()
         cadre.setPixmap(QtGui.QPixmap("img/GUI2/twitch_border.png"))
         sleep(5)
         #self.Photo.setHidden(True)
@@ -721,31 +727,31 @@ class Ui_MainWindow(object):
     def showWeather(self, weather):
         if weather["day"] == "today":
             self.tempExte.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_1.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
         elif weather["day"] == 1:
             self.tempExte_2.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_2.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 2:
             self.tempExte_3.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_3.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 3:
             self.tempExte_4.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_4.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 4:
             self.tempExte_5.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_5.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 5:
             self.tempExte_7.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_7.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 6:
             self.tempExte_9.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_9.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
             
     # method called by timer 
@@ -755,7 +761,8 @@ class Ui_MainWindow(object):
         # converting QTime object to string 
         label_time = current_time.toString('hh:mm') 
         # showing it to the label 
-        self.lcdNumber.display(label_time)        
+        self.lcdNumber.display(label_time)
+        self.label(date.today())        
       
     def newNotifications(self, data):
         if len(self.notifs) == 4:
@@ -792,7 +799,7 @@ class Ui_MainWindow(object):
             if "title" in data: # Twitch
                 self.printStreams(data, text, img, twitchTitle, cadre)
             elif "media" in data:
-                self.printTweet(data, text, img, cadre)
+                self.printTweet(data, text, img, twitchTitle, cadre)
             else:
                 print("Problemo")
 
