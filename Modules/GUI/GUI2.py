@@ -343,7 +343,7 @@ class Ui_MainWindow(object):
         self.lcdNumber.setGeometry(QtCore.QRect(160, 270, 121, 51))
         self.lcdNumber.setStyleSheet("")
         self.lcdNumber.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.lcdNumber.setDigitCount(4)
+        self.lcdNumber.setDigitCount(5)
         self.lcdNumber.setObjectName("lcdNumber")
         self.spot_play = QtWidgets.QPushButton(self.centralwidget)
         self.spot_play.setGeometry(QtCore.QRect(610, 610, 60, 60))
