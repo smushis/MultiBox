@@ -620,7 +620,7 @@ class Ui_MainWindow(object):
         text = data["text"].split('https')[0]
         label.setText(text) 
         label.adjustSize()
-        self.getImage(data["url"], data["username"], "Twitter", 200)
+        self.getImage(data["url"], data["username"], "Twitter", 90)
         im = Image.open("img/Twitter/" + data["username"]+ ".png")
         im_conv = self.convert_to_srgb(im)
         im_conv.save("img/Twitter/" + data["username"] + ".png")
@@ -632,13 +632,13 @@ class Ui_MainWindow(object):
             self.media.adjustSize()
             self.media.setVisible(True)
         if data["events"] == "Mention":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/Mentions_bg.png"))
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
             cadre.adjustSize()
         elif data["events"] == "rt":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/RT_bg.png"))
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png"))
             cadre.adjustSize()           
         elif data["events"] == "fav":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/like_bg.png"))
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
             cadre.adjustSize() 
         sleep(5)
             
@@ -646,7 +646,7 @@ class Ui_MainWindow(object):
         self.media.setHidden(True)
         label.setText(data["text"])     
         label.adjustSize()
-        self.getImage(data["url"], data["username"], "Twitch", 200)
+        self.getImage(data["url"], data["username"], "Twitch", 90)
         Photo.setPixmap(QtGui.QPixmap("img/Twitch/" + data["username"]+ ".png"))
         self.Twitch_Title.setVisible(True)
         self.Twitch_Title.setText(data["title"])      
@@ -766,7 +766,7 @@ class Ui_MainWindow(object):
         print("Notification added")
         
     def updateNotifs(self):
-        for i in range(4):
+        for i in range(len(self.notifs)):
             if i == 0:
                 img = self.label_3
                 text = self.data_1
@@ -796,8 +796,6 @@ class Ui_MainWindow(object):
                 self.printTweet(data, text, img, cadre)
             else:
                 print("Problemo")
-            if i < 4:
-                break
 
 if __name__ == "__main__":
     import sys
