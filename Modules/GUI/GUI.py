@@ -249,7 +249,16 @@ class Ui_MainWindow(object):
         timer.timeout.connect(self.showTime) 
   
         # update the timer every second 
-        timer.start(1000) 
+        timer.start(1000)
+         
+        self.lcdNumber = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdNumber.setGeometry(QtCore.QRect(1043, 90, 151, 41))
+        self.lcdNumber.setSmallDecimalPoint(False)
+        self.lcdNumber.setDigitCount(5)
+        self.lcdNumber.setSegmentStyle(QtWidgets.QLCDNumber.Filled)
+        self.lcdNumber.setObjectName("lcdNumber")
+        self.lcdNumber.raise_()
+        
                 
     def switchIMG(self, state):
         if state == "Twitch":
@@ -447,7 +456,7 @@ class Ui_MainWindow(object):
         # converting QTime object to string 
         label_time = current_time.toString('hh:mm') 
         # showing it to the label 
-        self.clock.setText(label_time)
+        self.lcdNumber.display(label_time)
         
         
     # def SpeakerOutput(self):

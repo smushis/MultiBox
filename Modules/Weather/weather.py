@@ -42,12 +42,12 @@ class Weather(QtCore.QThread):
             try:
                 weather_data = requests.get(final_url).json()
                 weather_today_data = weather_data["current"]
-                weather_tomorrow_data = weather_data["daily"][1]
-                #print(weather_data)
+                weather_week = weather_data["daily"]
+                # print(weather_data)
             except:
                 print("Problem during getting weather info")
                 break
-            
+            # print(weather_today)
             ID_today = weather_today_data["weather"][0]["id"]
             weather_today = weather_today_data["weather"][0]["description"]
             url_icon_today = self.getWeatherIcon(ID_today)
@@ -55,13 +55,23 @@ class Weather(QtCore.QThread):
             dico_today = self.createDict(url_icon_today, temp_today, weather_today)
             self.weather_signal.emit(dico_today)
             
-            ID_tom = weather_tomorrow_data["weather"][0]["id"] 
-            weather_tom = weather_tomorrow_data["weather"][0]["description"]
-            url_icon_tom  = self.getWeatherIcon(ID_tom )
-            temp_tom  = "{:.1f}°C".format(weather_tomorrow_data["temp"]["day"])            
-            dico_tom = self.createDict(url_icon_tom, temp_tom, weather_tom,"tomorrow")
-            self.weather_signal.emit(dico_tom)
+            self.sendWeatherWeekly(weather_week)
+                    
             sleep(600)
+            
+    def sendWeatherFromDay(self, data, day=1):
+        weather = data[day]
+        ID_tom = weather["weather"][0]["id"] 
+        weather_tom = weather["weather"][0]["description"]
+        url_icon_tom  = self.getWeatherIcon(ID_tom )
+        temp_tom  = "{:.1f}°C".format(weather["temp"]["day"])            
+        dico_tom = self.createDict(url_icon_tom, temp_tom, weather_tom, day)
+        self.weather_signal.emit(dico_tom)
+        
+    def sendWeatherWeekly(self, data):
+        for i in range(6):
+            self.sendWeatherFromDay(data, i+1)
+  
             
     def getWeatherIcon(self, ID):
         if ID == 800 :

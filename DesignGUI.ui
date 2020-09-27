@@ -487,6 +487,36 @@
      <string>23:31</string>
     </property>
    </widget>
+   <widget class="QLCDNumber" name="lcdNumber">
+    <property name="geometry">
+     <rect>
+      <x>1083</x>
+      <y>90</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>false</bool>
+    </property>
+    <property name="digitCount">
+     <number>5</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Filled</enum>
+    </property>
+   </widget>
    <zorder>BG</zorder>
    <zorder>homeBG</zorder>
    <zorder>weatherBG</zorder>
@@ -510,6 +540,7 @@
    <zorder>tempExte_2</zorder>
    <zorder>media</zorder>
    <zorder>clock_2</zorder>
+   <zorder>lcdNumber</zorder>
   </widget>
  </widget>
  <resources/>

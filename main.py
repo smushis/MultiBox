@@ -14,7 +14,7 @@ import sys
 
 from flask import request
 from flask import Response
-from Modules.GUI.GUI import Ui_MainWindow
+from Modules.GUI.GUI2 import Ui_MainWindow
 from PyQt5 import  QtWidgets
 
 from constants import Twitter_, Spotify_, Twitch_, HTML_, Weather_, TEMP_ON, GUI_, Youtube_
