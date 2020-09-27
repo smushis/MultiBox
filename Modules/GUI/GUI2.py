@@ -675,13 +675,13 @@ class Ui_MainWindow(object):
         
     def HideMusic(self, state=False):
         if state:
-            self.cadreMusic.setHidden(True)
+            self.label_2.setHidden(True)
             self.titleMusic.setHidden(True)
             self.artistMusic.setHidden(True)
             self.cadreAlbum.setHidden(True)
             self.img_album.setHidden(True)
         elif not(state):
-            self.cadreMusic.setVisible(True)
+            self.label_2.setVisible(True)
             self.titleMusic.setVisible(True)
             self.artistMusic.setVisible(True)
             self.cadreAlbum.setVisible(True)
