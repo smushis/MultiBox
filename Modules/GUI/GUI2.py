@@ -721,31 +721,31 @@ class Ui_MainWindow(object):
     def showWeather(self, weather):
         if weather["day"] == "today":
             self.tempExte.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather")
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
             self.IconWeather_1.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
         elif weather["day"] == 1:
             self.tempExte_2.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather")
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
             self.IconWeather_2.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 2:
             self.tempExte_3.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather")
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
             self.IconWeather_3.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 3:
             self.tempExte_4.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather")
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
             self.IconWeather_4.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 4:
             self.tempExte_5.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather")
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
             self.IconWeather_5.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 5:
             self.tempExte_7.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather")
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
             self.IconWeather_7.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
         elif weather["day"] == 6:
             self.tempExte_9.setText(weather["temp"])
-            self.getImage(weather["icon_url"], weather["type"], "Weather")
+            self.getImage(weather["icon_url"], weather["type"], "Weather", 90)
             self.IconWeather_9.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
             
     # method called by timer 
