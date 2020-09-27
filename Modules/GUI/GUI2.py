@@ -762,7 +762,7 @@ class Ui_MainWindow(object):
         label_time = current_time.toString('hh:mm') 
         # showing it to the label 
         self.lcdNumber.display(label_time)
-        self.label.setText(date.today())        
+        self.label.setText(str(date.today()))        
       
     def newNotifications(self, data):
         if len(self.notifs) == 4:
