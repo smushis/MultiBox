@@ -56,7 +56,7 @@ class Youtube(QtCore.QThread):
         # ID = self.getUserID('MrNono42100')
         # print("ID= " + ID)
         # self.Subscribe(ID,'MrNono42100')
-        self.SubscribeAll()
+        # self.SubscribeAll()
     
     def getUserID(self, username):
         request = self.youtube.channels().list(
