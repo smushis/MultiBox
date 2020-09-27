@@ -165,7 +165,7 @@ class Twitter(QtCore.QThread):
                       
     def analyzeMention(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
-        data = tweet["tweet_create_events"][0]["text"].split(self.username,1)[1]
+        data = tweet["tweet_create_events"][0]["text"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text =  user + " responded to your tweet! : \n" + data
         print(text)
