@@ -768,7 +768,8 @@ class Ui_MainWindow(object):
         self.lcdNumber.display(label_time)        
       
     def newNotifications(self, data):
-        self.notifs.remove(self.notifs[0])
+        if len(self.notifs) >= 4:
+            self.notifs.remove(self.notifs[0])
         self.notifs.append(data)
         self.updateNotifs()
         print("Notification added")
