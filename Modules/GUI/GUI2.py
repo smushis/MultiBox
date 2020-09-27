@@ -633,13 +633,10 @@ class Ui_MainWindow(object):
             self.media.setVisible(True)
         if data["events"] == "Mention":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
-            cadre.adjustSize()
         elif data["events"] == "rt":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png"))
-            cadre.adjustSize()           
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png"))          
         elif data["events"] == "fav":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
-            cadre.adjustSize() 
         sleep(5)
             
     def printStreams(self, data, label, Photo, title, cadre):
@@ -651,8 +648,7 @@ class Ui_MainWindow(object):
         self.Twitch_Title.setVisible(True)
         self.Twitch_Title.setText(data["title"])      
         self.Twitch_Title.adjustSize()
-        cadre.setPixmap(QtGui.QPixmap("img/twitch_bg.png"))
-        cadre.adjustSize()
+        cadre.setPixmap(QtGui.QPixmap("img/GUI2/twitch_border.png"))
         sleep(5)
         #self.Photo.setHidden(True)
         
