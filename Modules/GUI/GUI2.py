@@ -725,34 +725,42 @@ class Ui_MainWindow(object):
         self.humi.setText(temp["Humi"])
         
     def showWeather(self, weather):
+        date_ = date.today()
         if weather["day"] == "today":
             self.tempExte.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_1.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
+            self.date_1.setText(date_.strftime("%d/%m"))
         elif weather["day"] == 1:
             self.tempExte_2.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
-            self.IconWeather_2.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
+            self.IconWeather_2.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
+            self.date_2.setText(date_.strftime("%d/%m"))
         elif weather["day"] == 2:
             self.tempExte_3.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
-            self.IconWeather_3.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
+            self.IconWeather_3.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
+            self.date_3.setText(date_.strftime("%d/%m"))
         elif weather["day"] == 3:
             self.tempExte_4.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_4.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
+            self.date_4.setText(date_.strftime("%d/%m"))
         elif weather["day"] == 4:
             self.tempExte_5.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
-            self.IconWeather_5.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
+            self.IconWeather_5.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
+            self.date_5.setText(date_.strftime("%d/%m"))
         elif weather["day"] == 5:
             self.tempExte_7.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
-            self.IconWeather_7.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
+            self.IconWeather_7.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
+            self.date_6.setText(date_.strftime("%d/%m"))
         elif weather["day"] == 6:
             self.tempExte_9.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
-            self.IconWeather_9.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png")) 
+            self.IconWeather_9.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
+            self.date_7.setText(date_.strftime("%d/%m"))
             
     # method called by timer 
     def showTime(self): 
@@ -779,7 +787,7 @@ class Ui_MainWindow(object):
             day_txt = "Sunday"
         else:
             day_txt = ""            
-        self.label.setText(day_txt + date.today().strftime("%B %d"))       
+        self.label.setText(day_txt + " " + date.today().strftime("%B %d"))       
       
     def newNotifications(self, data):
         if len(self.notifs) == 4:
