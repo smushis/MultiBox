@@ -24,18 +24,18 @@ channels = [
     'Vsauce',
     'KoteiLoL', # Kameto
     'ChannelSuperFun',
-    # 'TevLouis',
-    # 'LouisSan',
+    'Tev & Louis',
+    'Louis-San',
     'IciJapon',
-    # 'physicsgirl',
-    # 'LEROIDESRATS',
-    # 'BestOfCorobizar',
-    # 'tested',
+    'Physics Girl',
+    'LE ROI DES RATS',
+    'Best Of Corobizar',
+    'Adam Savage’s Tested',
     '3kliksphilip',
     'BestOfAntoineDaniel',
-    'Corridor'
+    'Corridor',
+    'Alderiate'
     ]
-channels_by_id = []
 
 class Youtube(QtCore.QThread): 
     yt_signal = pyqtSignal(dict)
@@ -48,10 +48,12 @@ class Youtube(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.youtube = getToken(path1)
+        self.list = self.getSubscriptionsList()
+        print(self.getUserID('Alderiate'))
         # ID = self.getUserID('MrNono42100')
         # print("ID= " + ID)
         # self.Subscribe(ID,'MrNono42100')
-        self.SubscribeAll()
+        # self.SubscribeAll()
     
     def getUserID(self, username):
         request = self.youtube.channels().list(
@@ -60,6 +62,10 @@ class Youtube(QtCore.QThread):
         )
         response = request.execute()
         ID = response.get('items',[{}])[0].get('id', 0)
+        if ID == 0:
+            self.list = self.getSubscriptionsList()
+            if username in self.list:
+                ID = self.list[username]
         return ID
     
     def Subscribe(self, ID, username):
@@ -76,7 +82,6 @@ class Youtube(QtCore.QThread):
         }
         try:
             r = requests.post(sub_url, headers=header, params=youtube_hub)
-            print(r.status_code)
         except:
             print(r)
             print("Not working YT")
@@ -92,7 +97,36 @@ class Youtube(QtCore.QThread):
                 print("Problem with username: " + username)
             sleep(1)
         print("Sub all finish")
-    
+        
+    def getSubscriptionsList(self):
+        subList = {}
+        
+        request = self.youtube.subscriptions().list(
+            part="snippet,contentDetails",
+            maxResults=50,
+            mine=True,
+            order="alphabetical"
+        )        
+        response = request.execute()
+        next_page = True
+        while next_page:
+            for i in range(len(response["items"])):
+                # subList.append({"Name" : response["items"][i]["snippet"]["title"], "ID" : response["items"][i]["id"]}) 
+                subList.update({response["items"][i]["snippet"]["title"] : response["items"][i]["snippet"]["channelId"]}) 
+            if "nextPageToken" in response:
+                request = self.youtube.subscriptions().list(
+                    part="snippet,contentDetails",
+                    maxResults=50,
+                    mine=True,
+                    order="alphabetical",
+                    pageToken=response["nextPageToken"]
+                )      
+                response = request.execute()                  
+            else:   
+                next_page = False          
+        # print(subList)            
+        return subList
+        
     def incomming_Data(self, data):
         print(data)
         

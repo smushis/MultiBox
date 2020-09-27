@@ -76,7 +76,7 @@ def twitter_requests():
 @app.route('/youtube/user/<username>')
 def youtube_webhooks(username):
     if request.method == 'GET':
-        return request.args.get("hub.challenge")
+        return Response(str(request.args.get("hub.challenge")), status=200, mimetype="text/plain")
     else:
         print("Data for" + username + "\n")
         data = request.json
