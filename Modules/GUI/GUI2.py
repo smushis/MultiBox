@@ -771,7 +771,6 @@ class Ui_MainWindow(object):
         if len(self.notifs) == 4:
             self.notifs.remove(self.notifs[0])
         self.notifs.append(data)
-        print(self.notifs)
         self.updateNotifs()
         print("Notification added")
         
@@ -798,7 +797,7 @@ class Ui_MainWindow(object):
                 cadre = self.cadreNotifs_4 
                 twitchTitle = self.Twitch_Title_4
             else:
-                print("Indice not within correct range (GUI)")                
+                print("Indice not within correct range (GUI)") 
             data = self.notifs[i]
             if "title" in data: # Twitch
                 self.printStreams(data, text, img, twitchTitle, cadre)
@@ -806,6 +805,8 @@ class Ui_MainWindow(object):
                 self.printTweet(data, text, img, cadre)
             else:
                 print("Problemo")
+            if i < 4:
+                break
 
 if __name__ == "__main__":
     import sys
