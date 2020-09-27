@@ -779,7 +779,7 @@ class Ui_MainWindow(object):
             day_txt = "Sunday"
         else:
             day_txt = ""            
-        self.label.setText(day_txt + day.strftime("%B %d"))       
+        self.label.setText(day_txt + date.today().strftime("%B %d"))       
       
     def newNotifications(self, data):
         if len(self.notifs) == 4:
