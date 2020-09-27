@@ -50,6 +50,7 @@ I want to share my personnal playlist to all of you, so go [here](https://open.s
   - [Spotipy, Spotify wrapper for Python](https://spotipy.readthedocs.io/en/2.16.0/)
   - [Open Weather Map API](https://openweathermap.org/api)
   - [Github DHT11 Sensor Adafruit](https://github.com/adafruit/Adafruit_CircuitPython_DHT)
+  - [Youtube webhooks](https://developers.google.com/youtube/v3/guides/push_notifications)
   
 # Exemples of GUI notifications:
 ### Twitch Live Notification
