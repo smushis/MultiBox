@@ -34,7 +34,7 @@ If you have any questions or ideas for the GUI, don't hesitate to do an issue!
   - Fix connection with Bluetooth speaker with Raspi 3 (or use cable)
   - Maybe switch from Raspotify to classic Spotify player on Raspi
   - New Modules
-  - Spotify tracker ? (like Lastfm)
+  - Spotify tracker ? (like Lastfm) -> Getting data from the past is done, just need some graphs to do + add currently play tracking
   - Thinking of responsive design (involved HTML so meh)
   
 ### Recommanded Spotify playlist
