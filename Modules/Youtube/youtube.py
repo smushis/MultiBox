@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import pickle
+import json
 
 import requests
 import google_auth_oauthlib.flow
@@ -15,6 +16,7 @@ from time import sleep
 
 path0 = 'token.pickle'
 path1 = 'Modules/Youtube/token.pickle'
+webhooks_file = 'Modules/Youtube/webhooks.json'
 
 channels = [
     'joueurdugrenier',
@@ -40,6 +42,8 @@ channels = [
 class Youtube(QtCore.QThread): 
     yt_signal = pyqtSignal(dict)
     
+    webhooks = {}
+    
     def __init__(self, threadID, name):
         QtCore.QThread.__init__(self, parent=None)   
         self.threadID = threadID
@@ -52,7 +56,7 @@ class Youtube(QtCore.QThread):
         # ID = self.getUserID('MrNono42100')
         # print("ID= " + ID)
         # self.Subscribe(ID,'MrNono42100')
-        # self.SubscribeAll()
+        self.SubscribeAll()
     
     def getUserID(self, username):
         request = self.youtube.channels().list(
@@ -67,11 +71,11 @@ class Youtube(QtCore.QThread):
                 ID = self.list[username]
         return ID
     
-    def Subscribe(self, ID, username):
+    def sub_unsub(self, ID, username, mode):
         print("Subscribing")
         sub_url = 'https://pubsubhubbub.appspot.com/subscribe'
         youtube_hub = {
-            'hub.mode' : 'subscribe',
+            'hub.mode' : mode,
             'hub.topic' : 'https://www.youtube.com/xml/feeds/videos.xml?channel_id=' + ID,
             'hub.callback' : 'http://85.170.28.49:22220/youtube/user/' + username,
         }
@@ -81,11 +85,22 @@ class Youtube(QtCore.QThread):
         }
         try:
             r = requests.post(sub_url, headers=header, params=youtube_hub)
+            if mode == "subscribe":
+                self.webhooks.update({username : youtube_hub})
+            elif mode == "unsubscribe":
+                del self.webhooks[username]
+                
         except:
             print(r)
             print("Not working YT")
             print(r.code_status)
             
+    def Subscribe(self, ID, username):
+        self.sub_unsub(ID, username, 'subscribe')
+            
+    def Unsubscribe(self, ID, username):
+        self.sub_unsub(ID, username, 'unsubscribe')
+
     def SubscribeAll(self):
         for i in range(len(channels)):
             username = channels[i]
@@ -96,6 +111,10 @@ class Youtube(QtCore.QThread):
                 print("Problem with username: " + username)
             sleep(1)
         print("Sub all finish")
+        
+    def updateWebhooks(self):
+        with open(webhooks_file, "w") as file:
+            json.dump(self.webhooks, file)        
         
     def getSubscriptionsList(self):
         subList = {}
