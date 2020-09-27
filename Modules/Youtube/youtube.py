@@ -49,7 +49,6 @@ class Youtube(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.youtube = getToken(path1)
         self.list = self.getSubscriptionsList()
-        print(self.getUserID('Alderiate'))
         # ID = self.getUserID('MrNono42100')
         # print("ID= " + ID)
         # self.Subscribe(ID,'MrNono42100')
