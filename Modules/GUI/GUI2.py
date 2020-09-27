@@ -762,7 +762,24 @@ class Ui_MainWindow(object):
         label_time = current_time.toString('hh:mm') 
         # showing it to the label 
         self.lcdNumber.display(label_time)
-        self.label.setText(str(date.today()))        
+        day = date.today().weekday()
+        if day == 0:
+            day_txt = "Monday"
+        elif day == 1:
+            day_txt = "Tuesday"
+        elif day == 2:
+            day_txt = "Wednesday"
+        elif day == 3:
+            day_txt = "Thursday"
+        elif day == 4:
+            day_txt = "Friday"
+        elif day == 5:
+            day_txt = "Saturday"
+        elif day == 6:
+            day_txt = "Sunday"
+        else:
+            day_txt = ""            
+        self.label.setText(day_txt + day.strftime("%B %d"))       
       
     def newNotifications(self, data):
         if len(self.notifs) == 4:
