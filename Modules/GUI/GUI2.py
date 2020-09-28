@@ -19,6 +19,7 @@ from PyQt5.QtCore import QTimer, QTime, Qt
 from PyQt5.QtWidgets import QVBoxLayout, QLabel 
 import requests
 import io
+import subprocess
 from PIL import Image
 from PIL import ImageCms
 from os import path
@@ -445,6 +446,24 @@ class Ui_MainWindow(object):
         self.Twitch_Title_4.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Twitch_Title_4.setWordWrap(True)
         self.Twitch_Title_4.setObjectName("Twitch_Title_4")
+        self.raspi_RAM = QtWidgets.QLabel(self.centralwidget)
+        self.raspi_RAM.setGeometry(QtCore.QRect(10, 350, 151, 31))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.raspi_RAM.setFont(font)
+        self.raspi_RAM.setObjectName("raspi_RAM")
+        self.raspi_CPU = QtWidgets.QLabel(self.centralwidget)
+        self.raspi_CPU.setGeometry(QtCore.QRect(10, 380, 161, 51))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.raspi_CPU.setFont(font)
+        self.raspi_CPU.setObjectName("raspi_CPU") 
+        self.raspi_temp = QtWidgets.QLabel(self.centralwidget)
+        self.raspi_temp.setGeometry(QtCore.QRect(10, 420, 151, 41))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.raspi_temp.setFont(font)
+        self.raspi_temp.setObjectName("raspi_temp")        
         self.BG.raise_()
         self.label_2.raise_()
         self.homeBG.raise_()
@@ -503,6 +522,9 @@ class Ui_MainWindow(object):
         self.data_4.raise_()
         self.label_6.raise_()
         self.Twitch_Title_4.raise_()
+        self.raspi_RAM.raise_()
+        self.raspi_CPU.raise_()
+        self.raspi_temp.raise_()        
         MainWindow.setCentralWidget(self.centralwidget)
         self.media.setBuddy(self.media)
 
@@ -576,6 +598,9 @@ class Ui_MainWindow(object):
         self.Twitch_Title_3.setText(_translate("MainWindow", "Twitch Title"))
         self.data_4.setText(_translate("MainWindow", "Text"))
         self.Twitch_Title_4.setText(_translate("MainWindow", "Twitch Title"))
+        self.raspi_RAM.setText(_translate("MainWindow", "TextLabel"))
+        self.raspi_CPU.setText(_translate("MainWindow", "TextLabel"))
+        self.raspi_temp.setText(_translate("MainWindow", "TextLabel"))        
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
@@ -794,7 +819,9 @@ class Ui_MainWindow(object):
             day_txt = "Sunday"
         else:
             day_txt = ""            
-        self.label.setText(day_txt + ", " + date.today().strftime("%B %d"))       
+        self.label.setText(day_txt + ", " + date.today().strftime("%B %d"))
+        self.printRaspiInfo()
+        
       
     def newNotifications(self, data):
         if len(self.notifs) == 4:
@@ -834,7 +861,50 @@ class Ui_MainWindow(object):
                 self.printTweet(data, text, img, twitchTitle, cadre)
             else:
                 print("Problemo")
-
+                
+    def get_ram(self):
+        try:
+            s = subprocess.check_output(["free","-m"])
+            lines = s.split('\n')
+            return ( int(lines[1].split()[1]), int(lines[2].split()[3]) )
+        except:
+            print("oups")
+            return 0
+        
+    def get_process_count(self):
+        try:
+            s = subprocess.check_output(["ps","-e"])
+            return len(s.split('\n'))
+        except:
+            return 0
+    
+    def get_up_stats(self):
+       try:
+           s = subprocess.check_output(["uptime"])
+           load_split = s.split('load average: ')
+           load_five = float(load_split[1].split(',')[1])
+           up = load_split[0]
+           up_pos = up.rfind(',',0,len(up)-4)
+           up = up[:up_pos].split('up ')[1]
+           return ( up , load_five )
+       except:
+           return 0
+       
+    def get_temperature(self):
+        try:
+            s = subprocess.check_output(["/opt/vc/bin/vcgencmd","measure_temp"])
+            return float(s.split('=')[1][:-3])
+        except:
+            return 0
+    def printRaspiInfo(self):
+        ram = self.get_ram()
+        self.raspi_RAM.setText("Free RAM : " + str(ram[1]) + "(" + ram[0] + ")")
+        self.raspi_RAM.adjustSize()
+        
+        temp = self.get_temperature()
+        self.raspi_temp.setText("Temperature = " + temp + "°C")
+        self.raspi_temp.adjustSize()
+        
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
