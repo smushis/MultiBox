@@ -150,9 +150,18 @@ class Youtube(QtCore.QThread):
                 next_page = False          
         # print(subList)            
         return subList
+    
+    def getVideoByID(self):
+        request = youtube.videos().list(
+            part="snippet,contentDetails,statistics",
+            id="ZAovoEHJ0Ec"
+        )
+        response = request.execute()  
+        print(response)
         
     def incomming_Data(self, data):
-        print(data)
+        id_video = data["feed"]["link"]["@ref"]
+        print(id_video)
         
 def getToken(path):
     api_service_name = "youtube"
