@@ -766,7 +766,7 @@ class Ui_MainWindow(object):
             self.tempExte_9.setText(weather["temp"])
             self.getImage(weather["icon_url"], weather["type"], "Weather", 100)
             self.IconWeather_9.setPixmap(QtGui.QPixmap("img/Weather/" + weather["type"] + ".png"))
-            date_day7 = date_ + timedelta(days=1)
+            date_day7 = date_ + timedelta(days=6)
             self.date_7.setText(date_day7.strftime("%d/%m"))
             
     # method called by timer 
@@ -794,7 +794,7 @@ class Ui_MainWindow(object):
             day_txt = "Sunday"
         else:
             day_txt = ""            
-        self.label.setText(day_txt + " " + date.today().strftime("%B %d"))       
+        self.label.setText(day_txt + ", " + date.today().strftime("%B %d"))       
       
     def newNotifications(self, data):
         if len(self.notifs) == 4:
