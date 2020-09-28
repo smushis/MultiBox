@@ -19,7 +19,7 @@ from PyQt5.QtCore import QTimer, QTime, Qt
 from PyQt5.QtWidgets import QVBoxLayout, QLabel 
 import requests
 import io
-import subprocess
+import psutil
 from PIL import Image
 from PIL import ImageCms
 from os import path
@@ -864,48 +864,39 @@ class Ui_MainWindow(object):
                 
     def get_ram(self):
         try:
-            s = subprocess.check_output(["free","-m"])
-            lines = s.split('\n')
-            return ( int(lines[1].split()[1]), int(lines[2].split()[3]) )
+            return psutil.virtual_memory().percent
         except:
             print("oups")
             return 0
         
-    def get_process_count(self):
+    def get_cpu_usage(self):
         try:
-            s = subprocess.check_output(["ps","-e"])
-            return len(s.split('\n'))
+            return psutil.cpu_percent()
         except:
             return 0
-    
-    def get_up_stats(self):
-       try:
-           s = subprocess.check_output(["uptime"])
-           load_split = s.split('load average: ')
-           load_five = float(load_split[1].split(',')[1])
-           up = load_split[0]
-           up_pos = up.rfind(',',0,len(up)-4)
-           up = up[:up_pos].split('up ')[1]
-           return ( up , load_five )
-       except:
-           return 0
-       
+         
     def get_temperature(self):
         try:
-            s = subprocess.check_output(["/opt/vc/bin/vcgencmd","measure_temp"])
-            return float(s.split('=')[1][:-3])
-        except:
+            return psutil.sensors_temperatures()["acpitz"].current
+        except Exception as E:
+            print(E)
             return 0
         
     def printRaspiInfo(self):
         ram = self.get_ram()
-        print(str(ram))
-        # self.raspi_RAM.setText("Free RAM : " + str(ram[1]) + "(" + str(ram[0]) + ")")
-        # self.raspi_RAM.adjustSize()
+        self.raspi_RAM.setText("RAM=" + str(ram) + "%")
+        self.raspi_RAM.adjustSize()
+        print("RAM=" + str(ram) + "%")
         
-        # temp = self.get_temperature()
-        # self.raspi_temp.setText("Temperature = " + str(temp) + "°C")
-        # self.raspi_temp.adjustSize()
+        cpu = self.get_cpu_usage()
+        self.raspi_CPU.setText("CPU=" + str(cpu) + "%")
+        self.raspi_CPU.adjustSize()        
+        print("CPU=" + str(cpu) + "%")
+        
+        temp = self.get_temperature()
+        self.raspi_temp.setText("Temp=" + str(temp) + "°C")
+        self.raspi_temp.adjustSize()        
+        print("Temp=" + str(temp) + "°C") 
         
 if __name__ == "__main__":
     import sys
