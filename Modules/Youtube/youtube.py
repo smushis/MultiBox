@@ -53,11 +53,10 @@ class Youtube(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.youtube = getToken(path1)
         self.list = self.getSubscriptionsList()
-        # self.SubscribeAll()
+        self.SubscribeAll()
         # ID = self.getUserID('MrNono42100')
         # print("ID= " + ID)
         # self.Subscribe(ID,'MrNono42100')
-        # self.SubscribeAll()
     
     def getUserID(self, username):
         request = self.youtube.channels().list(
@@ -79,7 +78,7 @@ class Youtube(QtCore.QThread):
             'hub.mode' : mode,
             'hub.topic' : 'https://www.youtube.com/xml/feeds/videos.xml?channel_id=' + ID,
             'hub.callback' : 'http://85.170.28.49:22220/youtube/user/' + username,
-            'hub.lease_seconds' : 600
+            'hub.lease_seconds' : 10000
         }
         # print(youtube_hub)
         header = {

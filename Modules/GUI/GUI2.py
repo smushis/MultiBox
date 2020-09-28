@@ -656,6 +656,7 @@ class Ui_MainWindow(object):
         self.raspi_ram_2.setText(_translate("MainWindow", "TextLabel"))
         self.raspi_cpu_2.setText(_translate("MainWindow", "TextLabel"))        
         self.raspi_Celsius.setText(_translate("MainWindow", "Core Temp"))
+        
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
         self.twitter_thread.twitter_signal.connect(self.newNotifications)
@@ -679,12 +680,6 @@ class Ui_MainWindow(object):
         self.spotify_thread.idle_spoti_signal.connect(self.HideMusic)
         self.spotify_thread.start()
         return self.spotify_thread
-
-    # def launchSpotifyListenerThread(self):
-    #     self.spotListener_thread = SpotifyListener(5, "Timer Thread")
-    #     self.spotListener_thread.timer_signal.connect(self.spotify_thread.getCurrentTrack)
-    #     self.spotListener_thread.start()
-    #     return self.spotListener_thread
 
     def launchTemperatureThread(self):       
         self.temp_thread = DHT11(6, "Temperature Thread")
