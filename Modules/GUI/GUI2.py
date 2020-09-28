@@ -877,7 +877,7 @@ class Ui_MainWindow(object):
          
     def get_temperature(self):
         try:
-            return psutil.sensors_temperatures() #["acpitz"].current
+            return psutil.sensors_temperatures()["cpu_thermal"].current
         except Exception as E:
             print(E)
             return 0
@@ -895,8 +895,7 @@ class Ui_MainWindow(object):
         
         temp = self.get_temperature()
         self.raspi_temp.setText("Temp=" + str(temp) + "°C")
-        self.raspi_temp.adjustSize()
-        print(temp)        
+        self.raspi_temp.adjustSize()       
         # print("Temp=" + str(temp) + "°C") 
         
 if __name__ == "__main__":
