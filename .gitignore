@@ -150,3 +150,6 @@ img/Weather/
 img/computer.png
 img/speaker.png
 Modules/Youtube/client_secrets.json
+DesignGUI2.ui
+Modules/Youtube/token.pickle
+aya2.py
