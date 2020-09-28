@@ -106,6 +106,8 @@ class Spotify(QtCore.QThread):
             return self.handleException(e)
         except exceptions.ReadTimeout:
             print("Timeout during getting current track")
+        except AttributeError :
+            print("Like wtf is the program doing")
         
             
     def handleException(self, e):
