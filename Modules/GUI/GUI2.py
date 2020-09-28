@@ -13,6 +13,7 @@ from Modules.Listener.html_serv import htmlServ
 from Modules.Spotify.spotify import Spotify
 from Modules.Weather.weather import Weather
 from Modules.Youtube.youtube import Youtube
+from Modules.Raspi.raspi import RaspiInformation
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer, QTime, Qt
@@ -463,7 +464,26 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(20)
         self.raspi_temp.setFont(font)
-        self.raspi_temp.setObjectName("raspi_temp")        
+        self.raspi_temp.setObjectName("raspi_temp")
+        self.progressBar = QtWidgets.QProgressBar(self.centralwidget)
+        self.progressBar.setGeometry(QtCore.QRect(10, 350, 171, 41))
+        self.progressBar.setStyleSheet("")
+        self.progressBar.setProperty("value", 24)
+        self.progressBar.setTextVisible(False)
+        self.progressBar.setOrientation(QtCore.Qt.Horizontal)
+        self.progressBar.setObjectName("progressBar")
+        self.progressBar_2 = QtWidgets.QProgressBar(self.centralwidget)
+        self.progressBar_2.setGeometry(QtCore.QRect(10, 400, 171, 41))
+        self.progressBar_2.setProperty("value", 24)
+        self.progressBar_2.setTextVisible(False)
+        self.progressBar_2.setObjectName("progressBar_2")
+        self.progressBar_3 = QtWidgets.QProgressBar(self.centralwidget)
+        self.progressBar_3.setGeometry(QtCore.QRect(10, 450, 171, 41))
+        self.progressBar_3.setProperty("value", 24)
+        self.progressBar_3.setTextVisible(False)
+        self.progressBar_3.setInvertedAppearance(False)
+        self.progressBar_3.setTextDirection(QtWidgets.QProgressBar.BottomToTop)
+        self.progressBar_3.setObjectName("progressBar_3")        
         self.BG.raise_()
         self.label_2.raise_()
         self.homeBG.raise_()
@@ -524,7 +544,10 @@ class Ui_MainWindow(object):
         self.Twitch_Title_4.raise_()
         self.raspi_RAM.raise_()
         self.raspi_CPU.raise_()
-        self.raspi_temp.raise_()        
+        self.raspi_temp.raise_()  
+        self.progressBar.raise_()
+        self.progressBar_2.raise_()
+        self.progressBar_3.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.media.setBuddy(self.media)
 
@@ -648,7 +671,13 @@ class Ui_MainWindow(object):
         self.youtube_thread = Youtube(8, "Youtube Thread")
         # self.youtube_thread.yt_signal.connect()
         self.youtube_thread.start()
-        return self.youtube_thread             
+        return self.youtube_thread 
+
+    def launchRaspiThread(self):       
+        self.raspi_thread = RaspiInformation(8, "Raspi Thread")
+        self.raspi_thread.yt_signal.connect(self.printGraphRaspi)
+        self.raspi_thread.start()
+        return self.raspi_thread             
 
     def printTweet(self, data, label, Photo, cadre, title):
         text = data["text"].split('https')[0]
@@ -860,44 +889,12 @@ class Ui_MainWindow(object):
             elif "media" in data:
                 self.printTweet(data, text, img, twitchTitle, cadre)
             else:
-                print("Problemo")
-                
-    def get_ram(self):
-        try:
-            return psutil.virtual_memory().percent
-        except:
-            print("oups")
-            return 0
+                print("Problemo")               
         
-    def get_cpu_usage(self):
-        try:
-            return psutil.cpu_percent()
-        except:
-            return 0
-         
-    def get_temperature(self):
-        try:
-            return psutil.sensors_temperatures()["cpu_thermal"][0].current
-        except Exception as E:
-            print(E)
-            return 0
-        
-    def printRaspiInfo(self):
-        ram = self.get_ram()
-        self.raspi_RAM.setText("RAM=" + str(ram) + "%")
-        self.raspi_RAM.adjustSize()
-        # print("RAM=" + str(ram) + "%")
-        
-        cpu = self.get_cpu_usage()
-        self.raspi_CPU.setText("CPU=" + str(cpu) + "%")
-        self.raspi_CPU.adjustSize()        
-        # print("CPU=" + str(cpu) + "%")
-        
-        temp = self.get_temperature()
-        self.raspi_temp.setText("Temp=" + str(temp) + "°C")
-        self.raspi_temp.adjustSize() 
-        # print(temp)
-        # print("Temp=" + str(temp) + "°C") 
+    def printGraphRaspi(self, data):
+        self.progressBar.setValue(data["ram"])
+        self.progressBar_2.setValue(data["cpu"])
+        self.progressBar_3.setValue(data["temp"])
         
 if __name__ == "__main__":
     import sys

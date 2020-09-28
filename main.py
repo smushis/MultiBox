@@ -104,6 +104,7 @@ if __name__ == "__main__":
         temp_thread = ui.launchTemperatureThread()
     if Youtube_:
         yt_thread = ui.launchYoutubeThread()
+    raspi_thread = ui.launchRaspiThread()
     if GUI_:
         MainWindow.show()
         sys.exit(appThread.exec_())        

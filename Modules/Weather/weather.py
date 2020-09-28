@@ -27,6 +27,7 @@ class Weather(QtCore.QThread):
         self.name = name
                
     def run(self):
+        print("Starting " + self.name + "\n\r")
         self.readAPIKey()
         self.getWeatherData(self.API_Key)
 
