@@ -849,7 +849,6 @@ class Ui_MainWindow(object):
         else:
             day_txt = ""            
         self.label.setText(day_txt + ", " + date.today().strftime("%B %d"))
-        self.printRaspiInfo()
         
       
     def newNotifications(self, data):
