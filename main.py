@@ -73,7 +73,7 @@ def twitter_requests():
         twitter_thread.tweetAnalyzer(request.get_json())
         return Response(status=200)
     
-@app.route('/youtube/user/<username>')
+@app.route('/youtube/user/<username>', methods=["GET", "POST"])
 def youtube_webhooks(username):
     if request.method == 'GET':
         return Response(str(request.args.get("hub.challenge")), status=200, mimetype="text/plain")

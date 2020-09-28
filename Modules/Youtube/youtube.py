@@ -53,7 +53,7 @@ class Youtube(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.youtube = getToken(path1)
         self.list = self.getSubscriptionsList()
-        self.SubscribeAll()
+        # self.SubscribeAll()
         # ID = self.getUserID('MrNono42100')
         # print("ID= " + ID)
         # self.Subscribe(ID,'MrNono42100')
@@ -113,7 +113,7 @@ class Youtube(QtCore.QThread):
             sleep(1)
         print("Sub all finish")
         
-    def SubscribeAll(self):
+    # def SubscribeAll(self):
         for i in self.list:
             self.Subscribe(self.list[i], i)
         
