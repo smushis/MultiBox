@@ -695,7 +695,7 @@ class Ui_MainWindow(object):
 
     def launchYoutubeThread(self):       
         self.youtube_thread = Youtube(8, "Youtube Thread")
-        # self.youtube_thread.yt_signal.connect()
+        self.youtube_thread.yt_signal.connect(self.newNotifications)
         self.youtube_thread.start()
         return self.youtube_thread 
 
@@ -727,7 +727,6 @@ class Ui_MainWindow(object):
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png"))          
         elif data["events"] == "fav":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
-        sleep(5)
             
     def printStreams(self, data, label, Photo, title, cadre):
         self.media.setHidden(True)
@@ -739,8 +738,16 @@ class Ui_MainWindow(object):
         title.setText(data["title"])      
         title.adjustSize()
         cadre.setPixmap(QtGui.QPixmap("img/GUI2/twitch_border.png"))
-        sleep(5)
-        #self.Photo.setHidden(True)
+        
+    def printYoutube(self, data, label, Photo, title, cadre):
+        label.setText("New video from " + data["username"])
+        label.adjustSize()
+        self.getImage(data["url"], data["username"], "Youtube", 90)
+        Photo.setPixmap(QtGui.QPixmap("img/Youtube/" + data["user_id"]+ ".png"))
+        title.setVisible(True)
+        title.setText(data["title"])      
+        title.adjustSize()        
+        cadre.setPixmap(QtGui.QPixmap("img/GUI2/youtube.png"))
         
     def showMusic(self, data):
         self.titleMusic.setText(data["track"])
@@ -913,6 +920,8 @@ class Ui_MainWindow(object):
                 self.printStreams(data, text, img, twitchTitle, cadre)
             elif "media" in data:
                 self.printTweet(data, text, img, twitchTitle, cadre)
+            elif "img_user" in data:
+                self.printYoutube(data, text, img, twitchTitle, cadre)
             else:
                 print("Problemo")               
         

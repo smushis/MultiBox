@@ -119,8 +119,7 @@ class Youtube(QtCore.QThread):
         
     def updateWebhooks(self):
         with open(webhooks_file, "w") as file:
-            json.dump(self.webhooks, file)  
-            
+            json.dump(self.webhooks, file)              
         
     def getSubscriptionsList(self):
         subList = {}
@@ -151,18 +150,44 @@ class Youtube(QtCore.QThread):
         # print(subList)            
         return subList
     
-    def getVideoByID(self):
+    def getVideoByID(self, ID):
         request = youtube.videos().list(
             part="snippet,contentDetails,statistics",
-            id="ZAovoEHJ0Ec"
+            id=ID
         )
         response = request.execute()  
-        print(response)
+        return response
+    
+    def getChannelByID(self, user_id):
+        request = youtube.channels().list(
+            part="snippet,contentDetails,statistics",
+            id=user_id
+        )
+        response = request.execute()
+        return response        
+    
+    def getImageChannel(self, user_id):
+        channel = self.getChannelByID(user_id)
+        return channel.get("items", [{}])[0].get("snippet", {}).get("thumbnails", {}).get("medium", "no url")
+        
         
     def incomming_Data(self, data):
-        id_video = data["feed"]["link"]["@ref"]
-        print(id_video)
+        video_id = data["feed"]["entry"]["yt:videoId"]
+        info = self.getVideoByID(video_id)
+        title = info.get("items",[{}])[0].get("snippet",{}).get("title","No title available")
+        user = info.get("items",[{}])[0].get("snippet",{}).get("channelTitle","")
+        user_id = data["feed"]["entry"]["yt:channelId"]
+        url = self.getImageChannel(user_id)
+        self.yt_signal.emit(self.createDico(title, user, user_id, url))
         
+    def createDico(title, username, user_id, img_user):
+        dico = {}
+        dico["title"] = title
+        dico["username"] = username
+        dico["user_id"] = user_id
+        dico["url"] = img_user
+        return dico
+    
 def getToken(path):
     api_service_name = "youtube"
     api_version = "v3"
