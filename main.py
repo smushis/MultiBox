@@ -78,11 +78,15 @@ def youtube_webhooks(username):
     if request.method == 'GET':
         return Response(str(request.args.get("hub.challenge")), status=200, mimetype="text/plain")
     else:
-        print("Data for" + username + "\n")
-        data = xmltodict.parse(request.data)
-        print(data)
-        yt_thread.incomming_Data(data)
-        return Response(status=200)
+        try:
+            print("Data for" + username + "\n")
+            data = xmltodict.parse(request.data)
+            # print(data)
+            yt_thread.incomming_Data(data)
+            return Response(status=200)
+        except:
+            print("Error during xml data shit")
+            return Response(status=200)
     
 if __name__ == "__main__":
         
