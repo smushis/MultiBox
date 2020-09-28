@@ -675,7 +675,7 @@ class Ui_MainWindow(object):
 
     def launchRaspiThread(self):       
         self.raspi_thread = RaspiInformation(8, "Raspi Thread")
-        self.raspi_thread.yt_signal.connect(self.printGraphRaspi)
+        self.raspi_thread.raspi_signal.connect(self.printGraphRaspi)
         self.raspi_thread.start()
         return self.raspi_thread             
 
