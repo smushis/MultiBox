@@ -89,8 +89,7 @@ class Youtube(QtCore.QThread):
             if mode == "subscribe":
                 self.webhooks.update({username : youtube_hub})
             elif mode == "unsubscribe":
-                del self.webhooks[username]
-                
+                del self.webhooks[username]             
         except:
             print(r)
             print("Not working YT")

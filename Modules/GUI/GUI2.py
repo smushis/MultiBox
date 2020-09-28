@@ -16,8 +16,9 @@ from Modules.Youtube.youtube import Youtube
 from Modules.Raspi.raspi import RaspiInformation
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QTimer, QTime, Qt
+from PyQt5.QtCore import QTimer, QTime, Qt, QPoint
 from PyQt5.QtWidgets import QVBoxLayout, QLabel 
+from PyQt5.QtGui import QColor, QPainter, QPolygon
 import requests
 import io
 import psutil
@@ -35,8 +36,23 @@ from constants import TEMP_ON
 if TEMP_ON:
     from Modules.Temperature.Temperature import DHT11
 
+class Ui_MainWindow(object): 
+    
+    hourHand = QPolygon([
+        QPoint(7, 8),
+        QPoint(-7, 8),
+        QPoint(0, -40)
+    ])
 
-class Ui_MainWindow(object):
+    minuteHand = QPolygon([
+        QPoint(7, 8),
+        QPoint(-7, 8),
+        QPoint(0, -70)
+    ])
+
+    hourColor = QColor(127, 0, 127)
+    minuteColor = QColor(0, 127, 127, 191)
+    
     def setupUi(self, MainWindow, app):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1280, 720)
@@ -617,6 +633,44 @@ class Ui_MainWindow(object):
         self.buttonIMG_2.setHidden(True)
         self.buttonIMG_3.setHidden(True)
         self.buttonIMG_4.setHidden(True)
+        
+    def paintEvent(self):
+        side = min(self.width(), self.height())
+        time = QTime.currentTime()
+
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.translate(self.width() / 2, self.height() / 2)
+        painter.scale(side / 200.0, side / 200.0)
+
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(self.hourColor)
+
+        painter.save()
+        painter.rotate(30.0 * ((time.hour() + time.minute() / 60.0)))
+        painter.drawConvexPolygon(self.hourHand)
+        painter.restore()
+
+        painter.setPen(self.hourColor)
+
+        for i in range(12):
+            painter.drawLine(88, 0, 96, 0)
+            painter.rotate(30.0)
+
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(self.minuteColor)
+
+        painter.save()
+        painter.rotate(6.0 * (time.minute() + time.second() / 60.0))
+        painter.drawConvexPolygon(self.minuteHand)
+        painter.restore()
+
+        painter.setPen(self.minuteColor)
+
+        for j in range(60):
+            if (j % 5) != 0:
+                painter.drawLine(92, 0, 96, 0)
+            painter.rotate(6.0)        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -883,7 +937,7 @@ class Ui_MainWindow(object):
         else:
             day_txt = ""            
         self.label.setText(day_txt + ", " + date.today().strftime("%B %d"))
-        
+        # self.paintEvent()
       
     def newNotifications(self, data):
         if len(self.notifs) == 4:
