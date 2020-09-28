@@ -56,7 +56,7 @@ class Youtube(QtCore.QThread):
         # self.SubscribeAll()
         # ID = self.getUserID('MrNono42100')
         # print("ID= " + ID)
-        self.Subscribe("UCFaKd1un0sdMnCjwLyQoI2A",'smushi42')
+        # self.Subscribe("UCFaKd1un0sdMnCjwLyQoI2A",'smushi42')
     
     def getUserID(self, username):
         request = self.youtube.channels().list(
@@ -112,7 +112,7 @@ class Youtube(QtCore.QThread):
             sleep(1)
         print("Sub all finish")
         
-    # def SubscribeAll(self):
+    def SubscribeAll(self):
         for i in self.list:
             self.Subscribe(self.list[i], i)
         
@@ -176,8 +176,9 @@ class Youtube(QtCore.QThread):
         user = info.get("items",[{}])[0].get("snippet",{}).get("channelTitle","")
         user_id = data["feed"]["entry"]["yt:channelId"]
         url = self.getImageChannel(user_id)
-        # print(self.createDico(title, user, user_id, url))
-        self.yt_signal.emit(self.createDico(title, user, user_id, url))
+        dico = self.createDico(title, user, user_id, url)
+        print(dico)
+        self.yt_signal.emit(dico)
         
     def createDico(self, title, username, user_id, img_user):
         dico = {}
