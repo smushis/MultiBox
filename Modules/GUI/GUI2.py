@@ -899,12 +899,13 @@ class Ui_MainWindow(object):
         
     def printRaspiInfo(self):
         ram = self.get_ram()
-        self.raspi_RAM.setText("Free RAM : " + str(ram[1]) + "(" + str(ram[0]) + ")")
-        self.raspi_RAM.adjustSize()
+        print(str(ram))
+        # self.raspi_RAM.setText("Free RAM : " + str(ram[1]) + "(" + str(ram[0]) + ")")
+        # self.raspi_RAM.adjustSize()
         
-        temp = self.get_temperature()
-        self.raspi_temp.setText("Temperature = " + str(temp) + "°C")
-        self.raspi_temp.adjustSize()
+        # temp = self.get_temperature()
+        # self.raspi_temp.setText("Temperature = " + str(temp) + "°C")
+        # self.raspi_temp.adjustSize()
         
 if __name__ == "__main__":
     import sys
