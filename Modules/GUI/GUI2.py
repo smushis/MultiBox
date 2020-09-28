@@ -886,17 +886,17 @@ class Ui_MainWindow(object):
         ram = self.get_ram()
         self.raspi_RAM.setText("RAM=" + str(ram) + "%")
         self.raspi_RAM.adjustSize()
-        print("RAM=" + str(ram) + "%")
+        # print("RAM=" + str(ram) + "%")
         
         cpu = self.get_cpu_usage()
         self.raspi_CPU.setText("CPU=" + str(cpu) + "%")
         self.raspi_CPU.adjustSize()        
-        print("CPU=" + str(cpu) + "%")
+        # print("CPU=" + str(cpu) + "%")
         
         temp = self.get_temperature()
         self.raspi_temp.setText("Temp=" + str(temp) + "°C")
         self.raspi_temp.adjustSize() 
-        print(temp)
+        # print(temp)
         # print("Temp=" + str(temp) + "°C") 
         
 if __name__ == "__main__":
