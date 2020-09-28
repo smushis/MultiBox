@@ -53,6 +53,7 @@ class Youtube(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.youtube = getToken(path1)
         self.list = self.getSubscriptionsList()
+        self.SubscribeAll()
         # ID = self.getUserID('MrNono42100')
         # print("ID= " + ID)
         # self.Subscribe(ID,'MrNono42100')
@@ -78,6 +79,7 @@ class Youtube(QtCore.QThread):
             'hub.mode' : mode,
             'hub.topic' : 'https://www.youtube.com/xml/feeds/videos.xml?channel_id=' + ID,
             'hub.callback' : 'http://85.170.28.49:22220/youtube/user/' + username,
+            'hub.lease_seconds' : 600
         }
         # print(youtube_hub)
         header = {
@@ -101,7 +103,7 @@ class Youtube(QtCore.QThread):
     def Unsubscribe(self, ID, username):
         self.sub_unsub(ID, username, 'unsubscribe')
 
-    def SubscribeAll(self):
+    def SubscribeList(self):
         for i in range(len(channels)):
             username = channels[i]
             ID = self.getUserID(username)
@@ -112,9 +114,14 @@ class Youtube(QtCore.QThread):
             sleep(1)
         print("Sub all finish")
         
+    def SubscribeAll(self):
+        for i in self.list:
+            self.Subscribe(self.list[i], i)
+        
     def updateWebhooks(self):
         with open(webhooks_file, "w") as file:
-            json.dump(self.webhooks, file)        
+            json.dump(self.webhooks, file)  
+            
         
     def getSubscriptionsList(self):
         subList = {}
@@ -130,7 +137,7 @@ class Youtube(QtCore.QThread):
         while next_page:
             for i in range(len(response["items"])):
                 # subList.append({"Name" : response["items"][i]["snippet"]["title"], "ID" : response["items"][i]["id"]}) 
-                subList.update({response["items"][i]["snippet"]["title"] : response["items"][i]["snippet"]["channelId"]}) 
+                subList.update({response["items"][i]["snippet"]["title"] : response["items"][i]["snippet"]["resourceId"]["channelId"]}) 
             if "nextPageToken" in response:
                 request = self.youtube.subscriptions().list(
                     part="snippet,contentDetails",
