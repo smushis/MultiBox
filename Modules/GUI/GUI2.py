@@ -902,9 +902,7 @@ class Ui_MainWindow(object):
         self.raspi_temp.setText(str(data["temp"]) + "°C")
         self.raspi_temp.adjustSize()
         self.raspi_ram_2.setText(str(data["ram"]) + "%")
-        self.raspi_ram_2.adjustSize()
         self.raspi_cpu_2.setText(str(data["cpu"]) + "°%")
-        self.raspi_cpu_2.adjustSize()
         
 if __name__ == "__main__":
     import sys
