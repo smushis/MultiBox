@@ -175,7 +175,7 @@ class Youtube(QtCore.QThread):
         title = info.get("items",[{}])[0].get("snippet",{}).get("title","No title available")
         user = info.get("items",[{}])[0].get("snippet",{}).get("channelTitle","")
         user_id = data["feed"]["entry"]["yt:channelId"]
-        url = self.getImageChannel(user_id)
+        url = self.getImageChannel(user_id)["url"]
         dico = self.createDico(title, user, user_id, url)
         print(title)
         print(user)
