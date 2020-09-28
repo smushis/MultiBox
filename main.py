@@ -81,8 +81,8 @@ def youtube_webhooks(username):
         try:
             print("Data for" + username + "\n")
             data = xmltodict.parse(request.data)
-            # print(data)
-            yt_thread.incomming_Data(data)
+            print(data)
+            # yt_thread.incomming_Data(data)
             return Response(status=200)
         except:
             print("Error during xml data shit")
