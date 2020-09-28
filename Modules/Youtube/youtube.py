@@ -177,7 +177,9 @@ class Youtube(QtCore.QThread):
         user_id = data["feed"]["entry"]["yt:channelId"]
         url = self.getImageChannel(user_id)
         dico = self.createDico(title, user, user_id, url)
-        print(dico)
+        print(title)
+        print(user)
+        print(url)
         self.yt_signal.emit(dico)
         
     def createDico(self, title, username, user_id, img_user):
