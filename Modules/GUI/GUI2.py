@@ -476,7 +476,15 @@ class Ui_MainWindow(object):
         self.progressBar_2.setGeometry(QtCore.QRect(10, 400, 171, 41))
         self.progressBar_2.setProperty("value", 24)
         self.progressBar_2.setTextVisible(False)
-        self.progressBar_2.setObjectName("progressBar_2")       
+        self.progressBar_2.setObjectName("progressBar_2")
+        self.raspi_ram_2 = QtWidgets.QLabel(self.centralwidget)
+        self.raspi_ram_2.setGeometry(QtCore.QRect(4, 350, 181, 41))
+        self.raspi_ram_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.raspi_ram_2.setObjectName("raspi_ram_2")
+        self.raspi_cpu_2 = QtWidgets.QLabel(self.centralwidget)
+        self.raspi_cpu_2.setGeometry(QtCore.QRect(10, 400, 171, 41))
+        self.raspi_cpu_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.raspi_cpu_2.setObjectName("raspi_cpu_2")        
         self.BG.raise_()
         self.label_2.raise_()
         self.homeBG.raise_()
@@ -540,6 +548,8 @@ class Ui_MainWindow(object):
         self.raspi_temp.raise_()  
         self.progressBar.raise_()
         self.progressBar_2.raise_()
+        self.raspi_ram_2.raise_()
+        self.raspi_cpu_2.raise_()        
         MainWindow.setCentralWidget(self.centralwidget)
         self.media.setBuddy(self.media)
 
@@ -615,7 +625,9 @@ class Ui_MainWindow(object):
         self.Twitch_Title_4.setText(_translate("MainWindow", "Twitch Title"))
         self.raspi_RAM.setText(_translate("MainWindow", "RAM"))
         self.raspi_CPU.setText(_translate("MainWindow", "CPU"))
-        self.raspi_temp.setText(_translate("MainWindow", "Temp"))        
+        self.raspi_temp.setText(_translate("MainWindow", "Temp"))
+        self.raspi_ram_2.setText(_translate("MainWindow", "TextLabel"))
+        self.raspi_cpu_2.setText(_translate("MainWindow", "TextLabel"))        
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
@@ -887,6 +899,10 @@ class Ui_MainWindow(object):
         self.progressBar_2.setValue(data["cpu"])
         self.raspi_temp.setText(str(data["temp"]) + "°C")
         self.raspi_temp.adjustSize()
+        self.raspi_ram_2.setText(str(data["ram"]) + "%")
+        self.raspi_ram_2.adjustSize()
+        self.raspi_cpu_2.setText(str(data["cpu"]) + "°%")
+        self.raspi_cpu_2.adjustSize()
         
 if __name__ == "__main__":
     import sys
