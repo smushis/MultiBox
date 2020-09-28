@@ -11,5 +11,5 @@ Twitch_ = False
 HTML_ = True
 Weather_ = False
 TEMP_ON = False
-GUI_ = False
+GUI_ = True
 Youtube_ = True
