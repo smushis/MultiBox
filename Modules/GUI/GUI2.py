@@ -924,7 +924,7 @@ class Ui_MainWindow(object):
     def printGraphRaspi(self, data):
         self.progressBar.setValue(data["ram"])
         self.progressBar_2.setValue(data["cpu"])
-        self.raspi_temp.setText(str(data["temp"]) + "°C")
+        self.raspi_temp.setText("{:.1f}°C".format(data["temp"]))
         self.raspi_temp.adjustSize()
         self.raspi_ram_2.setText(str(data["ram"]) + "%")
         self.raspi_cpu_2.setText(str(data["cpu"]) + "°%")
