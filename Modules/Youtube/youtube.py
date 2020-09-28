@@ -185,6 +185,7 @@ class Youtube(QtCore.QThread):
         dico["username"] = username
         dico["user_id"] = user_id
         dico["url"] = img_user
+        dico["website"] = "Youtube"
         return dico
     
 def getToken(path):

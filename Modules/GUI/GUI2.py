@@ -29,6 +29,7 @@ import os
 from datetime import date
 from datetime import timedelta
 
+
 from constants import TEMP_ON
 
 if TEMP_ON:
@@ -38,7 +39,7 @@ if TEMP_ON:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, app):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1281, 720)
+        MainWindow.resize(1280, 720)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         MainWindow.setWindowIcon(icon)
@@ -916,11 +917,12 @@ class Ui_MainWindow(object):
             else:
                 print("Indice not within correct range (GUI)") 
             data = self.notifs[i]
-            if "title" in data: # Twitch
+            web = data.get("website", "")
+            if web == "Twitch": # Twitch
                 self.printStreams(data, text, img, twitchTitle, cadre)
-            elif "media" in data:
+            elif web == "Twitter":
                 self.printTweet(data, text, img, twitchTitle, cadre)
-            elif "img_user" in data:
+            elif web == "Youtube":
                 self.printYoutube(data, text, img, twitchTitle, cadre)
             else:
                 print("Problemo")               

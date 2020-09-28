@@ -314,5 +314,6 @@ class Twitch(QtCore.QThread):
         dico["url"] = url
         dico["text"] = text
         dico["title"] = title
+        dico["website"] = "Twitch"
         return dico        
                    

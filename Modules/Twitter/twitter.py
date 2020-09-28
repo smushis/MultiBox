@@ -243,6 +243,7 @@ class Twitter(QtCore.QThread):
         dico["url"] = url
         dico["text"] = text
         dico["media"] = image
+        dico["website"] = "Twitter"
         return dico
 
     def getTweetID(self, event, tweet):
