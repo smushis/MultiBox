@@ -877,7 +877,7 @@ class Ui_MainWindow(object):
          
     def get_temperature(self):
         try:
-            return psutil.sensors_temperatures()["cpu_thermal"]
+            return psutil.sensors_temperatures()["cpu_thermal"][0].current
         except Exception as E:
             print(E)
             return 0
