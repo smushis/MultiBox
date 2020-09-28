@@ -151,7 +151,7 @@ class Youtube(QtCore.QThread):
         return subList
     
     def getVideoByID(self, ID):
-        request = youtube.videos().list(
+        request = self.youtube.videos().list(
             part="snippet,contentDetails,statistics",
             id=ID
         )
@@ -159,7 +159,7 @@ class Youtube(QtCore.QThread):
         return response
     
     def getChannelByID(self, user_id):
-        request = youtube.channels().list(
+        request = self.youtube.channels().list(
             part="snippet,contentDetails,statistics",
             id=user_id
         )
@@ -169,8 +169,7 @@ class Youtube(QtCore.QThread):
     def getImageChannel(self, user_id):
         channel = self.getChannelByID(user_id)
         return channel.get("items", [{}])[0].get("snippet", {}).get("thumbnails", {}).get("medium", "no url")
-        
-        
+            
     def incomming_Data(self, data):
         video_id = data["feed"]["entry"]["yt:videoId"]
         info = self.getVideoByID(video_id)
