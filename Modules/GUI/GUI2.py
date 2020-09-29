@@ -734,7 +734,7 @@ class Ui_MainWindow(object):
         self.spotify_thread.idle_spoti_signal.connect(self.HideMusic)
         self.spotify_thread.play_pause_signal.connect(self.switchSpotButton)
         self.spot_back.clicked.connect(self.spotify_thread.prevTrack)
-        self.spot_play.clicked.connect(self.switchSpotButton)
+        self.spot_play.clicked.connect(self.spotify_thread.play_pause)
         self.spot_forward.clicked.connect(self.spotify_thread.nextTrack)
         self.spotify_thread.start()
         return self.spotify_thread
@@ -765,7 +765,8 @@ class Ui_MainWindow(object):
 
     def switchSpotButton(self, play_pause):
         if play_pause:
-            self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/pause.png);")            
+            self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/pause.png);")
+            self.            
         else:
             self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")            
 
