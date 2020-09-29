@@ -50,8 +50,6 @@ class Twitter(QtCore.QThread):
         self.deleteWebhooks()
         self.registerWebhooks() 
         self.addSubscription()
-        # self.getWebhooks()  
-        # self.getSubscription()
 
     def readCredentials(self):
         with open(credentials_file, "r") as file:
@@ -233,7 +231,6 @@ class Twitter(QtCore.QThread):
             self.twitter_signal.emit(self.createDico("dm", text, user, profile_img, tweet_media))
         else:
             self.twitter_signal.emit(self.createDico("dm", text, user, profile_img))
-        return self.createDico("dm", text, user, profile_img, tweet_media)
         
     def createDico(self, event, text, username, url, image=None):
         dico = {}
