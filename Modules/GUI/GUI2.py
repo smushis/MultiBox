@@ -765,9 +765,9 @@ class Ui_MainWindow(object):
 
     def switchSpotButton(self, play_pause):
         if play_pause:
-            self.spot_forward.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/pause.png);")            
+            self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/pause.png);")            
         else:
-            self.spot_forward.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")            
+            self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")            
 
     def printTweet(self, data, label, Photo, cadre, title):
         text = data["text"].split('https')[0]

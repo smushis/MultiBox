@@ -92,10 +92,13 @@ class Spotify(QtCore.QThread):
                 self.Spotify_signal.emit(self.createDico(artist, track, img_album, album))
                 if self.sleep_count == 0:
                     self.idle_spoti_signal.emit(False)
+                if tr.get("is_playing", False):
+                    self.playing = True
             else :
                 if self.sleep_count < 5:
                     print("No playing track, retrying in 5s")
                     self.sleep_count += 1
+                    self.playing = False
                     sleep(5)
                 else:
                     print("Idle until Device is Active again")
@@ -185,9 +188,11 @@ class Spotify(QtCore.QThread):
         if self.playing:
             self.pauseMusic()
             self.play_pause_signal.emit(False)
+            self.playing = False
         else:
             self.playMusic()
             self.play_pause_signal.emit(True)
+            self.playing = True
             
     def nextTrack(self):
         try:
