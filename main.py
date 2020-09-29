@@ -17,7 +17,7 @@ from flask import Response
 from Modules.GUI.GUI2 import Ui_MainWindow
 from PyQt5 import  QtWidgets
 
-from constants import Twitter_, Spotify_, Twitch_, HTML_, Weather_, TEMP_ON, GUI_, Youtube_
+from constants import Twitter_, Spotify_, Twitch_, HTML_, Weather_, TEMP_ON, GUI_, Youtube_, Game_, Raspi_
 
 app = flask.Flask("Webhooks listener")
 app.config["DEBUG"] = False
@@ -108,7 +108,10 @@ if __name__ == "__main__":
         temp_thread = ui.launchTemperatureThread()
     if Youtube_:
         yt_thread = ui.launchYoutubeThread()
-    raspi_thread = ui.launchRaspiThread()
+    if Game_:
+        game_thread = ui.launchGameTrackerThread()
+    if Raspi_:
+        raspi_thread = ui.launchRaspiThread()
     if GUI_:
         MainWindow.show()
         sys.exit(appThread.exec_())        

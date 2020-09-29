@@ -13,3 +13,5 @@ Weather_ = True
 TEMP_ON = True
 GUI_ = True
 Youtube_ = True
+Game_ = True
+Raspi_ = True
