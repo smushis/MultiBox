@@ -161,7 +161,7 @@ class Twitter(QtCore.QThread):
             if tweet["tweet_create_events"][0]["user"]["screen_name"] == "Smushis":
                 print("Tweet from yourself")
             elif tweet["tweet_create_events"][0]["text"].find("RT") == 0:
-                self.analyzeRetweet(tweet)            
+                self.analyzeRetweet(tweet)  
                       
     def analyzeMention(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
@@ -192,22 +192,23 @@ class Twitter(QtCore.QThread):
                 tweet_media = {}
                 tweet_media["link"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["media_url"]
                 tweet_media["id"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["id_str"] 
-                tweet_media["type"] = ["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["type"]
+                tweet_media["type"] = tweet["favorite_events"][0]["favorited_status"]["entities"]["media"][0]["type"]
                 if tweet_media["type"] == "photo":
-                    self.twitter_signal.emit(self.createDico("fav", text  + msg, user, profile_img, tweet_media))
+                    self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img, tweet_media))
                 else:
                     print(tweet_media["type"] + "is not currently supported")
             else:
-                self.twitter_signal.emit(self.createDico("fav", text + msg, user, profile_img))
+                self.twitter_signal.emit(self.createDico("fav", text + "\n" + msg, user, profile_img))
         else:
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = 'You liked a tweet!'
             print(text)
+            
         
     def analyzeRetweet(self, tweet):
         user = tweet["tweet_create_events"][0]["user"]["screen_name"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
-        text = user + " retweeted your tweet! "
+        text = user + " retweeted your tweet! \n"
         msg = tweet["tweet_create_events"][0]["text"].split(self.username, 1)[1]
         if "media" in tweet["tweet_create_events"][0]["entities"]:
             tweet_media = {}
@@ -223,7 +224,7 @@ class Twitter(QtCore.QThread):
         user = tweet.get('users', {}).get(ID_Sender, {}).get('screen_name', "No Name")
         msg = tweet.get("direct_message_events",[{}])[0].get('message_create', {}).get("message_data", {}).get("text", "Error with DM")
         profile_img = tweet.get('users', {}).get(ID_Sender, {}).get('profile_image_url', None)
-        text = user + " send you a DM! " + msg
+        text = user + " send you a DM! \n" + msg
         if "media" in tweet['direct_message_events'][0]["message_create"]["message_data"]["attachment"]:
             tweet_media = {}
             tweet_media["link"] = tweet['direct_message_events'][0]["message_create"]["message_data"]["attachment"]["media"]['media_url']
