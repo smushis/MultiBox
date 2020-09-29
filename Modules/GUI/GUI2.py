@@ -726,6 +726,8 @@ class Ui_MainWindow(object):
         self.raspi_temp.setText(_translate("MainWindow", "0°C"))
         self.raspi_ram_2.setText(_translate("MainWindow", "TextLabel"))
         self.raspi_cpu_2.setText(_translate("MainWindow", "TextLabel"))        
+        self.stats_artist.setText(_translate("MainWindow", "1) AYAYA "))
+        self.stat_song.setText(_translate("MainWindow", "1) AYA l\'abum"))
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
