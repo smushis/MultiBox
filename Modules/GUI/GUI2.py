@@ -823,7 +823,7 @@ class Ui_MainWindow(object):
         else:
             self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")            
 
-    def printTweet(self, data, label, Photo, cadre, title):
+    def printTweet(self, data, label, Photo, title, cadre):
         title.setHidden(True)
         text = data.get("text", "Error while printing tweet")
         label.setText(text)
@@ -832,21 +832,21 @@ class Ui_MainWindow(object):
         im_conv = self.convert_to_srgb(im)
         im_conv.save("img/Twitter/" + data["username"] + ".png")
         Photo.setPixmap(QtGui.QPixmap("img/Twitter/" + data["username"] + ".png"))
-        # if data["media"] != None:
-        #     self.getImage(data["media"]["link"], data["media"]["id"], "Twitter_Media", 275)
-        #     self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
-        #     self.media.setVisible(True)
-        # print(data["events"])
-        # if data["events"] == "Mention":
-        #     cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
-        # elif data["events"] == "rt":
-        #     cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png")) 
-        #     cadre.adjustSize()
-        # elif data["events"] == "fav":
-        #     cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
-        #     cadre.adjustSize()
-        # elif data["events"] == "dm":
-        #     print("DM received but not yet showed")
+        if data["media"] != None:
+            self.getImage(data["media"]["link"], data["media"]["id"], "Twitter_Media", 275)
+            self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
+            self.media.setVisible(True)
+        print(data["events"])
+        if data["events"] == "Mention":
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
+        elif data["events"] == "rt":
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png")) 
+            cadre.adjustSize()
+        elif data["events"] == "fav":
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
+            cadre.adjustSize()
+        elif data["events"] == "dm":
+            print("DM received but not yet showed")
             
     def printStreams(self, data, label, Photo, title, cadre):
         self.media.setHidden(True)
