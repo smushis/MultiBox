@@ -51,13 +51,9 @@ class Twitter(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.twitterAPI = TwitterAPI(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
-        # self.deleteWebhooks()
-        # self.registerWebhooks() 
-        # self.addSubscription()
-        while True:
-            sleep(2)
-            self.twitter_signal.emit(a)
-            sleep(30)
+        self.deleteWebhooks()
+        self.registerWebhooks() 
+        self.addSubscription()
 
     def readCredentials(self):
         with open(credentials_file, "r") as file:
