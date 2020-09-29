@@ -46,20 +46,24 @@ class Spotify(QtCore.QThread):
         self.showDevices()
         # self.getCurrentTopArtist("short_term")
         i = 0
-        list_ = []
+        self.sendStats()
         while True:
             i += 1
             self.getCurrentTrack()
             sleep(0.5)
-            if i == 7200:
-                list_[0] = self.getCurrentTopArtist(time_range="short_term", max_limit=5)
-                list_[1] = self.getCurrentTopTracks(time_range="short_term", max_limit=5)
-                self.stat_signal.emit(list_)
+            if i == 14000:
+                self.sendStats()
                    
     def readToken(self):      
         with open(token_file, 'r') as file:
             auth = json.load(file)           
-        self.token = auth["token"]      
+        self.token = auth["token"]  
+        
+    def sendStats(self):
+        list_ = []
+        list_[0] = self.getCurrentTopArtist(time_range="short_term", max_limit=5)
+        list_[1] = self.getCurrentTopTracks(time_range="short_term", max_limit=5)
+        self.stat_signal.emit(list_)
         
     def showDevices(self):
         try:
