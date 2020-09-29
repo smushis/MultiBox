@@ -362,11 +362,11 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.date.setFont(font)
         self.date.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(190, 520, 411, 151))
-        self.label_2.setText("")
-        self.label_2.setPixmap(QtGui.QPixmap("img/GUI2/music.png"))
-        self.label_2.setObjectName("label_2")
+        self.cadreMusic = QtWidgets.QLabel(self.centralwidget)
+        self.cadreMusic.setGeometry(QtCore.QRect(190, 520, 411, 151))
+        self.cadreMusic.setText("")
+        self.cadreMusic.setPixmap(QtGui.QPixmap("img/GUI2/music.png"))
+        self.cadreMusic.setObjectName("cadreMusic")
         self.lcdNumber = QtWidgets.QLCDNumber(self.centralwidget)
         self.lcdNumber.setGeometry(QtCore.QRect(160, 270, 121, 51))
         self.lcdNumber.setStyleSheet("")
@@ -385,11 +385,11 @@ class Ui_MainWindow(object):
         self.spot_back.setGeometry(QtCore.QRect(220, 660, 52, 52))
         self.spot_back.setObjectName("spot_back")
         self.spot_back.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/backward.png);")
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(1150, 50, 101, 111))
-        self.label_3.setText("")
-        self.label_3.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
-        self.label_3.setObjectName("label_3")
+        self.img_PP_1 = QtWidgets.QLabel(self.centralwidget)
+        self.img_PP_1.setGeometry(QtCore.QRect(1150, 50, 101, 111))
+        self.img_PP_1.setText("")
+        self.img_PP_1.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
+        self.img_PP_1.setObjectName("img_PP_1")
         self.buttonIMG_2 = QtWidgets.QPushButton(self.centralwidget)
         self.buttonIMG_2.setGeometry(QtCore.QRect(890, 290, 45, 45))
         self.buttonIMG_2.setStyleSheet("background-image: url(:/bg/img.png);")
@@ -405,11 +405,11 @@ class Ui_MainWindow(object):
         self.data_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.data_2.setWordWrap(True)
         self.data_2.setObjectName("data_2")
-        self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(1150, 220, 101, 111))
-        self.label_4.setText("")
-        self.label_4.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
-        self.label_4.setObjectName("label_4")
+        self.img_PP_2 = QtWidgets.QLabel(self.centralwidget)
+        self.img_PP_2.setGeometry(QtCore.QRect(1150, 220, 101, 111))
+        self.img_PP_2.setText("")
+        self.img_PP_2.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
+        self.img_PP_2.setObjectName("img_PP_2")
         self.Twitch_Title_2 = QtWidgets.QLabel(self.centralwidget)
         self.Twitch_Title_2.setGeometry(QtCore.QRect(890, 290, 261, 41))
         font = QtGui.QFont()
@@ -433,11 +433,11 @@ class Ui_MainWindow(object):
         self.data_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.data_3.setWordWrap(True)
         self.data_3.setObjectName("data_3")
-        self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(1150, 390, 101, 111))
-        self.label_5.setText("")
-        self.label_5.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
-        self.label_5.setObjectName("label_5")
+        self.img_PP_3 = QtWidgets.QLabel(self.centralwidget)
+        self.img_PP_3.setGeometry(QtCore.QRect(1150, 390, 101, 111))
+        self.img_PP_3.setText("")
+        self.img_PP_3.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
+        self.img_PP_3.setObjectName("img_PP_3")
         self.Twitch_Title_3 = QtWidgets.QLabel(self.centralwidget)
         self.Twitch_Title_3.setGeometry(QtCore.QRect(890, 460, 261, 41))
         font = QtGui.QFont()
@@ -461,11 +461,11 @@ class Ui_MainWindow(object):
         self.data_4.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.data_4.setWordWrap(True)
         self.data_4.setObjectName("data_4")
-        self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setGeometry(QtCore.QRect(1150, 560, 101, 111))
-        self.label_6.setText("")
-        self.label_6.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
-        self.label_6.setObjectName("label_6")
+        self.img_PP_4= QtWidgets.QLabel(self.centralwidget)
+        self.img_PP_4.setGeometry(QtCore.QRect(1150, 560, 101, 111))
+        self.img_PP_4.setText("")
+        self.img_PP_4.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
+        self.img_PP_4.setObjectName("img_PP_4")
         self.Twitch_Title_4 = QtWidgets.QLabel(self.centralwidget)
         self.Twitch_Title_4.setGeometry(QtCore.QRect(890, 630, 261, 41))
         font = QtGui.QFont()
@@ -607,7 +607,7 @@ class Ui_MainWindow(object):
         self.cadreClock.raise_()
         self.notfis.raise_()
         self.stats.raise_()       
-        self.label_2.raise_()
+        self.cadreMusic.raise_()
         self.homeBG.raise_()
         self.weatherBG.raise_()
         self.img_album.raise_()
@@ -651,18 +651,18 @@ class Ui_MainWindow(object):
         self.spot_forward.raise_()
         self.spot_back.raise_()
         self.buttonIMG_1.raise_()
-        self.label_3.raise_()
+        self.img_PP_1.raise_()
         self.buttonIMG_2.raise_()
         self.data_2.raise_()
-        self.label_4.raise_()
+        self.img_PP_2.raise_()
         self.Twitch_Title_2.raise_()
         self.buttonIMG_3.raise_()
         self.data_3.raise_()
-        self.label_5.raise_()
+        self.img_PP_3.raise_()
         self.Twitch_Title_3.raise_()
         self.buttonIMG_4.raise_()
         self.data_4.raise_()
-        self.label_6.raise_()
+        self.img_PP_4.raise_()
         self.Twitch_Title_4.raise_()
         self.raspi_temp.raise_()  
         self.progressBar.raise_()
@@ -716,45 +716,7 @@ class Ui_MainWindow(object):
         self.buttonIMG_1.setHidden(True)
         self.buttonIMG_2.setHidden(True)
         self.buttonIMG_3.setHidden(True)
-        self.buttonIMG_4.setHidden(True)
-        
-    def paintEvent(self):
-        side = min(self.width(), self.height())
-        time = QTime.currentTime()
-
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        painter.translate(self.width() / 2, self.height() / 2)
-        painter.scale(side / 200.0, side / 200.0)
-
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(self.hourColor)
-
-        painter.save()
-        painter.rotate(30.0 * ((time.hour() + time.minute() / 60.0)))
-        painter.drawConvexPolygon(self.hourHand)
-        painter.restore()
-
-        painter.setPen(self.hourColor)
-
-        for i in range(12):
-            painter.drawLine(88, 0, 96, 0)
-            painter.rotate(30.0)
-
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(self.minuteColor)
-
-        painter.save()
-        painter.rotate(6.0 * (time.minute() + time.second() / 60.0))
-        painter.drawConvexPolygon(self.minuteHand)
-        painter.restore()
-
-        painter.setPen(self.minuteColor)
-
-        for j in range(60):
-            if (j % 5) != 0:
-                painter.drawLine(92, 0, 96, 0)
-            painter.rotate(6.0)        
+        self.buttonIMG_4.setHidden(True)        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -866,27 +828,28 @@ class Ui_MainWindow(object):
         # title.setHidden(True)
         # label.setText(text) 
         # label.adjustSize()
-        # self.getImage(data["url"], data["username"], "Twitter", 90)
-        # im = Image.open("img/Twitter/" + data["username"]+ ".png")
-        # im_conv = self.convert_to_srgb(im)
-        # im_conv.save("img/Twitter/" + data["username"] + ".png")
-        # Photo.setPixmap(QtGui.QPixmap("img/Twitter/" + data["username"] + ".png"))
-        # self.Twitch_Title.setHidden(True)
+        print(data)
+        self.getImage(data["url"], data["username"], "Twitter", 90)
+        im = Image.open("img/Twitter/" + data["username"]+ ".png")
+        im_conv = self.convert_to_srgb(im)
+        im_conv.save("img/Twitter/" + data["username"] + ".png")
+        Photo.setPixmap(QtGui.QPixmap("img/Twitter/" + data["username"] + ".png"))
+        self.Twitch_Title.setHidden(True)
         # if data["media"] != None:
         #     self.getImage(data["media"]["link"], data["media"]["id"], "Twitter_Media", 275)
         #     self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
         #     self.media.setVisible(True)
-        print(data["events"])
-        if data["events"] == "Mention":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
-        elif data["events"] == "rt":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png")) 
-            cadre.adjustSize()
-        elif data["events"] == "fav":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
-            cadre.adjustSize()
-        elif data["events"] == "dm":
-            print("DM received but not yet showed")
+        # print(data["events"])
+        # if data["events"] == "Mention":
+        #     cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
+        # elif data["events"] == "rt":
+        #     cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png")) 
+        #     cadre.adjustSize()
+        # elif data["events"] == "fav":
+        #     cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
+        #     cadre.adjustSize()
+        # elif data["events"] == "dm":
+        #     print("DM received but not yet showed")
             
     def printStreams(self, data, label, Photo, title, cadre):
         self.media.setHidden(True)
@@ -919,13 +882,13 @@ class Ui_MainWindow(object):
         
     def HideMusic(self, state=False):
         if state:
-            self.label_2.setHidden(True)
+            self.cadreMusic.setHidden(True)
             self.titleMusic.setHidden(True)
             self.artistMusic.setHidden(True)
             self.cadreAlbum.setHidden(True)
             self.img_album.setHidden(True)
         elif not(state):
-            self.label_2.setVisible(True)
+            self.cadreMusic.setVisible(True)
             self.titleMusic.setVisible(True)
             self.artistMusic.setVisible(True)
             self.cadreAlbum.setVisible(True)
@@ -1052,27 +1015,28 @@ class Ui_MainWindow(object):
         else:
             self.notifs.append(data)
             self.updateNotifs()
+            print(self.notifs)
             print("Notification added")
         
     def updateNotifs(self):
         for i in range(len(self.notifs)):
             if i == 0:
-                img = self.label_3
+                img = self.img_PP_1
                 text = self.data_1
                 cadre = self.cadreNotifs_1
                 twitchTitle = self.Twitch_Title
             elif i == 1:
-                img = self.label_4
+                img = self.img_PP_2
                 text = self.data_2
                 cadre = self.cadreNotifs_2
                 twitchTitle = self.Twitch_Title_2
             elif i == 2:
-                img = self.label_5
+                img = self.img_PP_3
                 text = self.data_3
                 cadre = self.cadreNotifs_3 
                 twitchTitle = self.Twitch_Title_3
             elif i == 3:
-                img = self.label_6
+                img = self.img_PP_4
                 text = self.data_4
                 cadre = self.cadreNotifs_4 
                 twitchTitle = self.Twitch_Title_4
