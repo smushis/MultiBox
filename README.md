@@ -26,6 +26,7 @@ If you have any questions or ideas for the GUI, don't hesitate to do an issue!
   - Better GUI interface -> Currently working on it on newGUI branch(90%) 
   - ~~7 days weather~~ -> Working on new GUI  
   - ~~Twitch Secret message~~
+  - Media Key for Spotify
   - Better Handling of Exception and Json reading
   - Twitter Video 
   - ~~Delete @username before tweet printing~~
