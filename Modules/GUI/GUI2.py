@@ -863,6 +863,7 @@ class Ui_MainWindow(object):
             self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")            
 
     def printTweet(self, data, label, Photo, cadre, title):
+        print("ayaya")
         # text = data["text"].split('https')[0]
         # title.setHidden(True)
         # label.setText(text) 
