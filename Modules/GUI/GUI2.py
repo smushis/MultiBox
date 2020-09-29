@@ -1015,7 +1015,6 @@ class Ui_MainWindow(object):
         else:
             self.notifs.append(data)
             self.updateNotifs()
-            print(self.notifs)
             print("Notification added")
         
     def updateNotifs(self):
