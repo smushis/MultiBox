@@ -733,9 +733,9 @@ class Ui_MainWindow(object):
         self.spotify_thread.Spotify_signal.connect(self.showMusic)
         self.spotify_thread.idle_spoti_signal.connect(self.HideMusic)
         self.spotify_thread.play_pause_signal.connect(self.switchSpotButton)
-        self.spot_back.connect(self.spotify_thread.prevTrack)
-        self.spot_play.connect(self.play_pause)
-        self.spot_forward.connect(self.spotify_thread.nextTrack)
+        self.spot_back.clicked.connect(self.spotify_thread.prevTrack)
+        self.spot_play.clicked.connect(self.play_pause)
+        self.spot_forward.clicked.connect(self.spotify_thread.nextTrack)
         self.spotify_thread.start()
         return self.spotify_thread
 
