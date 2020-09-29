@@ -872,7 +872,7 @@ class Ui_MainWindow(object):
         im_conv = self.convert_to_srgb(im)
         im_conv.save("img/Twitter/" + data["username"] + ".png")
         Photo.setPixmap(QtGui.QPixmap("img/Twitter/" + data["username"] + ".png"))
-        self.Twitch_Title.setText("")
+        self.Twitch_Title.setHidden(True)
         if data["media"] != None:
             self.getImage(data["media"]["link"], data["media"]["id"], "Twitter_Media", 275)
             self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
