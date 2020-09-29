@@ -47,12 +47,12 @@ class Spotify(QtCore.QThread):
         # self.getCurrentTopArtist("short_term")
         i = 0
         self.sendStats()
-        while True:
-            i += 1
-            self.getCurrentTrack()
-            sleep(0.5)
-            if i == 14000:
-                self.sendStats()
+        # while True:
+        #     i += 1
+        #     self.getCurrentTrack()
+        #     sleep(0.5)
+        #     if i == 14000:
+        #         self.sendStats()
                    
     def readToken(self):      
         with open(token_file, 'r') as file:
@@ -94,13 +94,19 @@ class Spotify(QtCore.QThread):
             
     def getCurrentTrack(self):
         try:
-            tr = self.sp.current_user_playing_track()
+            tr = self.sp.currently_playing(additional_types="episode")
             #print(tr)
             if tr != None:
-                artist = tr.get("item",{}).get('artists',[{}])[0].get('name','Unknown Artist')
+                if tr.get("currently_playing_type", "") == "track":
+                    artist = tr.get("item",{}).get('artists',[{}])[0].get('name','Unknown Artist')
+                    img_album = tr.get("item", {}).get("album", {}).get("images", [{}])[1].get("url",'')
+                    album = tr.get("item", {}).get("album",{}).get("id", 0)                  
+                else:
+                    artist = tr.get("item",{}).get('show',{}).get('name','Unknown Artist')
+                    img_album = tr.get("item", {}).get("images", [{}])[1].get("url",'')
+                    album = tr.get("item", {}).get("id", 0)                     
                 track = tr.get("item",{}).get('name', 'Unknown Track')
-                img_album = tr.get("item", {}).get("album", {}).get("images", [{}])[1].get("url",'')
-                album = tr.get("item", {}).get("album",{}).get("id", 0)
+                
                 self.Spotify_signal.emit(self.createDico(artist, track, img_album, album))
                 if self.sleep_count == 0:
                     self.idle_spoti_signal.emit(False)
