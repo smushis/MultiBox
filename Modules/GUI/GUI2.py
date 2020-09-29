@@ -827,7 +827,6 @@ class Ui_MainWindow(object):
         title.setHidden(True)
         text = data.get("text", "Error while printing tweet")
         label.setText(text)
-        label.adjustSize()
         self.getImage(data["url"], data["username"], "Twitter", 90)
         im = Image.open("img/Twitter/" + data["username"]+ ".png")
         im_conv = self.convert_to_srgb(im)
