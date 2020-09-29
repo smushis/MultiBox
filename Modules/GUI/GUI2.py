@@ -552,6 +552,7 @@ class Ui_MainWindow(object):
         self.stats_artist.setObjectName("stats_artist")        
         self.BG.raise_()
         self.cadreClock.raise_()
+        self.notfis.raise_()
         self.stats.raise_()
         self.cadreDataRaspi.raise_()
         self.label_2.raise_()
