@@ -611,7 +611,7 @@ class Ui_MainWindow(object):
         self.cadreDataRaspi.raise_()
         self.cadreNotifs_2.raise_()
         self.cadreNotifs_4.raise_()
-        self.cadreNotifs_3.raise_()
+        self.cadreNotifs_3.raise_()        
         self.label_2.raise_()
         self.homeBG.raise_()
         self.weatherBG.raise_()
