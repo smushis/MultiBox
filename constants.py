@@ -6,12 +6,12 @@ Created on Wed Sep 23 18:24:18 2020
 """
 
 Twitter_ = True
-Spotify_ = True
-Twitch_ = True
+Spotify_ = False
+Twitch_ = False
 HTML_ = True
-Weather_ = True
-TEMP_ON = True
+Weather_ = False
+TEMP_ON = False
 GUI_ = True
-Youtube_ = True
-Game_ = True
-Raspi_ = True
+Youtube_ = False
+Game_ = False
+Raspi_ = False

@@ -10,8 +10,12 @@ from pyngrok import ngrok
 import json
 from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSignal
+from time import sleep
 
 credentials_file = 'Modules/Twitter/twitter_credentials.oauth'
+
+a = {'events': 'Mention', 'username': 'BarmandoBot', 'url': 'http://pbs.twimg.com/profile_images/1308739494338875392/bBZPFk2M_200x200.jpg', 'text': 'BarmandoBot responded to your tweet! : \n@smushis asd', 'media': None, 'website': 'Twitter'}
+
 
 class Twitter(QtCore.QThread):
     twitter_signal = pyqtSignal(dict)
@@ -47,9 +51,13 @@ class Twitter(QtCore.QThread):
     def run(self):
         print("Starting " + self.name + "\n\r")
         self.twitterAPI = TwitterAPI(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
-        self.deleteWebhooks()
-        self.registerWebhooks() 
-        self.addSubscription()
+        # self.deleteWebhooks()
+        # self.registerWebhooks() 
+        # self.addSubscription()
+        while True:
+            sleep(2)
+            self.twitter_signal.emit(a)
+            sleep(30)
 
     def readCredentials(self):
         with open(credentials_file, "r") as file:
