@@ -941,9 +941,12 @@ class Ui_MainWindow(object):
     def newNotifications(self, data):
         if len(self.notifs) == 4:
             self.notifs.remove(self.notifs[0])
-        self.notifs.append(data)
-        self.updateNotifs()
-        print("Notification added")
+        if data in self.notifs:
+            print("already get notification")
+        else:
+            self.notifs.append(data)
+            self.updateNotifs()
+            print("Notification added")
         
     def updateNotifs(self):
         for i in range(len(self.notifs)):
