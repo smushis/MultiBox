@@ -587,7 +587,6 @@ class Ui_MainWindow(object):
         self.progressBar_2.raise_()
         self.raspi_ram_2.raise_()
         self.raspi_cpu_2.raise_() 
-        self.raspi_Celsius.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.media.setBuddy(self.media)
 
