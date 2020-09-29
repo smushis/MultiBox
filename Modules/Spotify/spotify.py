@@ -22,12 +22,14 @@ token_file = "Modules/Spotify/spotify_token.oauth"
 class Spotify(QtCore.QThread):
     Spotify_signal = pyqtSignal(dict)
     idle_spoti_signal = pyqtSignal(bool)
+    play_pause_signal = pyqtSignal(bool)
     
     scope = "user-read-playback-state user-modify-playback-state user-top-read"
     DEFAULT_DEVICE = ""
     token = ""
     device_ID = ""
     sleep_count = 0
+    playing = True # play = true, pause = false
      
     def __init__(self, threadID, name, app):
         QtCore.QThread.__init__(self, parent=None)   
@@ -158,20 +160,56 @@ class Spotify(QtCore.QThread):
             dico['album'] = data.get("items", [{}])[i].get("album", {}).get('name', "no album name")
             dico['artists'] = data.get("items", [{}])[i].get("artists", [{}])[0].get('name', "no artists")        
             print(dico)
-    
-# class SpotifyListener(QtCore.QThread):
-    
-#     timer_signal = pyqtSignal()
-    
-#     def __init__(self, threadID, name):
-#         QtCore.QThread.__init__(self, parent=None)   
-#         self.threadID = threadID
-#         self.name = name
-        
-#     def run(self):
-#         print("Starting " + self.name + "\n\r")
-#         while True :
-#             time.sleep(1)
-#             self.timer_signal.emit()
+            
+    def playMusic(self, uri=None):
+        try:
+            self.sp.start_playback(uris=uri)
+        except SpotifyException as e:
+            self.handleException(e)
+        except exceptions.ReadTimeout:
+            print("Timeout during getting current track")
+        except AttributeError :
+            print("Like wtf is the program doing")
+            
+    def pauseMusic(self):
+        try:
+            self.sp.pause_playback()
+        except SpotifyException as e:
+            self.handleException(e)
+        except exceptions.ReadTimeout:
+            print("Timeout during getting current track")
+        except AttributeError :
+            print("Like wtf is the program doing")
+            
+    def play_pause(self):
+        if self.playing:
+            self.pauseMusic()
+            self.play_pause_signal.emit(False)
+        else:
+            self.playMusic()
+            self.play_pause_signal.emit(True)
+            
+    def nextTrack(self):
+        try:
+            self.sp.next_track()
+        except SpotifyException as e:
+            self.handleException(e)
+        except exceptions.ReadTimeout:
+            print("Timeout during getting current track")
+        except AttributeError :
+            print("Like wtf is the program doing") 
+            
+    def prevTrack(self):
+        try:
+            self.sp.previous_track()
+        except SpotifyException as e:
+            self.handleException(e)
+        except exceptions.ReadTimeout:
+            print("Timeout during getting current track")
+        except AttributeError :
+            print("Like wtf is the program doing")            
+            
+            
+
             
             

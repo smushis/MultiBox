@@ -367,15 +367,15 @@ class Ui_MainWindow(object):
         self.lcdNumber.setDigitCount(5)
         self.lcdNumber.setObjectName("lcdNumber")
         self.spot_play = QtWidgets.QPushButton(self.centralwidget)
-        self.spot_play.setGeometry(QtCore.QRect(610, 610, 60, 60))
+        self.spot_play.setGeometry(QtCore.QRect(610, 610, 52, 52))
         self.spot_play.setObjectName("spot_play")
         self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")
         self.spot_forward = QtWidgets.QPushButton(self.centralwidget)
-        self.spot_forward.setGeometry(QtCore.QRect(700, 609, 60, 60))
+        self.spot_forward.setGeometry(QtCore.QRect(700, 609, 52, 52))
         self.spot_forward.setObjectName("spot_forward")
         self.spot_forward.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/forward.png);")
         self.spot_back = QtWidgets.QPushButton(self.centralwidget)
-        self.spot_back.setGeometry(QtCore.QRect(520, 610, 60, 60))
+        self.spot_back.setGeometry(QtCore.QRect(520, 610, 52, 52))
         self.spot_back.setObjectName("spot_back")
         self.spot_back.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/backward.png);")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
@@ -732,6 +732,10 @@ class Ui_MainWindow(object):
         self.spotify_thread = Spotify(4, "Spotify Thread", self.app)
         self.spotify_thread.Spotify_signal.connect(self.showMusic)
         self.spotify_thread.idle_spoti_signal.connect(self.HideMusic)
+        self.spotify_thread.play_pause_signal.connect(self.switchSpotButton)
+        self.spot_back.connect(self.spotify_thread.prevTrack)
+        self.spot_play.connect(self.play_pause)
+        self.spot_forward.connect(self.spotify_thread.nextTrack)
         self.spotify_thread.start()
         return self.spotify_thread
 
@@ -757,7 +761,13 @@ class Ui_MainWindow(object):
         self.raspi_thread = RaspiInformation(8, "Raspi Thread")
         self.raspi_thread.raspi_signal.connect(self.printGraphRaspi)
         self.raspi_thread.start()
-        return self.raspi_thread             
+        return self.raspi_thread   
+
+    def switchSpotButton(self, play_pause):
+        if play_pause:
+            self.spot_forward.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/pause.png);")            
+        else:
+            self.spot_forward.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")            
 
     def printTweet(self, data, label, Photo, cadre, title):
         text = data["text"].split('https')[0]
