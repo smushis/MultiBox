@@ -763,10 +763,9 @@ class Ui_MainWindow(object):
         self.raspi_thread.start()
         return self.raspi_thread   
 
-    def switchSpotButton(self, play_pause):
-        if play_pause:
-            self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/pause.png);")
-            self.            
+    def switchSpotButton(self, state):
+        if state:
+            self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/pause.png);")          
         else:
             self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")            
 
