@@ -749,6 +749,7 @@ class Ui_MainWindow(object):
         self.spotify_thread.Spotify_signal.connect(self.showMusic)
         self.spotify_thread.idle_spoti_signal.connect(self.HideMusic)
         self.spotify_thread.play_pause_signal.connect(self.switchSpotButton)
+        self.spotify_thread.stat_signal.connect(self.updateStats)
         self.spot_back.clicked.connect(self.spotify_thread.prevTrack)
         self.spot_play.clicked.connect(self.spotify_thread.play_pause)
         self.spot_forward.clicked.connect(self.spotify_thread.nextTrack)
@@ -1015,6 +1016,10 @@ class Ui_MainWindow(object):
         self.raspi_temp.setText("{:.1f}°C".format(data["temp"]))
         self.raspi_ram_2.setText(str(data["ram"]) + "%")
         self.raspi_cpu_2.setText(str(data["cpu"]) + "°%")
+        
+    def updateStats(self, list_):
+        self.stats_artist.setText(list_[0])
+        self.stat_song.setText(list_[1])
         
 if __name__ == "__main__":
     import sys

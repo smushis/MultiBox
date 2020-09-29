@@ -23,6 +23,7 @@ class Spotify(QtCore.QThread):
     Spotify_signal = pyqtSignal(dict)
     idle_spoti_signal = pyqtSignal(bool)
     play_pause_signal = pyqtSignal(bool)
+    stat_signal = pyqtSignal(list)
     
     scope = "user-read-playback-state user-modify-playback-state user-top-read"
     DEFAULT_DEVICE = ""
@@ -44,9 +45,16 @@ class Spotify(QtCore.QThread):
         self.sp = spotipy.Spotify(self.token)     
         self.showDevices()
         # self.getCurrentTopArtist("short_term")
+        i = 0
+        list_ = []
         while True:
+            i += 1
             self.getCurrentTrack()
             sleep(0.5)
+            if i == 7200:
+                list_[0] = self.getCurrentTopArtist(time_range="short_term", max_limit=5)
+                list_[1] = self.getCurrentTopTracks(time_range="short_term", max_limit=5)
+                self.stat_signal.emit(list_)
                    
     def readToken(self):      
         with open(token_file, 'r') as file:
@@ -150,19 +158,27 @@ class Spotify(QtCore.QThread):
                 self.sp.start_playback(device_id=self.device_ID)
                 break
     
-    def getCurrentTopArtist(self, Range='long_term'):
-        data = self.sp.current_user_top_artists(time_range=Range)
-        for i in range(len(data.get("items", [{}]))):
-            print("#" + str(i+1) + " "+ data.get("items", [{}])[i].get("name", "No name"))       
+    def getCurrentTopArtist(self, time_range='long_term', max_limit=None):
+        data = self.sp.current_user_top_artists(time_range=time_range)
+        text = ""
+        for i in range(len(data.get("items", [{}]))):     
+            text += "#" + str(i+1) + " "+ data.get("items", [{}])[i].get("name", "No name") + '\n'
+            if i == max_limit:
+                break
+        return text
         
-    def getCurrentTopTracks(self):
-        data = self.sp.current_user_top_tracks(time_range='long_term')
+    def getCurrentTopTracks(self, time_range='long_term', max_limit=None):
+        text = ""
+        data = self.sp.current_user_top_tracks(time_range=time_range)
         for i in range(len(data.get("items", [{}]))):
             dico = {}
             dico['track'] = data.get("items", [{}])[i].get("name", "No name")
             dico['album'] = data.get("items", [{}])[i].get("album", {}).get('name', "no album name")
             dico['artists'] = data.get("items", [{}])[i].get("artists", [{}])[0].get('name', "no artists")        
-            print(dico)
+            text += "#" + str(i+1) + " "+ dico["track"] + '\n'
+            if i == max_limit:
+                break
+        return text
             
     def playMusic(self, uri=None):
         try:
