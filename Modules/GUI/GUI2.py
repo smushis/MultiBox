@@ -517,7 +517,7 @@ class Ui_MainWindow(object):
         self.raspi_cpu_2.setAlignment(QtCore.Qt.AlignCenter)
         self.raspi_cpu_2.setObjectName("raspi_cpu_2") 
         self.cadreDataRaspi = QtWidgets.QLabel(self.centralwidget)
-        self.cadreDataRaspi.setGeometry(QtCore.QRect(0, 340, 331, 161))
+        self.cadreDataRaspi.setGeometry(QtCore.QRect(-5, 340, 280, 161))
         self.cadreDataRaspi.setText("")
         self.cadreDataRaspi.setPixmap(QtGui.QPixmap("img/GUI2/data_raspi.png"))
         self.cadreDataRaspi.setObjectName("cadreDataRaspi")
@@ -989,7 +989,6 @@ class Ui_MainWindow(object):
         self.progressBar.setValue(data["ram"])
         self.progressBar_2.setValue(data["cpu"])
         self.raspi_temp.setText("{:.1f}°C".format(data["temp"]))
-        self.raspi_temp.adjustSize()
         self.raspi_ram_2.setText(str(data["ram"]) + "%")
         self.raspi_cpu_2.setText(str(data["cpu"]) + "°%")
         
