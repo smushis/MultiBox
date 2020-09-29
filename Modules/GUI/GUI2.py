@@ -880,7 +880,6 @@ class Ui_MainWindow(object):
         print(data["events"])
         if data["events"] == "Mention":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
-            cadre.adjustSize()
         elif data["events"] == "rt":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png")) 
             cadre.adjustSize()
