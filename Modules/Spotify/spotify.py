@@ -47,12 +47,12 @@ class Spotify(QtCore.QThread):
         # self.getCurrentTopArtist("short_term")
         i = 0
         self.sendStats()
-        # while True:
-        #     i += 1
-        #     self.getCurrentTrack()
-        #     sleep(0.5)
-        #     if i == 14000:
-        #         self.sendStats()
+        while True:
+            i += 1
+            self.getCurrentTrack()
+            sleep(0.5)
+            if i == 14000:
+                self.sendStats()
                    
     def readToken(self):      
         with open(token_file, 'r') as file:
@@ -95,7 +95,7 @@ class Spotify(QtCore.QThread):
     def getCurrentTrack(self):
         try:
             tr = self.sp.currently_playing(additional_types="episode")
-            #print(tr)
+            # print(tr)
             if tr != None:
                 if tr.get("currently_playing_type", "") == "track":
                     artist = tr.get("item",{}).get('artists',[{}])[0].get('name','Unknown Artist')
