@@ -22,19 +22,19 @@ But this program can help you with your own project, so feel free to look at the
 If you have any questions or ideas for the GUI, don't hesitate to do an issue!
 
 ### Future updates that might come (in order of  priority)
-  - Find a way to wrap the text from Twitch and Twitter more correctly
-  - Better GUI interface (not as good as I want atm)
-  - 7 days weather  
+  - Find a way to wrap the text from Twitch and Twitter more correctly -> A bit better, but not satisfied yet
+  - Better GUI interface -> Currently working on it on newGUI branch(90%) 
+  - ~~7 days weather~~ -> Working on new GUI  
   - ~~Twitch Secret message~~
   - Better Handling of Exception and Json reading
   - Twitter Video 
   - ~~Delete @username before tweet printing~~
-  - Buttons to skip music, play/pause/resume, launch a playlist, progress bar of the song
-  - Change Avatar border
+  - ~~Buttons to skip music, play/pause/resume, launch a playlist, progress bar of the song~~
+  - ~~Change Avatar border~~ -> Need simple avatar border for notifications
   - Fix connection with Bluetooth speaker with Raspi 3 (or use cable)
   - Maybe switch from Raspotify to classic Spotify player on Raspi
-  - New Modules
-  - Spotify tracker ? (like Lastfm) -> Getting data from the past is done, just need some graphs to do + add currently play tracking
+  - ~~New Modules~~ -> Youtube API webhooks, Rocket League Stats tracking and Analog clock
+  - ~~Spotify tracker ? (like Lastfm)~~ -> Data Display on new GUI, maybe I will track songs myself
   - Thinking of responsive design (involved HTML so meh)
   
 ### Recommanded Spotify playlist

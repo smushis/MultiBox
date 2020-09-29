@@ -841,10 +841,8 @@ class Ui_MainWindow(object):
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
         elif data["events"] == "rt":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png")) 
-            cadre.adjustSize()
         elif data["events"] == "fav":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
-            cadre.adjustSize()
         elif data["events"] == "dm":
             print("DM received but not yet showed")
             
