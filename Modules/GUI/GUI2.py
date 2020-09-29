@@ -14,7 +14,7 @@ from Modules.Spotify.spotify import Spotify
 from Modules.Weather.weather import Weather
 from Modules.Youtube.youtube import Youtube
 from Modules.Raspi.raspi import RaspiInformation
-
+from Modules.GUI.clock import AnalogClock
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer, QTime, Qt, QPoint
 from PyQt5.QtWidgets import QVBoxLayout, QLabel 
@@ -199,6 +199,9 @@ class Ui_MainWindow(object):
         self.buttonIMG_1.setObjectName("buttonIMG_1")
         self.date_1 = QtWidgets.QLabel(self.centralwidget)
         self.date_1.setGeometry(QtCore.QRect(17, -5, 111, 61))
+        self.clock = AnalogClock(self.centralwidget)
+        self.clock.setGeometry(QtCore.QRect(540, 206, 250, 250))
+        self.clock.setObjectName("clock")
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
@@ -349,14 +352,14 @@ class Ui_MainWindow(object):
         self.IconWeather_9.setPixmap(QtGui.QPixmap("img/10d@4x.png"))
         self.IconWeather_9.setAlignment(QtCore.Qt.AlignCenter)
         self.IconWeather_9.setObjectName("IconWeather_9")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(150, 210, 491, 41))
+        self.date = QtWidgets.QLabel(self.centralwidget)
+        self.date.setGeometry(QtCore.QRect(150, 210, 381, 41))
         font = QtGui.QFont()
-        font.setPointSize(22)
+        font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
+        self.date.setFont(font)
+        self.date.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(190, 520, 411, 151))
         self.label_2.setText("")
@@ -369,15 +372,15 @@ class Ui_MainWindow(object):
         self.lcdNumber.setDigitCount(5)
         self.lcdNumber.setObjectName("lcdNumber")
         self.spot_play = QtWidgets.QPushButton(self.centralwidget)
-        self.spot_play.setGeometry(QtCore.QRect(310, 660, 50, 50))
+        self.spot_play.setGeometry(QtCore.QRect(310, 660, 52, 52))
         self.spot_play.setObjectName("spot_play")
         self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")
         self.spot_forward = QtWidgets.QPushButton(self.centralwidget)
-        self.spot_forward.setGeometry(QtCore.QRect(400, 660, 50, 50))
+        self.spot_forward.setGeometry(QtCore.QRect(400, 660, 52, 52))
         self.spot_forward.setObjectName("spot_forward")
         self.spot_forward.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/forward.png);")
         self.spot_back = QtWidgets.QPushButton(self.centralwidget)
-        self.spot_back.setGeometry(QtCore.QRect(220, 660, 50, 50))
+        self.spot_back.setGeometry(QtCore.QRect(220, 660, 52, 52))
         self.spot_back.setObjectName("spot_back")
         self.spot_back.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/backward.png);")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
@@ -589,7 +592,7 @@ class Ui_MainWindow(object):
         self.IconWeather_7.raise_()
         self.tempExte_9.raise_()
         self.IconWeather_9.raise_()
-        self.label.raise_()
+        self.date.raise_()
         self.lcdNumber.raise_()
         self.spot_play.raise_()
         self.spot_forward.raise_()
@@ -616,7 +619,8 @@ class Ui_MainWindow(object):
         self.raspi_ram_2.raise_()
         self.raspi_cpu_2.raise_()
         self.stats_artist.raise_()
-        self.stat_song.raise_()        
+        self.stat_song.raise_()
+        self.clock.raise_()        
         MainWindow.setCentralWidget(self.centralwidget)
         self.media.setBuddy(self.media)
 
@@ -714,7 +718,7 @@ class Ui_MainWindow(object):
         self.tempExte_5.setText(_translate("MainWindow", "24.0°C"))
         self.tempExte_7.setText(_translate("MainWindow", "24.0°C"))
         self.tempExte_9.setText(_translate("MainWindow", "24.0°C"))
-        self.label.setText(_translate("MainWindow", "Dimanche 27 Septembre"))
+        self.date.setText(_translate("MainWindow", "Dimanche 27 Septembre"))
         self.data_2.setText(_translate("MainWindow", "Text"))
         self.Twitch_Title_2.setText(_translate("MainWindow", "Twitch Title"))
         self.data_3.setText(_translate("MainWindow", "Text"))
@@ -964,7 +968,7 @@ class Ui_MainWindow(object):
             day_txt = "Sunday"
         else:
             day_txt = ""            
-        self.label.setText(day_txt + ", " + date.today().strftime("%B %d"))
+        self.date.setText(day_txt + ", " + date.today().strftime("%B %d"))
         # self.paintEvent()
       
     def newNotifications(self, data):

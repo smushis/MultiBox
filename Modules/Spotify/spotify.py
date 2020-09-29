@@ -61,8 +61,8 @@ class Spotify(QtCore.QThread):
         
     def sendStats(self):
         list_ = []
-        list_.append(self.getCurrentTopArtist(time_range="short_term", max_limit=5))
-        list_.append(self.getCurrentTopTracks(time_range="short_term", max_limit=5))
+        list_.append(self.getCurrentTopArtist(time_range="short_term", max_limit=4))
+        list_.append(self.getCurrentTopTracks(time_range="short_term", max_limit=4))
         self.stat_signal.emit(list_)
         
     def showDevices(self):
