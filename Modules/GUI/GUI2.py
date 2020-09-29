@@ -845,13 +845,13 @@ class Ui_MainWindow(object):
         return self.youtube_thread 
 
     def launchRaspiThread(self):       
-        self.raspi_thread = RaspiInformation(8, "Raspi Thread")
+        self.raspi_thread = RaspiInformation(9, "Raspi Thread")
         self.raspi_thread.raspi_signal.connect(self.printGraphRaspi)
         self.raspi_thread.start()
         return self.raspi_thread
     
     def launchGameTrackerThread(self):       
-        self.game_thread = GameTracker(8, "Rocket League Thread")
+        self.game_thread = GameTracker(10, "Rocket League Thread")
         self.game_thread.game_signal.connect(self.printGame)
         self.game_thread.start()
         return self.game_thread      
@@ -878,11 +878,11 @@ class Ui_MainWindow(object):
             self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
             self.media.setVisible(True)
         if data["events"] == "Mention":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/youtube.png"))
         elif data["events"] == "rt":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_RT.png"))          
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/youtube.png"))          
         elif data["events"] == "fav":
-            cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
+            cadre.setPixmap(QtGui.QPixmap("img/GUI2/youtube.png"))
             
     def printStreams(self, data, label, Photo, title, cadre):
         self.media.setHidden(True)
