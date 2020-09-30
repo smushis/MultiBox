@@ -73,7 +73,8 @@ class Youtube(QtCore.QThread):
                 return float(time_)
     
     def saveStartTime(self):
-        with open("Modules/Youtube/webhooks.txt", 'w') as file:
+        path_ = "Modules/Youtube/webhooks.txt"       
+        with open(path_, 'w') as file:
             file.write(str(time()))
             file.save()
            
