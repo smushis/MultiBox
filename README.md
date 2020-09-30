@@ -55,19 +55,6 @@ I want to share my personnal playlist to all of you, so go [here](https://open.s
   - [Youtube webhooks](https://developers.google.com/youtube/v3/guides/push_notifications)
   
 # Exemples of GUI notifications:
-### Twitch Live Notification
-![alt text](https://i.imgur.com/r5V5wby.png)
+### New GUI implemented
+![alt text](https://i.imgur.com/7wrZvXF.png)
 
-### Twitter RT
-![alt text](https://i.imgur.com/xzcZgxQ.png)
-
-### Twitter Like
-![alt text](https://i.imgur.com/QgSqztf.png)
-
-### Twitter Mentions
-![alt text](https://i.imgur.com/B2zn40F.png)
-
-### Twitter Mentions with Media
-![alt text](https://i.imgur.com/Gojcjfz.png)
-
-Yes, this is an avatar border from Rocket League
