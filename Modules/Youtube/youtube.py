@@ -76,7 +76,6 @@ class Youtube(QtCore.QThread):
         path_ = "Modules/Youtube/webhooks.txt"       
         with open(path_, 'w') as file:
             file.write(str(time()))
-            file.save()
            
     def getUserID(self, username):
         request = self.youtube.channels().list(
@@ -92,7 +91,7 @@ class Youtube(QtCore.QThread):
         return ID
     
     def sub_unsub(self, ID, username, mode):
-        print("Subscribing")
+        print("Subscribing to" + username)
         sub_url = 'https://pubsubhubbub.appspot.com/subscribe'
         youtube_hub = {
             'hub.mode' : mode,
