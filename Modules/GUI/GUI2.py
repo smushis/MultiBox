@@ -754,10 +754,10 @@ class Ui_MainWindow(object):
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
         self.twitter_thread.twitter_signal.connect(self.newNotifications)
-        self.buttonIMG_1.connect(self.showMedia)
-        self.buttonIMG_2.connect(self.showMedia)
-        self.buttonIMG_3.connect(self.showMedia)
-        self.buttonIMG_4.connect(self.showMedia)
+        self.buttonIMG_1.clicked.connect(self.showMedia)
+        self.buttonIMG_2.clicked.connect(self.showMedia)
+        self.buttonIMG_3.clicked.connect(self.showMedia)
+        self.buttonIMG_4.clicked.connect(self.showMedia)
         self.twitter_thread.start()
         return self.twitter_thread
     
