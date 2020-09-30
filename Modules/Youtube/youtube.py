@@ -12,7 +12,7 @@ from google.auth.transport.requests import Request
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
-from time import sleep
+from time import sleep, time
 
 path0 = 'token.pickle'
 path1 = 'Modules/Youtube/token.pickle'
@@ -36,7 +36,9 @@ channels = [
     '3kliksphilip',
     'BestOfAntoineDaniel',
     'Corridor',
-    'Alderiate'
+    'Alderiate',
+    'GamersNexus',
+    'techlinked',
     ]
 
 class Youtube(QtCore.QThread): 
@@ -53,11 +55,28 @@ class Youtube(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.youtube = getToken(path1)
         self.list = self.getSubscriptionsList()
-        # self.SubscribeAll()
-        # ID = self.getUserID('MrNono42100')
-        # print("ID= " + ID)
-        # self.Subscribe("UCFaKd1un0sdMnCjwLyQoI2A",'smushi42')
+        while True:
+            startTime_ = self.getStartTime()
+            if startTime_ == 0:
+                self.SubscribeList()
+            else:
+                if 80000 < (time()-self.getStartTime()):
+                    self.SubscribeList()
+            sleep(60)
+            
+    def getStartTime(self):
+        with open("Modules/Youtube/webhooks.txt", 'r') as file:
+            time_ = file.read()
+            if time_ == "":
+                return 0
+            else:
+                return float(time_)
     
+    def saveStartTime(self):
+        with open("Modules/Youtube/webhooks.txt", 'w') as file:
+            file.write(str(time()))
+            file.save()
+           
     def getUserID(self, username):
         request = self.youtube.channels().list(
             part="snippet,contentDetails,statistics",
@@ -78,7 +97,7 @@ class Youtube(QtCore.QThread):
             'hub.mode' : mode,
             'hub.topic' : 'https://www.youtube.com/xml/feeds/videos.xml?channel_id=' + ID,
             'hub.callback' : 'http://85.170.28.49:22220/youtube/user/' + username.replace(" ", "_"),
-            'hub.lease_seconds' : 10000
+            'hub.lease_seconds' : 80000
         }
         # print(youtube_hub)
         header = {
@@ -106,10 +125,11 @@ class Youtube(QtCore.QThread):
             username = channels[i]
             ID = self.getUserID(username)
             if ID != 0:
-                self.Subscribe(ID, username)
+                self.Subscribe(ID, username, 'subscribe')
             else:
                 print("Problem with username: " + username)
             sleep(1)
+        self.saveStartTime()          
         print("Sub all finish")
         
     def SubscribeAll(self):
