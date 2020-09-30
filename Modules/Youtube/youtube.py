@@ -126,7 +126,7 @@ class Youtube(QtCore.QThread):
             username = channels[i]
             ID = self.getUserID(username)
             if ID != 0:
-                self.Subscribe(ID, username, 'subscribe')
+                self.Subscribe(ID, username)
             else:
                 print("Problem with username: " + username)
             sleep(1)
