@@ -31,7 +31,7 @@ from time import sleep
 import os
 from datetime import date
 from datetime import timedelta
-
+from pynput.keyboard import Listener
 
 from constants import TEMP_ON
 
@@ -785,6 +785,9 @@ class Ui_MainWindow(object):
         self.spot_play.clicked.connect(self.spotify_thread.play_pause)
         self.spot_forward.clicked.connect(self.spotify_thread.nextTrack)
         self.spotify_thread.start()
+        self.listener_thread = Listener(on_press=self.on_press, on_release=None)
+        # This is a daemon=True thread, use .join() to prevent code from exiting  
+        self.listener_thread.start()        
         return self.spotify_thread
 
     def launchTemperatureThread(self):       
@@ -887,7 +890,21 @@ class Ui_MainWindow(object):
             self.titleMusic.setVisible(True)
             self.artistMusic.setVisible(True)
             self.cadreAlbum.setVisible(True)
-            self.img_album.setVisible(True)           
+            self.img_album.setVisible(True)  
+            
+    def on_press(self, key):
+        if str(key) == '<179>':
+            # play pause media key was pressed
+            self.spotify_thread.play_pause()
+        if str(key) == '<176>':
+            # next key was pressed
+            self.spotify_thread.nextTrack()
+        if str(key) == '<177>':
+            # previous key was pressed 
+            self.spotify_thread.prevTracktrack()
+            
+    def on_release(key):
+        pass            
             
     def getImage(self, url, name, media_type, size=None):
         try:
