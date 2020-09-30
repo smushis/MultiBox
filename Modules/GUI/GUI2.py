@@ -894,15 +894,21 @@ class Ui_MainWindow(object):
             self.img_album.setVisible(True)  
             
     def on_press(self, key):
-        if key == Key.media_play_pause:
-            # play pause media key was pressed
-            self.spotify_thread.play_pause()
-        if key == Key.media_next:
-            # next key was pressed
-            self.spotify_thread.nextTrack()
-        if key == Key.media_previous:
-            # previous key was pressed 
-            self.spotify_thread.prevtrack()
+        # if key == Key.media_play_pause:
+        #     # play pause media key was pressed
+        #     self.spotify_thread.play_pause()
+        # if key == Key.media_next:
+        #     # next key was pressed
+        #     self.spotify_thread.nextTrack()
+        # if key == Key.media_previous:
+        #     # previous key was pressed 
+        #     self.spotify_thread.prevtrack()
+        try:
+            print('alphanumeric key {0} pressed'.format(
+                key.char))
+        except AttributeError:
+            print('special key {0} pressed'.format(
+                key))
             
     def on_release(key):
         pass            
