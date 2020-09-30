@@ -32,6 +32,7 @@ import os
 from datetime import date
 from datetime import timedelta
 from pynput.keyboard import Listener
+from pynput.keyboard import Key
 
 from constants import TEMP_ON
 
@@ -893,15 +894,15 @@ class Ui_MainWindow(object):
             self.img_album.setVisible(True)  
             
     def on_press(self, key):
-        if str(key) == '<179>':
+        if key == Key.media_play_pause:
             # play pause media key was pressed
             self.spotify_thread.play_pause()
-        if str(key) == '<176>':
+        if key == Key.media_next:
             # next key was pressed
             self.spotify_thread.nextTrack()
-        if str(key) == '<177>':
+        if key == Key.media_previous:
             # previous key was pressed 
-            self.spotify_thread.prevTracktrack()
+            self.spotify_thread.prevtrack()
             
     def on_release(key):
         pass            
