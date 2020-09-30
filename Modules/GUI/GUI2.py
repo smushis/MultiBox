@@ -201,7 +201,7 @@ class Ui_MainWindow(object):
         self.date_1 = QtWidgets.QLabel(self.centralwidget)
         self.date_1.setGeometry(QtCore.QRect(17, -5, 111, 61))
         self.clock = AnalogClock(self.centralwidget)
-        self.clock.setGeometry(QtCore.QRect(540, 206, 250, 250))
+        self.clock.setGeometry(QtCore.QRect(540, 206, 18, 180))
         self.clock.setObjectName("clock")
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -509,19 +509,19 @@ class Ui_MainWindow(object):
         self.cadreClock.setPixmap(QtGui.QPixmap("img/GUI2/clock.png"))
         self.cadreClock.setObjectName("cadreClock") 
         self.stats = QtWidgets.QLabel(self.centralwidget)
-        self.stats.setGeometry(QtCore.QRect(520, 460, 311, 261))
+        self.stats.setGeometry(QtCore.QRect(520, 510, 311, 211))
         self.stats.setText("")
         self.stats.setPixmap(QtGui.QPixmap("img/GUI2/spotify_stats.png"))
         self.stats.setObjectName("stats")
         self.stat_song = QtWidgets.QLabel(self.centralwidget)
-        self.stat_song.setGeometry(QtCore.QRect(680, 550, 140, 141))
+        self.stat_song.setGeometry(QtCore.QRect(680, 580, 140, 131))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.stat_song.setFont(font)
         self.stat_song.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.stat_song.setObjectName("stat_song") 
         self.stats_artist = QtWidgets.QLabel(self.centralwidget)
-        self.stats_artist.setGeometry(QtCore.QRect(530, 550, 131, 141))
+        self.stats_artist.setGeometry(QtCore.QRect(530, 580, 131, 141))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.stats_artist.setFont(font)
@@ -833,6 +833,7 @@ class Ui_MainWindow(object):
         title.setHidden(True)
         text = data.get("text", "Error while printing tweet")
         label.setText(text)
+        label.adjustSize()
         self.getImage(data["url"], data["username"], "Twitter", 90)
         im = Image.open("img/Twitter/" + data["username"]+ ".png")
         im_conv = self.convert_to_srgb(im)
@@ -841,7 +842,7 @@ class Ui_MainWindow(object):
         if data["media"] != None:
             self.getImage(data["media"]["link"], data["media"]["id"], "Twitter_Media", 275)
             self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
-            self.buttonIMG_1.setVisible(True)
+            button.setVisible(True)
         print(data["events"])
         if data["events"] == "Mention":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
@@ -1060,7 +1061,7 @@ class Ui_MainWindow(object):
                 button = self.buttonIMG_4
             else:
                 print("Indice not within correct range (GUI)")
-            self.setButtonOff(button)
+            button.setHidden(True)
             data = self.notifs[i]
             web = data.get("website", "")
             if web == "Twitch": # Twitch
@@ -1071,12 +1072,6 @@ class Ui_MainWindow(object):
                 self.printYoutube(data, text, img, twitchTitle, cadre)
             else:
                 print("Problemo")    
-    
-    def setButtonOff(self, button):
-        if button.isVisible():
-            button.setHidden(True)
-        else:
-            button.setVisible(True)
         
     def printGraphRaspi(self, data):
         self.progressBar.setValue(data["ram"])
