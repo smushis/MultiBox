@@ -815,7 +815,13 @@ class Ui_MainWindow(object):
         self.game_thread = GameTracker(10, "Rocket League Thread")
         self.game_thread.game_signal.connect(self.printGame)
         self.game_thread.start()
-        return self.game_thread      
+        return self.game_thread  
+    
+    def showMedia(self):
+        if self.media.isVisible:
+            self.media.setHidden(True)
+        else:
+            self.media.setVisible(True)
 
     def switchSpotButton(self, state):
         if state:
