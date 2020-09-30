@@ -67,21 +67,19 @@ class Ui_MainWindow(object):
         self.centralwidget.setAutoFillBackground(False)
         self.centralwidget.setObjectName("centralwidget")
         self.data_1 = QtWidgets.QLabel(self.centralwidget)
-        self.data_1.setGeometry(QtCore.QRect(890, 70, 241, 91))
-        self.data_1.setBaseSize(QtCore.QSize(531, 261))
+        self.data_1.setGeometry(QtCore.QRect(980, 40, 251, 131))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.data_1.setFont(font)
-        self.data_1.setStyleSheet("")
-        self.data_1.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.data_1.setWordWrap(True)
+        self.data_1.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.data_1.setObjectName("data_1")
         self.Twitch_Title = QtWidgets.QLabel(self.centralwidget)
-        self.Twitch_Title.setGeometry(QtCore.QRect(890, 120, 261, 41))
+        self.Twitch_Title.setGeometry(QtCore.QRect(980, 110, 261, 61))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.Twitch_Title.setFont(font)
-        self.Twitch_Title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.Twitch_Title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.Twitch_Title.setWordWrap(True)
         self.Twitch_Title.setObjectName("Twitch_Title")
         self.BG = QtWidgets.QLabel(self.centralwidget)
@@ -196,8 +194,8 @@ class Ui_MainWindow(object):
         self.cadreNotifs_4.setPixmap(QtGui.QPixmap("img/GUI2/tweet_like.png"))
         self.cadreNotifs_4.setObjectName("cadreNotifs_4")
         self.buttonIMG_1 = QtWidgets.QPushButton(self.centralwidget)
-        self.buttonIMG_1.setGeometry(QtCore.QRect(890, 120, 45, 45))
-        self.buttonIMG_1.setStyleSheet("background-image: url(:/bg/img.png);")
+        self.buttonIMG_1.setGeometry(QtCore.QRect(1200, 130, 44, 44))
+        self.buttonIMG_1.setStyleSheet("background-image: url(:/bg/img.png); background-color: rgba(255, 255, 255, 0);")
         self.buttonIMG_1.setText("")
         self.buttonIMG_1.setObjectName("buttonIMG_1")
         self.date_1 = QtWidgets.QLabel(self.centralwidget)
@@ -387,92 +385,86 @@ class Ui_MainWindow(object):
         self.spot_back.setObjectName("spot_back")
         self.spot_back.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/backward.png);")
         self.img_PP_1 = QtWidgets.QLabel(self.centralwidget)
-        self.img_PP_1.setGeometry(QtCore.QRect(1150, 50, 101, 111))
+        self.img_PP_1.setGeometry(QtCore.QRect(890, 65, 91, 101))
         self.img_PP_1.setText("")
         self.img_PP_1.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
         self.img_PP_1.setObjectName("img_PP_1")
         self.buttonIMG_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.buttonIMG_2.setGeometry(QtCore.QRect(890, 290, 45, 45))
-        self.buttonIMG_2.setStyleSheet("background-image: url(:/bg/img.png);")
+        self.buttonIMG_2.setGeometry(QtCore.QRect(1200, 305, 44, 44))
+        self.buttonIMG_2.setStyleSheet("background-image: url(:/bg/img.png); background-color: rgba(255, 255, 255, 0);")
         self.buttonIMG_2.setText("")
         self.buttonIMG_2.setObjectName("buttonIMG_2")
         self.data_2 = QtWidgets.QLabel(self.centralwidget)
-        self.data_2.setGeometry(QtCore.QRect(890, 240, 241, 91))
-        self.data_2.setBaseSize(QtCore.QSize(531, 261))
+        self.data_2.setGeometry(QtCore.QRect(980, 210, 251, 131))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.data_2.setFont(font)
-        self.data_2.setStyleSheet("")
         self.data_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.data_2.setWordWrap(True)
         self.data_2.setObjectName("data_2")
         self.img_PP_2 = QtWidgets.QLabel(self.centralwidget)
-        self.img_PP_2.setGeometry(QtCore.QRect(1150, 220, 101, 111))
+        self.img_PP_2.setGeometry(QtCore.QRect(890, 240, 91, 101))
         self.img_PP_2.setText("")
         self.img_PP_2.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
         self.img_PP_2.setObjectName("img_PP_2")
         self.Twitch_Title_2 = QtWidgets.QLabel(self.centralwidget)
-        self.Twitch_Title_2.setGeometry(QtCore.QRect(890, 290, 261, 41))
+        self.Twitch_Title_2.setGeometry(QtCore.QRect(980, 280, 261, 61))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.Twitch_Title_2.setFont(font)
-        self.Twitch_Title_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.Twitch_Title_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.Twitch_Title_2.setWordWrap(True)
         self.Twitch_Title_2.setObjectName("Twitch_Title_2")
         self.buttonIMG_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.buttonIMG_3.setGeometry(QtCore.QRect(890, 460, 45, 45))
-        self.buttonIMG_3.setStyleSheet("background-image: url(:/bg/img.png);")
+        self.buttonIMG_3.setGeometry(QtCore.QRect(1200, 475, 44, 44))
+        self.buttonIMG_3.setStyleSheet("background-image: url(:/bg/img.png); background-color: rgba(255, 255, 255, 0);")
         self.buttonIMG_3.setText("")
         self.buttonIMG_3.setObjectName("buttonIMG_3")
         self.data_3 = QtWidgets.QLabel(self.centralwidget)
-        self.data_3.setGeometry(QtCore.QRect(890, 410, 241, 91))
-        self.data_3.setBaseSize(QtCore.QSize(531, 261))
+        self.data_3.setGeometry(QtCore.QRect(980, 380, 251, 131))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.data_3.setFont(font)
-        self.data_3.setStyleSheet("")
         self.data_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.data_3.setWordWrap(True)
         self.data_3.setObjectName("data_3")
         self.img_PP_3 = QtWidgets.QLabel(self.centralwidget)
-        self.img_PP_3.setGeometry(QtCore.QRect(1150, 390, 101, 111))
+        self.img_PP_3.setGeometry(QtCore.QRect(890, 410, 91, 101))
         self.img_PP_3.setText("")
         self.img_PP_3.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
         self.img_PP_3.setObjectName("img_PP_3")
         self.Twitch_Title_3 = QtWidgets.QLabel(self.centralwidget)
-        self.Twitch_Title_3.setGeometry(QtCore.QRect(890, 460, 261, 41))
+        self.Twitch_Title_3.setGeometry(QtCore.QRect(980, 450, 261, 61))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.Twitch_Title_3.setFont(font)
-        self.Twitch_Title_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.Twitch_Title_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.Twitch_Title_3.setWordWrap(True)
         self.Twitch_Title_3.setObjectName("Twitch_Title_3")
         self.buttonIMG_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.buttonIMG_4.setGeometry(QtCore.QRect(890, 630, 45, 45))
-        self.buttonIMG_4.setStyleSheet("background-image: url(:/bg/img.png);")
+        self.buttonIMG_4.setGeometry(QtCore.QRect(1200, 640, 44, 44))
+        self.buttonIMG_4.setStyleSheet("background-image: url(:/bg/img.png); background-color: rgba(255, 255, 255, 0);")
         self.buttonIMG_4.setText("")
         self.buttonIMG_4.setObjectName("buttonIMG_4")
         self.data_4 = QtWidgets.QLabel(self.centralwidget)
-        self.data_4.setGeometry(QtCore.QRect(890, 580, 241, 91))
-        self.data_4.setBaseSize(QtCore.QSize(531, 261))
+        self.data_4.setGeometry(QtCore.QRect(980, 550, 251, 131))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.data_4.setFont(font)
-        self.data_4.setStyleSheet("")
         self.data_4.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.data_4.setWordWrap(True)
         self.data_4.setObjectName("data_4")
         self.img_PP_4= QtWidgets.QLabel(self.centralwidget)
-        self.img_PP_4.setGeometry(QtCore.QRect(1150, 560, 101, 111))
+        self.img_PP_4.setGeometry(QtCore.QRect(890, 575, 91, 101))
         self.img_PP_4.setText("")
         self.img_PP_4.setPixmap(QtGui.QPixmap("img/GUI2/kurisux100.png"))
         self.img_PP_4.setObjectName("img_PP_4")
         self.Twitch_Title_4 = QtWidgets.QLabel(self.centralwidget)
-        self.Twitch_Title_4.setGeometry(QtCore.QRect(890, 630, 261, 41))
+        self.Twitch_Title_4.setGeometry(QtCore.QRect(980, 620, 261, 61))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.Twitch_Title_4.setFont(font)
-        self.Twitch_Title_4.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.Twitch_Title_4.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.Twitch_Title_4.setWordWrap(True)
         self.Twitch_Title_4.setObjectName("Twitch_Title_4")
         self.raspi_temp = QtWidgets.QLabel(self.centralwidget)
@@ -762,6 +754,10 @@ class Ui_MainWindow(object):
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
         self.twitter_thread.twitter_signal.connect(self.newNotifications)
+        self.buttonIMG_1.connect(self.showMedia)
+        self.buttonIMG_2.connect(self.showMedia)
+        self.buttonIMG_3.connect(self.showMedia)
+        self.buttonIMG_4.connect(self.showMedia)
         self.twitter_thread.start()
         return self.twitter_thread
     
@@ -827,7 +823,7 @@ class Ui_MainWindow(object):
         else:
             self.spot_play.setStyleSheet("background-color: rgba(255, 255, 255, 0); background-image: url(img/GUI2/play.png);")            
 
-    def printTweet(self, data, label, Photo, title, cadre):
+    def printTweet(self, data, label, Photo, title, cadre, button):
         title.setHidden(True)
         text = data.get("text", "Error while printing tweet")
         label.setText(text)
@@ -839,7 +835,7 @@ class Ui_MainWindow(object):
         if data["media"] != None:
             self.getImage(data["media"]["link"], data["media"]["id"], "Twitter_Media", 275)
             self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
-            self.media.setVisible(True)
+            self.buttonIMG_1.setVisible(True)
         print(data["events"])
         if data["events"] == "Mention":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
@@ -893,23 +889,17 @@ class Ui_MainWindow(object):
             self.cadreAlbum.setVisible(True)
             self.img_album.setVisible(True)  
             
-    def on_press(self, key):
-        # if key == Key.media_play_pause:
-        #     # play pause media key was pressed
-        #     self.spotify_thread.play_pause()
-        # if key == Key.media_next:
-        #     # next key was pressed
-        #     self.spotify_thread.nextTrack()
-        # if key == Key.media_previous:
-        #     # previous key was pressed 
-        #     self.spotify_thread.prevtrack()
-        try:
-            print('alphanumeric key {0} pressed'.format(
-                key.char))
-        except AttributeError:
-            print('special key {0} pressed'.format(
-                key))
-            
+    def on_press(self, key): #only working on windows
+        if key == Key.media_play_pause:
+            # play pause media key was pressed
+            self.spotify_thread.play_pause()
+        if key == Key.media_next:
+            # next key was pressed
+            self.spotify_thread.nextTrack()
+        if key == Key.media_previous:
+            # previous key was pressed 
+            self.spotify_thread.prevtrack()
+
     def on_release(key):
         pass            
             
@@ -1043,33 +1033,44 @@ class Ui_MainWindow(object):
                 text = self.data_1
                 cadre = self.cadreNotifs_1
                 twitchTitle = self.Twitch_Title
+                button = self.buttonIMG_1
             elif i == 1:
                 img = self.img_PP_2
                 text = self.data_2
                 cadre = self.cadreNotifs_2
                 twitchTitle = self.Twitch_Title_2
+                button = self.buttonIMG_2
             elif i == 2:
                 img = self.img_PP_3
                 text = self.data_3
                 cadre = self.cadreNotifs_3 
                 twitchTitle = self.Twitch_Title_3
+                button = self.buttonIMG_3
             elif i == 3:
                 img = self.img_PP_4
                 text = self.data_4
                 cadre = self.cadreNotifs_4 
                 twitchTitle = self.Twitch_Title_4
+                button = self.buttonIMG_4
             else:
-                print("Indice not within correct range (GUI)") 
+                print("Indice not within correct range (GUI)")
+            self.setButtonOff(button)
             data = self.notifs[i]
             web = data.get("website", "")
             if web == "Twitch": # Twitch
                 self.printStreams(data, text, img, twitchTitle, cadre)
             elif web == "Twitter":
-                self.printTweet(data, text, img, twitchTitle, cadre)
+                self.printTweet(data, text, img, twitchTitle, cadre, button)
             elif web == "Youtube":
                 self.printYoutube(data, text, img, twitchTitle, cadre)
             else:
-                print("Problemo")               
+                print("Problemo")    
+    
+    def setButtonOff(self, button):
+        if button.isVisible():
+            button.setHidden(True)
+        else:
+            button.setVisible(True)
         
     def printGraphRaspi(self, data):
         self.progressBar.setValue(data["ram"])
