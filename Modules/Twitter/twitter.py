@@ -188,7 +188,7 @@ class Twitter(QtCore.QThread):
         if user != "Smushis":
             profile_img = tweet["favorite_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
             text = user + " liked your tweet!"
-            print(tweet)
+            print(text)
             msg = self.getTweet(tweet["favorite_events"][0]["favorited_status"]["id_str"])["text"] 
             if "media" in tweet["favorite_events"][0]["favorited_status"]["entities"]:
                 tweet_media = {}

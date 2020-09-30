@@ -843,7 +843,6 @@ class Ui_MainWindow(object):
             self.getImage(data["media"]["link"], data["media"]["id"], "Twitter_Media", 275)
             self.media.setPixmap(QtGui.QPixmap("img/Twitter_Media/" + data["media"]["id"] + ".png"))
             button.setVisible(True)
-        print(data["events"])
         if data["events"] == "Mention":
             cadre.setPixmap(QtGui.QPixmap("img/GUI2/tweet_mentions.png"))
         elif data["events"] == "rt":
