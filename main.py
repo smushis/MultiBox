@@ -28,6 +28,12 @@ app.config["DEBUG"] = False
 # logger = logging.getLogger("werkzeug")
 # logger.setLevel(logging.ERROR)
 
+quotes = ["But the Earth refused to die",
+          "Come meet me by the river \n See how time it flows",
+          "A blood black nothingness began to spin ",
+          "A system of cells interlinked within cells interlinked within cells interlinked within one stem",
+          "And dreadfully distinct against the dark, a tall white fountain played",
+          ]
 
 @app.route('/twitch/user/<username>', methods=["GET","POST"])
 def notifs_event(username):
