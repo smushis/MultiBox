@@ -49,7 +49,7 @@ class Spotify(QtCore.QThread):
         while True:
             i += 1
             self.getCurrentTrack()
-            sleep(0.5)
+            sleep(0.75)
             if i == 14000:
                 self.sendStats()
                    
@@ -128,6 +128,8 @@ class Spotify(QtCore.QThread):
             return self.handleException(e)
         except exceptions.ReadTimeout:
             print("Timeout during getting current track")
+        except requests.exceptions:
+            print("Spotify max retries limit ")
         except AttributeError :
             print("Like wtf is the program doing")
         
