@@ -44,7 +44,6 @@ class Spotify(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.sp = spotipy.Spotify(self.token)     
         self.showDevices()
-        # self.getCurrentTopArtist("short_term")
         i = 0
         self.sendStats()
         while True:

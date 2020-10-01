@@ -36,7 +36,7 @@ channels = [
     '3kliksphilip',
     'BestOfAntoineDaniel',
     'Corridor',
-    'Alderiate',
+    'AlderiateYouTube',
     'GamersNexus',
     'techlinked',
     ]
@@ -45,6 +45,7 @@ class Youtube(QtCore.QThread):
     yt_signal = pyqtSignal(dict)
     
     webhooks = {}
+    videos = []
     
     def __init__(self, threadID, name):
         QtCore.QThread.__init__(self, parent=None)   
@@ -197,10 +198,11 @@ class Youtube(QtCore.QThread):
         user_id = data["feed"]["entry"]["yt:channelId"]
         url = self.getImageChannel(user_id)["url"]
         dico = self.createDico(title, user, user_id, url)
-        print(title)
-        print(user)
-        print(url)
-        self.yt_signal.emit(dico)
+        if dico in self.videos:
+            print("Already in Video list")
+        else:
+            self.videos.append(dico)
+            self.yt_signal.emit(dico)
         
     def createDico(self, title, username, user_id, img_user):
         dico = {}

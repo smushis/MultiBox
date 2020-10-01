@@ -201,7 +201,7 @@ class Ui_MainWindow(object):
         self.date_1 = QtWidgets.QLabel(self.centralwidget)
         self.date_1.setGeometry(QtCore.QRect(17, -5, 111, 61))
         self.clock = AnalogClock(self.centralwidget)
-        self.clock.setGeometry(QtCore.QRect(540, 206, 18, 180))
+        self.clock.setGeometry(QtCore.QRect(590, 220, 150, 150))
         self.clock.setObjectName("clock")
         font = QtGui.QFont()
         font.setPointSize(20)
