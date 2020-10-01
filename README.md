@@ -56,5 +56,5 @@ I want to share my personnal playlist to all of you, so go [here](https://open.s
   
 # Exemples of GUI notifications:
 ### New GUI implemented
-![alt text](https://i.imgur.com/7wrZvXF.png)
+![alt text](https://i.imgur.com/ZYBaUI9.png)
 

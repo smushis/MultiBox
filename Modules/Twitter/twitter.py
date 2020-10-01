@@ -171,7 +171,6 @@ class Twitter(QtCore.QThread):
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text =  user + " responded to your tweet! : \n" + data
         print(text)
-        print(tweet)
         if "media" in tweet["tweet_create_events"][0]["entities"]:
             tweet_media = {}
             tweet_media["link"] = tweet["tweet_create_events"][0]["entities"]["media"][0]["media_url"]
