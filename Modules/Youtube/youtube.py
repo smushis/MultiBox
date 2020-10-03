@@ -98,7 +98,7 @@ class Youtube(QtCore.QThread):
             'hub.mode' : mode,
             'hub.topic' : 'https://www.youtube.com/xml/feeds/videos.xml?channel_id=' + ID,
             'hub.callback' : 'http://85.170.28.49:22220/youtube/user/' + username.replace(" ", "_"),
-            'hub.lease_seconds' : 80000
+            'hub.lease_seconds' : 800000
         }
         # print(youtube_hub)
         header = {

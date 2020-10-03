@@ -128,7 +128,7 @@ class Spotify(QtCore.QThread):
             return self.handleException(e)
         except exceptions.ReadTimeout:
             print("Timeout during getting current track")
-        except requests.exceptions:
+        except exceptions.ConnectionError:
             print("Spotify max retries limit ")
         except AttributeError :
             print("Like wtf is the program doing")
