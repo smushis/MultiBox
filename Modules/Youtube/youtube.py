@@ -61,7 +61,7 @@ class Youtube(QtCore.QThread):
             if startTime_ == 0:
                 self.SubscribeList()
             else:
-                if 80000 < (time()-self.getStartTime()):
+                if 800000 < (time()-self.getStartTime()):
                     self.SubscribeList()
             sleep(60)
             
