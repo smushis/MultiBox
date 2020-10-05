@@ -842,7 +842,7 @@ class Ui_MainWindow(object):
 
     def printTweet(self, data, label, Photo, title, cadre, button):
         title.setHidden(True)
-        text = data.get("text", "Error while printing tweet")
+        text = data.get("text", "Error while printing tweet").split("http")[0]
         label.setText(text)
         label.adjustSize()
         self.getImage(data["url"], data["username"], "Twitter", 90)

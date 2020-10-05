@@ -286,7 +286,7 @@ class Twitch(QtCore.QThread):
                     for channel in r.json().get("data", []):
                         self.follows_live.append({'Name': channel.get("user_name","").lower(), 'Live?': channel.get("type", False)})
                 except Exception as E:
-                    print("Eroor" + str(E))
+                    print("Error" + str(E))
             print("Fin init")
             # print(self.follows_live)
         except Exception as E:

@@ -170,6 +170,8 @@ class Twitter(QtCore.QThread):
         data = tweet["tweet_create_events"][0]["text"]
         profile_img = tweet["tweet_create_events"][0]["user"]["profile_image_url"].replace("normal", "200x200")
         text =  user + " responded to your tweet! : \n" + data
+        text = text.replace("@smushis", "")
+        text = text.replace("@" + user, "")
         print(text)
         if "media" in tweet["tweet_create_events"][0]["entities"]:
             tweet_media = {}
