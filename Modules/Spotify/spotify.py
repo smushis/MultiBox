@@ -44,6 +44,7 @@ class Spotify(QtCore.QThread):
         print("Starting " + self.name + "\n\r")
         self.sp = spotipy.Spotify(self.token)     
         self.showDevices()
+        self.getStatus()
         i = 0
         self.sendStats()
         while True:
@@ -239,7 +240,21 @@ class Spotify(QtCore.QThread):
         except exceptions.ReadTimeout:
             print("Timeout during getting current track")
         except AttributeError :
-            print("Like wtf is the program doing")            
+            print("Like wtf is the program doing")  
+            
+    def getStatus(self):
+        try:
+            playing = self.sp.current_user_playing_track().get("is_playing", False)
+            if playing:
+                self.play_pause_signal.emit(True)
+            else:
+                self.play_pause_signal.emit(False)
+        except SpotifyException as e:
+            self.handleException(e)
+        except exceptions.ReadTimeout:
+            print("Timeout during getting current track")
+        except AttributeError :
+            print("Like wtf is the program doing")             
             
             
 
