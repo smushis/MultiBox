@@ -689,7 +689,6 @@ class Ui_MainWindow(object):
         self.raspi_cpu_2.raise_()
         self.stats_artist.raise_()
         self.stat_song.raise_()
-        self.clock.raise_()
         self.cadreRL.raise_()
         self.rl_3v3.raise_()
         self.rl_2v2.raise_()
