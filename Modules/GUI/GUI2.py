@@ -364,7 +364,7 @@ class Ui_MainWindow(object):
         self.cadreMusic.setPixmap(QtGui.QPixmap("img/GUI2/music.png"))
         self.cadreMusic.setObjectName("cadreMusic")
         self.lcdNumber = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber.setGeometry(QtCore.QRect(308, 260, 121, 51))
+        self.lcdNumber.setGeometry(QtCore.QRect(210, 380, 121, 51))
         self.lcdNumber.setStyleSheet("")
         self.lcdNumber.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.lcdNumber.setDigitCount(5)
@@ -501,7 +501,7 @@ class Ui_MainWindow(object):
         self.cadreDataRaspi.setPixmap(QtGui.QPixmap("img/GUI2/data_raspi.png"))
         self.cadreDataRaspi.setObjectName("cadreDataRaspi")
         self.cadreClock = QtWidgets.QLabel(self.centralwidget)
-        self.cadreClock.setGeometry(QtCore.QRect(300, 240, 131, 91))
+        self.cadreClock.setGeometry(QtCore.QRect(202, 360, 131, 91))
         self.cadreClock.setText("")
         self.cadreClock.setPixmap(QtGui.QPixmap("img/GUI2/clock.png"))
         self.cadreClock.setObjectName("cadreClock") 
@@ -775,6 +775,8 @@ class Ui_MainWindow(object):
         self.rl_2v2.setText(_translate("MainWindow", "2V2"))
         self.rank_rl_2.setText(_translate("MainWindow", "1085 "))
         self.quote.setText(_translate("MainWindow", "A system of cells interlinked within cells interlinked within cells interlinked within one stem"))
+        self.raspi_cpu_img.setText(_translate("MainWindow", "CPU"))
+        self.raspi_ram_img.setText(_translate("MainWindow", "RAM"))
         
     def launchTwitterThread(self):
         self.twitter_thread = Twitter(1, "Twitter Thread")
