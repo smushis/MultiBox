@@ -351,7 +351,7 @@ class Ui_MainWindow(object):
         self.IconWeather_9.setAlignment(QtCore.Qt.AlignCenter)
         self.IconWeather_9.setObjectName("IconWeather_9")
         self.date = QtWidgets.QLabel(self.centralwidget)
-        self.date.setGeometry(QtCore.QRect(310, 200, 381, 41))
+        self.date.setGeometry(QtCore.QRect(3, 460, 381, 41))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
