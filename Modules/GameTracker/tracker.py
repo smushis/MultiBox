@@ -39,7 +39,7 @@ class GameTracker(QtCore.QThread):
         
         site_script_json = json.loads(lines[rank_info_script_index+33:end_rank_info_script_index-122])
         stat_json = site_script_json.get('stats-v2').get('standardProfiles').get(f'rocket-league|steam|{self.user_id}')
-        segments = stat_json.get('segments')        
+        segments = stat_json.get('segments', "")        
         playlists_json = {
             "Ranked Duel 1v1": segments[2],
             "Ranked Doubles 2v2": segments[3],
