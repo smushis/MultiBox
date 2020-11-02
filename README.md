@@ -42,9 +42,6 @@ If you have any questions or ideas for the GUI, don't hesitate to do an issue!
 ### Recommanded Spotify playlist
 I want to share my personnal playlist to all of you, so go [here](https://open.spotify.com/playlist/2EDQvU4v6zHH39G1pKAJrr?si=BH-ZqEx-SRayr16gIOj58w) right now!
 
-### Social Medias
-  - Twitter : [@Smushis](https://twitter.com/Smushis)
-
 ### References:
   - [Twitch API reference](https://dev.twitch.tv/docs/api/reference/)
   - [TwitterAPI, wrapper for Python](https://github.com/geduldig/TwitterAPI)
